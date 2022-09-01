@@ -83,6 +83,18 @@ Namespace My
                 Me("Provider") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property LocalBackUpFolder() As String
+            Get
+                Return CType(Me("LocalBackUpFolder"),String)
+            End Get
+            Set
+                Me("LocalBackUpFolder") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

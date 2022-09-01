@@ -1,4 +1,5 @@
 ﻿Imports System.Data.OleDb
+Imports Microsoft.Office.Interop.Access
 Imports Microsoft.Win32
 
 Public Class Class1
@@ -64,12 +65,66 @@ Public Class Class1
             End If
         Next
         Return Provider1
-        'If Provider1.Count > 1 Then
-        ' Class2.Txt1.Text = String.Join(",", Provider1)
-        ' Class2.ShowDialog()
-        ' My.Settings.Provider = Class2.Txt1.Text
-        ' My.Settings.Save()
-        ' End If
-        'Return Class2.Txt1.Text & ";Data Source="
+    End Function
+    Private DefaultLocalFolder As IO.DirectoryInfo
+    Public Function OfdOpn(ByVal Desc1 As String) As String
+        'compact And repair database
+        Dim Rslt As String = String.Empty
+        Dim OFD As New FolderBrowserDialog
+        Dim FolderName As String = String.Empty
+        With OFD
+            .Description = Desc1
+            .ShowNewFolderButton = True
+        End With
+        Dim result As DialogResult = OFD.ShowDialog()
+        If (result = DialogResult.OK) Then
+            FolderName = OFD.SelectedPath
+            Rslt = FolderName
+            DefaultLocalFolder = New IO.DirectoryInfo(Rslt)
+            My.Settings.LocalBackUpFolder = DefaultLocalFolder.FullName
+            My.Settings.Save()
+        End If
+        Return Rslt
+    End Function
+    Public Function CompRepair(Optional NewLocation As String = "") As Boolean
+        'expression .CompactDatabase(SrcName, DstName, DstLocale, Options, password)
+        'This will Compact & Repair MSAccess2007 Database to the same location with the same name.
+        'CloseCN()
+        'If CN.State = ConnectionState.Open Then CN.Close()
+        Dim Result As Boolean = False
+        Cursor.Current = Cursors.WaitCursor
+        'Compact & Repair needs the Database File (*.accdb) to be closed.
+        Dim MyAccDB As New Dao.DBEngine()
+        Dim Compactedfil As String = Application.StartupPath & "\BackUp\" & Now.Date.ToShortDateString.Replace("/", "_") & ".accdb"
+        Try
+            Debug.WriteLine(MyAccDB.Version.ToString)
+            MyAccDB.CompactDatabase(IO.Path.Combine(Application.StartupPath, My.Settings.dbNm),
+                                    Compactedfil,
+                                    Dao.LanguageConstants.dbLangGeneral,
+                                    Dao.DatabaseTypeEnum.dbVersion120, ";pwd=" & My.Settings.dbPass)
+        Catch ex As Exception
+            MsgBox("Error : " & ex.Message)
+            Return False
+            Exit Function
+        End Try
+        Try
+            My.Computer.FileSystem.DeleteFile(IO.Path.Combine(Application.StartupPath, My.Settings.dbNm))
+            Result = True
+        Catch ex As Exception
+            MsgBox("Error :  " & ex.Message)
+            Return Result
+            Exit Function
+        End Try
+        Try
+            Rename(Compactedfil, IO.Path.Combine(Application.StartupPath, My.Settings.dbNm))
+            Result = True
+        Catch ex As Exception
+            MsgBox("Error : " & ex.Message)
+            Return Result
+            Exit Function
+        End Try
+        Application.DoEvents()
+        Return Result
+        Cursor.Current = Cursors.Default
     End Function
 End Class

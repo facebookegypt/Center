@@ -52,6 +52,11 @@
     <ApplicationIcon>Icon1.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Office.interop.access.dao, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>bin\Debug\Microsoft.Office.interop.access.dao.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -61,7 +66,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -94,6 +98,12 @@
     <Compile Include="Form2.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Form3.Designer.vb">
+      <DependentUpon>Form3.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form3.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -116,6 +126,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form2.resx">
       <DependentUpon>Form2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form3.resx">
+      <DependentUpon>Form3.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

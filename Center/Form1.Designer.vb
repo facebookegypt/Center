@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class Form1
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class Form1
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
@@ -28,12 +28,14 @@ Partial Class Form1
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.MnuFil = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuFilBak = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
         Me.MnuFilExit = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuSt = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuSt1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator()
         Me.MnuStRp = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MnuFilBacSav = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -45,19 +47,19 @@ Partial Class Form1
         Me.MenuStrip1.BackColor = System.Drawing.Color.Transparent
         Me.MenuStrip1.Dock = System.Windows.Forms.DockStyle.Right
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuFil, Me.MnuSt})
-        Me.MenuStrip1.Location = New System.Drawing.Point(708, 0)
+        Me.MenuStrip1.Location = New System.Drawing.Point(674, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(92, 450)
+        Me.MenuStrip1.Size = New System.Drawing.Size(126, 450)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
         'MnuFil
         '
-        Me.MnuFil.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuFilBak, Me.ToolStripMenuItem1, Me.MnuFilExit})
+        Me.MnuFil.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuFilBak, Me.ToolStripMenuItem1, Me.MnuFilBacSav, Me.ToolStripMenuItem2, Me.MnuFilExit})
         Me.MnuFil.Image = Global.WindowsApp1.My.Resources.Resources.Icon1
         Me.MnuFil.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.MnuFil.Name = "MnuFil"
-        Me.MnuFil.Size = New System.Drawing.Size(79, 36)
+        Me.MnuFil.Size = New System.Drawing.Size(113, 36)
         Me.MnuFil.Text = "ملف"
         Me.MnuFil.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage
         '
@@ -67,20 +69,20 @@ Partial Class Form1
         Me.MnuFilBak.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.MnuFilBak.ShortcutKeyDisplayString = "F3"
         Me.MnuFilBak.ShortcutKeys = System.Windows.Forms.Keys.F3
-        Me.MnuFilBak.Size = New System.Drawing.Size(180, 22)
-        Me.MnuFilBak.Text = "نسخة احتياطية"
+        Me.MnuFilBak.Size = New System.Drawing.Size(220, 22)
+        Me.MnuFilBak.Text = "إعدادات النسخة الاحتياطية"
         '
-        'ToolStripMenuItem1
+        'ToolStripMenuItem2
         '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(177, 6)
+        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(217, 6)
         '
         'MnuFilExit
         '
         Me.MnuFilExit.Name = "MnuFilExit"
         Me.MnuFilExit.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.MnuFilExit.ShortcutKeyDisplayString = "Esc"
-        Me.MnuFilExit.Size = New System.Drawing.Size(180, 22)
+        Me.MnuFilExit.Size = New System.Drawing.Size(220, 22)
         Me.MnuFilExit.Text = "خروج"
         '
         'MnuSt
@@ -89,7 +91,7 @@ Partial Class Form1
         Me.MnuSt.Image = Global.WindowsApp1.My.Resources.Resources.Stdnts
         Me.MnuSt.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.MnuSt.Name = "MnuSt"
-        Me.MnuSt.Size = New System.Drawing.Size(79, 36)
+        Me.MnuSt.Size = New System.Drawing.Size(113, 36)
         Me.MnuSt.Text = "الطلاب"
         Me.MnuSt.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage
         '
@@ -115,6 +117,18 @@ Partial Class Form1
         Me.MnuStRp.ShortcutKeyDisplayString = "F4"
         Me.MnuStRp.Size = New System.Drawing.Size(180, 22)
         Me.MnuStRp.Text = "التقارير"
+        '
+        'MnuFilBacSav
+        '
+        Me.MnuFilBacSav.Name = "MnuFilBacSav"
+        Me.MnuFilBacSav.RightToLeft = System.Windows.Forms.RightToLeft.Yes
+        Me.MnuFilBacSav.Size = New System.Drawing.Size(220, 22)
+        Me.MnuFilBacSav.Text = "حفظ فى مجلد"
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(217, 6)
         '
         'Form1
         '
@@ -144,5 +158,7 @@ Partial Class Form1
     Friend WithEvents MnuSt1 As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem3 As ToolStripSeparator
     Friend WithEvents MnuStRp As ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem2 As ToolStripSeparator
+    Friend WithEvents MnuFilBacSav As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem1 As ToolStripSeparator
 End Class
