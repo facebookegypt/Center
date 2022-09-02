@@ -25,110 +25,116 @@ Partial Class Form1
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
-        Me.MnuFil = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MnuFilBak = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.MnuFilExit = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MnuSt = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MnuSt1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator()
-        Me.MnuStRp = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MnuFilBacSav = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.MenuStrip1.SuspendLayout()
+        Me.MenuStrip2 = New System.Windows.Forms.MenuStrip()
+        Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.QToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MnuFilSav = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MnuFilExi = New System.Windows.Forms.ToolStripMenuItem()
+        Me.StudentsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.GroupsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.اعداداتالمجموعاتToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TimesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuStrip2.SuspendLayout()
         Me.SuspendLayout()
         '
         'Timer1
         '
         '
-        'MenuStrip1
+        'MenuStrip2
         '
-        Me.MenuStrip1.BackColor = System.Drawing.Color.Transparent
-        Me.MenuStrip1.Dock = System.Windows.Forms.DockStyle.Right
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuFil, Me.MnuSt})
-        Me.MenuStrip1.Location = New System.Drawing.Point(674, 0)
-        Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(126, 450)
-        Me.MenuStrip1.TabIndex = 0
-        Me.MenuStrip1.Text = "MenuStrip1"
+        Me.MenuStrip2.BackColor = System.Drawing.Color.Transparent
+        Me.MenuStrip2.Dock = System.Windows.Forms.DockStyle.Right
+        Me.MenuStrip2.ImageScalingSize = New System.Drawing.Size(32, 32)
+        Me.MenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.StudentsToolStripMenuItem, Me.GroupsToolStripMenuItem, Me.TimesToolStripMenuItem})
+        Me.MenuStrip2.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow
+        Me.MenuStrip2.Location = New System.Drawing.Point(674, 0)
+        Me.MenuStrip2.Name = "MenuStrip2"
+        Me.MenuStrip2.Size = New System.Drawing.Size(126, 450)
+        Me.MenuStrip2.TabIndex = 1
+        Me.MenuStrip2.Text = "MenuStrip2"
         '
-        'MnuFil
+        'FileToolStripMenuItem
         '
-        Me.MnuFil.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuFilBak, Me.ToolStripMenuItem1, Me.MnuFilBacSav, Me.ToolStripMenuItem2, Me.MnuFilExit})
-        Me.MnuFil.Image = Global.WindowsApp1.My.Resources.Resources.Icon1
-        Me.MnuFil.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.MnuFil.Name = "MnuFil"
-        Me.MnuFil.Size = New System.Drawing.Size(113, 36)
-        Me.MnuFil.Text = "ملف"
-        Me.MnuFil.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.QToolStripMenuItem, Me.MnuFilSav, Me.MnuFilExi})
+        Me.FileToolStripMenuItem.Image = Global.WindowsApp1.My.Resources.Resources.Icon1
+        Me.FileToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
+        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(113, 36)
+        Me.FileToolStripMenuItem.Text = "ملف"
+        Me.FileToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'MnuFilBak
+        'QToolStripMenuItem
         '
-        Me.MnuFilBak.Name = "MnuFilBak"
-        Me.MnuFilBak.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.MnuFilBak.ShortcutKeyDisplayString = "F3"
-        Me.MnuFilBak.ShortcutKeys = System.Windows.Forms.Keys.F3
-        Me.MnuFilBak.Size = New System.Drawing.Size(220, 22)
-        Me.MnuFilBak.Text = "إعدادات النسخة الاحتياطية"
+        Me.QToolStripMenuItem.Name = "QToolStripMenuItem"
+        Me.QToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+        Me.QToolStripMenuItem.Text = "إعدادات النسخة الإحتياطية"
+        Me.QToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'ToolStripMenuItem2
+        'MnuFilSav
         '
-        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(217, 6)
+        Me.MnuFilSav.Name = "MnuFilSav"
+        Me.MnuFilSav.Size = New System.Drawing.Size(201, 22)
+        Me.MnuFilSav.Text = "حفظ في مجلد"
+        Me.MnuFilSav.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'MnuFilExit
+        'MnuFilExi
         '
-        Me.MnuFilExit.Name = "MnuFilExit"
-        Me.MnuFilExit.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.MnuFilExit.ShortcutKeyDisplayString = "Esc"
-        Me.MnuFilExit.Size = New System.Drawing.Size(220, 22)
-        Me.MnuFilExit.Text = "خروج"
+        Me.MnuFilExi.Name = "MnuFilExi"
+        Me.MnuFilExi.Size = New System.Drawing.Size(201, 22)
+        Me.MnuFilExi.Text = "خروج"
+        Me.MnuFilExi.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'MnuSt
+        'StudentsToolStripMenuItem
         '
-        Me.MnuSt.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuSt1, Me.ToolStripMenuItem3, Me.MnuStRp})
-        Me.MnuSt.Image = Global.WindowsApp1.My.Resources.Resources.Stdnts
-        Me.MnuSt.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.MnuSt.Name = "MnuSt"
-        Me.MnuSt.Size = New System.Drawing.Size(113, 36)
-        Me.MnuSt.Text = "الطلاب"
-        Me.MnuSt.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage
+        Me.StudentsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SToolStripMenuItem})
+        Me.StudentsToolStripMenuItem.Image = Global.WindowsApp1.My.Resources.Resources.Stdnts
+        Me.StudentsToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.StudentsToolStripMenuItem.Name = "StudentsToolStripMenuItem"
+        Me.StudentsToolStripMenuItem.Size = New System.Drawing.Size(113, 36)
+        Me.StudentsToolStripMenuItem.Text = "الطلاب"
+        Me.StudentsToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'MnuSt1
+        'SToolStripMenuItem
         '
-        Me.MnuSt1.Name = "MnuSt1"
-        Me.MnuSt1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.MnuSt1.ShortcutKeyDisplayString = "F3"
-        Me.MnuSt1.ShortcutKeys = System.Windows.Forms.Keys.F3
-        Me.MnuSt1.Size = New System.Drawing.Size(180, 22)
-        Me.MnuSt1.Text = "الاعدادات"
+        Me.SToolStripMenuItem.Name = "SToolStripMenuItem"
+        Me.SToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SToolStripMenuItem.Text = "اعدادات الطلاب"
+        Me.SToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'ToolStripMenuItem3
+        'GroupsToolStripMenuItem
         '
-        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(177, 6)
+        Me.GroupsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.اعداداتالمجموعاتToolStripMenuItem})
+        Me.GroupsToolStripMenuItem.Image = Global.WindowsApp1.My.Resources.Resources.Icon3
+        Me.GroupsToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.GroupsToolStripMenuItem.Name = "GroupsToolStripMenuItem"
+        Me.GroupsToolStripMenuItem.Size = New System.Drawing.Size(113, 36)
+        Me.GroupsToolStripMenuItem.Text = "المجموعات"
+        Me.GroupsToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'MnuStRp
+        'اعداداتالمجموعاتToolStripMenuItem
         '
-        Me.MnuStRp.Name = "MnuStRp"
-        Me.MnuStRp.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.MnuStRp.ShortcutKeyDisplayString = "F4"
-        Me.MnuStRp.Size = New System.Drawing.Size(180, 22)
-        Me.MnuStRp.Text = "التقارير"
+        Me.اعداداتالمجموعاتToolStripMenuItem.Name = "اعداداتالمجموعاتToolStripMenuItem"
+        Me.اعداداتالمجموعاتToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.اعداداتالمجموعاتToolStripMenuItem.Text = "اعدادات المجموعات"
+        Me.اعداداتالمجموعاتToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'MnuFilBacSav
+        'TimesToolStripMenuItem
         '
-        Me.MnuFilBacSav.Name = "MnuFilBacSav"
-        Me.MnuFilBacSav.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.MnuFilBacSav.Size = New System.Drawing.Size(220, 22)
-        Me.MnuFilBacSav.Text = "حفظ فى مجلد"
+        Me.TimesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SToolStripMenuItem1})
+        Me.TimesToolStripMenuItem.Image = Global.WindowsApp1.My.Resources.Resources.Time
+        Me.TimesToolStripMenuItem.Name = "TimesToolStripMenuItem"
+        Me.TimesToolStripMenuItem.Size = New System.Drawing.Size(113, 36)
+        Me.TimesToolStripMenuItem.Text = "المواعيد"
+        Me.TimesToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'ToolStripMenuItem1
+        'SToolStripMenuItem1
         '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(217, 6)
+        Me.SToolStripMenuItem1.Name = "SToolStripMenuItem1"
+        Me.SToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.SToolStripMenuItem1.Text = "اعدادات المواعيد"
+        Me.SToolStripMenuItem1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Form1
         '
@@ -136,29 +142,28 @@ Partial Class Form1
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.ClientSize = New System.Drawing.Size(800, 450)
-        Me.Controls.Add(Me.MenuStrip1)
+        Me.Controls.Add(Me.MenuStrip2)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "Form1"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.MenuStrip1.ResumeLayout(False)
-        Me.MenuStrip1.PerformLayout()
+        Me.MenuStrip2.ResumeLayout(False)
+        Me.MenuStrip2.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
 
     Friend WithEvents Timer1 As Timer
-    Friend WithEvents MenuStrip1 As MenuStrip
-    Friend WithEvents MnuFil As ToolStripMenuItem
-    Friend WithEvents MnuFilExit As ToolStripMenuItem
-    Friend WithEvents MnuFilBak As ToolStripMenuItem
-    Friend WithEvents MnuSt As ToolStripMenuItem
-    Friend WithEvents MnuSt1 As ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem3 As ToolStripSeparator
-    Friend WithEvents MnuStRp As ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem2 As ToolStripSeparator
-    Friend WithEvents MnuFilBacSav As ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem1 As ToolStripSeparator
+    Friend WithEvents MenuStrip2 As MenuStrip
+    Friend WithEvents FileToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents QToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents StudentsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents SToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents GroupsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TimesToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents SToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents MnuFilSav As ToolStripMenuItem
+    Friend WithEvents MnuFilExi As ToolStripMenuItem
+    Friend WithEvents اعداداتالمجموعاتToolStripMenuItem As ToolStripMenuItem
 End Class

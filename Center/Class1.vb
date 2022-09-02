@@ -1,6 +1,5 @@
 ﻿Imports System.Data.OleDb
 Imports Microsoft.Office.Interop.Access
-Imports Microsoft.Win32
 
 Public Class Class1
     Private Function DbFound() As Boolean
@@ -83,6 +82,9 @@ Public Class Class1
             DefaultLocalFolder = New IO.DirectoryInfo(Rslt)
             My.Settings.LocalBackUpFolder = DefaultLocalFolder.FullName
             My.Settings.Save()
+        Else
+            Return String.Empty
+            Exit Function
         End If
         Return Rslt
     End Function
