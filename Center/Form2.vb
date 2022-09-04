@@ -85,6 +85,7 @@ Public Class Form2
         StNm = String.Empty
         StMob1 = String.Empty
         StMob2 = String.Empty
+        StID1 = 0
         TxtNm.Select()
         BtnSave.Enabled = True
         BtnEdit.Enabled = False
@@ -194,6 +195,14 @@ Public Class Form2
         End If
     End Sub
 
+    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles TextBox1.TextChanged
+
+    End Sub
+
     Private Sub BtnSave_Click(sender As Object, e As EventArgs) Handles BtnSave.Click
         'Save
         StNm = TxtNm.Text
@@ -254,6 +263,13 @@ Public Class Form2
                 SqlStr1 = <sql>SELECT * FROM Stdnts WHERE StNM LIKE '%<%= TextBox1.Text %>%';</sql>.Value
             ElseIf ComboBox1.SelectedIndex = 1 Then
                 SqlStr1 = <sql>SELECT * FROM Stdnts WHERE Mob1 LIKE '%<%= TextBox1.Text %>%';</sql>.Value
+            ElseIf ComboBox1.SelectedIndex = 2 Then
+                If Not IsNumeric(TextBox1.Text) Then
+                    TextBox1.SelectAll()
+                    SendKeys.Send("{BackSpace}")
+                    Exit Sub
+                End If
+                SqlStr1 = <sql>SELECT * FROM Stdnts WHERE StID LIKE '%<%= Convert.ToInt32(TextBox1.Text) %>%';</sql>.Value
             End If
             ConDGV(SqlStr1)
         End If
