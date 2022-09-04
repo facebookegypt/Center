@@ -1,5 +1,4 @@
 ﻿Imports System.Data.OleDb
-
 Public Class Form2
     Private IC As New Class1, ConStr As String = IC.GetConStr
     Private StNm, StMob1, StMob2 As String, StID1 As Integer
@@ -107,7 +106,92 @@ Public Class Form2
 
     Private Sub BtnDel_Click(sender As Object, e As EventArgs) Handles BtnDel.Click
         'Attend and Results Tables are linked with Students
+        If StID1 <= 0 Then
+            MsgBox("يجب اختيار طالب أولا.", MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
+            Exit Sub
+        End If
+        Dim Ig As String = GetGrpName(StID1)
+        If String.IsNullOrEmpty(Ig) Or
+            Ig <> "لايوجد" Then
+            MsgBox("يجب حذف الطالب أولا من المجوعة المنتمي اليها.",
+                   MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
+            Exit Sub
+        End If
+        Dim N As Integer
+        Dim SqlStr As String =
+            <SQL>DELETE * Stdnts WHERE Stdnts.StID=?;</SQL>.Value
+        Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = ConStr},
+                CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
+            With CMD.Parameters
+                .AddWithValue("?", StID1)
+            End With
+            CN.Open()
+            N = CMD.ExecuteNonQuery
+        End Using
+        MsgBox("تم حذف بيانات " & N.ToString & " طالب.")
+        BtnSave.Enabled = True
+        BtnEdit.Enabled = False
+        BtnDel.Enabled = False
+    End Sub
 
+    Private Sub BtnEdit_Click(sender As Object, e As EventArgs) Handles BtnEdit.Click
+        'EDIT
+        StNm = TxtNm.Text
+        StMob1 = TxtMob1.Text
+        StMob2 = TxtMob2.Text
+        If StID1 <= 0 Then
+            MsgBox("يجب اختيار طالب أولا.", MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
+            Exit Sub
+        End If
+        Dim N As Integer
+        Dim SqlStr As String =
+            <SQL>UPDATE Stdnts SET StNm=?,Mob1=?,Mob2=?,DtMdfd=? WHERE Stdnts.StID=?;</SQL>.Value
+        Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = ConStr},
+                CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
+            With CMD.Parameters
+                .AddWithValue("?", StNm)
+                .AddWithValue("?", StMob1)
+                .AddWithValue("?", StMob2)
+                .AddWithValue("?", Now.Date)
+                .AddWithValue("?", StID1)
+            End With
+            CN.Open()
+            N = CMD.ExecuteNonQuery
+        End Using
+        MsgBox("تم تعديل بيانات " & N.ToString & " طالب.")
+        BtnSave.Enabled = True
+        BtnEdit.Enabled = False
+        BtnDel.Enabled = False
+    End Sub
+
+    Private Sub TxtNm_TextChanged(sender As Object, e As EventArgs) Handles TxtNm.TextChanged
+        If TxtNm.Text.Contains("'") Or
+        TxtNm.Text.Contains(",") Or
+        TxtNm.Text.Contains(".") Then
+            MsgBox("الاسم الذي أدخلته غير صحيح")
+            SendKeys.Send("{BackSpace}")
+            Exit Sub
+        End If
+    End Sub
+
+    Private Sub TxtMob1_TextChanged(sender As Object, e As EventArgs) Handles TxtMob1.TextChanged
+        If TxtMob1.Text.Contains("'") Or
+            TxtMob1.Text.Contains(",") Or
+            TxtMob1.Text.Contains(".") Then
+            MsgBox("الرقم الذي أدخلته غير صحيح")
+            SendKeys.Send("{BackSpace}")
+            Exit Sub
+        End If
+    End Sub
+
+    Private Sub TxtMob2_TextChanged(sender As Object, e As EventArgs) Handles TxtMob2.TextChanged
+        If TxtMob2.Text.Contains("'") Or
+            TxtMob2.Text.Contains(",") Or
+            TxtMob2.Text.Contains(".") Then
+            MsgBox("الرقم الذي أدخلته غير صحيح")
+            SendKeys.Send("{BackSpace}")
+            Exit Sub
+        End If
     End Sub
 
     Private Sub BtnSave_Click(sender As Object, e As EventArgs) Handles BtnSave.Click
@@ -121,7 +205,9 @@ Public Class Form2
         End If
         'In case no Groups were added, you need to create a pretend one (i.e. : GrID=1) to save a new student.
         'Then reassign the students to the new Groups accordingly.
-        Dim N As Integer, GrNum As Integer = 1
+        Dim N As Integer, GrNum As Integer = IC.GetIDFrmTbl("Grps", "GrID", "GrNm", "لايوجد").Find(Function(s As Integer)
+                                                                                                       Return s
+                                                                                                   End Function)
         Dim SqlStr As String =
             <SQL>INSERT INTO Stdnts(StNm,Mob1,Mob2,GrID,DtCrtd,DtMdfd)VALUES(?,?,?,?,?,?);</SQL>.Value
         Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = ConStr},
@@ -156,6 +242,12 @@ Public Class Form2
     End Sub
     Private Sub TextBox1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox1.KeyPress
         If e.KeyChar = ChrW(Keys.Enter) Then
+            If TextBox1.Text.Contains("'") Or
+                    TextBox1.Text.Contains(",") Or
+                    TextBox1.Text.Contains(".") Then
+                MsgBox("الاسم الذي أدخلته غير صحيح")
+                Exit Sub
+            End If
             If TextBox1.Text.Length <= 0 Then Exit Sub
             Dim SqlStr1 As String = String.Empty
             If ComboBox1.SelectedIndex = 0 Then

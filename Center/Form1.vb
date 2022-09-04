@@ -1,5 +1,4 @@
 ﻿Imports System.Data.OleDb
-
 Public Class Form1
     Dim IC As New Class1
     Private Function GetDefGroup(ByVal TblNm As String, ByVal Fld As String) As Integer
@@ -26,12 +25,16 @@ Public Class Form1
         KeyPreview = True
         BackgroundImage = Image.FromFile(IO.Path.Combine(Application.StartupPath, "Main1.jpg"), True)
         'Creates a Levels name = لا يوجد
+        Dim Lvlid As Integer
         If GetDefGroup("Lvls", "LID") <= 0 Then
             CreateDef(<sql>INSERT INTO Lvls (LNm,SubNm) VALUES ("لايوجد", "لايوجد");</sql>.Value)
+            Lvlid = IC.GetIDFrmTbl("Lvls", "LID", "Lnm", "لايوجد").Find(Function(s As Integer)
+                                                                            Return s > 0
+                                                                        End Function)
         End If
         'Creates a group name = لا يوجد
         If GetDefGroup("Grps", "GrID") <= 0 Then
-            CreateDef(<sql>INSERT INTO Grps (GrNm,LID) VALUES ("لايوجد" ,1);</sql>.Value)
+            CreateDef(<sql>INSERT INTO Grps (GrNm,LID) VALUES ("لايوجد", <%= Lvlid %>);</sql>.Value)
         End If
     End Sub
     Private Sub Form1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress

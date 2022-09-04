@@ -1,6 +1,5 @@
 ﻿Imports System.Data.OleDb
 Imports Microsoft.Office.Interop.Access
-
 Public Class Class1
     Private Function DbFound() As Boolean
         If IO.File.Exists(Application.StartupPath & "\Center.accdb") Then
@@ -128,5 +127,23 @@ Public Class Class1
         Application.DoEvents()
         Return Result
         Cursor.Current = Cursors.Default
+    End Function
+    Public Function GetIDFrmTbl(ByVal TblNm As String, ByVal Fld As String, ByVal Fld1 As String, ByVal Fld1Val As String) As List(Of Integer)
+        Dim Lst As List(Of Integer) = New List(Of Integer)
+        Dim SqlStr As String =
+            <sql>SELECT( <%= Fld %> ) FROM <%= TblNm %> WHERE <%= Fld1 %>=?;</sql>.Value
+        Using cn As OleDbConnection = New OleDbConnection With {.ConnectionString = GetConStr()},
+                CMD As OleDbCommand = New OleDbCommand(SqlStr, cn) With {.CommandType = CommandType.Text}
+            CMD.Parameters.AddWithValue("?", Fld1Val)
+            cn.Open()
+            Using Rdr As OleDbDataReader = CMD.ExecuteReader
+                If Rdr.HasRows Then
+                    While Rdr.Read
+                        Lst.Add(Rdr.GetInt32(0))
+                    End While
+                End If
+            End Using
+        End Using
+        Return Lst
     End Function
 End Class

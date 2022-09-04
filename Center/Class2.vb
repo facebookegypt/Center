@@ -17,4 +17,18 @@
         AddHandler Btn1.Click, AddressOf Btn1_Click
     End Sub
 
+    Private Sub InitializeComponent()
+        Me.SuspendLayout()
+        '
+        'Class2
+        '
+        Me.ClientSize = New System.Drawing.Size(284, 261)
+        Me.Name = "Class2"
+        Me.ResumeLayout(False)
+
+    End Sub
+
+    Private Sub Class2_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    End Sub
 End Class
