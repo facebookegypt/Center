@@ -1,41 +1,40 @@
-﻿Imports System.Data.OleDb
-Public Class Form1
-    Dim IC As New Class1
-    Private Function GetDefGroup(ByVal TblNm As String, ByVal Fld As String) As Integer
-        Dim SqlStr As String =
-            <sql>SELECT COUNT( <%= Fld %> ) FROM <%= TblNm %>;</sql>.Value
-        Using cn As OleDbConnection = New OleDbConnection With {.ConnectionString = IC.GetConStr},
-                CMD As OleDbCommand = New OleDbCommand(SqlStr, cn) With {.CommandType = CommandType.Text}
-            cn.Open()
-            Return Convert.ToInt32(CMD.ExecuteScalar)
-        End Using
-    End Function
-    Private Sub CreateDef(ByVal SqlStr As String)
-        Using cn As OleDbConnection = New OleDbConnection With {.ConnectionString = IC.GetConStr},
-                CMD As OleDbCommand = New OleDbCommand(SqlStr, cn) With {.CommandType = CommandType.Text}
-            cn.Open()
-            CMD.ExecuteNonQuery()
-        End Using
-    End Sub
+﻿Public Class Form1
+    'Private Function GetDefGroup(ByVal TblNm As String, ByVal Fld As String) As Integer
+    ' Dim SqlStr As String =
+    ' <sql>SELECT COUNT( <%= Fld %> ) FROM <%= TblNm %>;</sql>.Value
+    ' Using cn As OleDbConnection = New OleDbConnection With {.ConnectionString = IC.GetConStr},
+    '             CMD As OleDbCommand = New OleDbCommand(SqlStr, cn) With {.CommandType = CommandType.Text}
+    '         cn.Open()
+    ' Return Convert.ToInt32(CMD.ExecuteScalar)
+    'End Using
+    'End Function
+    'Private Sub CreateDef(ByVal SqlStr As String)
+    ' Using cn As OleDbConnection = New OleDbConnection With {.ConnectionString = IC.GetConStr},
+    '             CMD As OleDbCommand = New OleDbCommand(SqlStr, cn) With {.CommandType = CommandType.Text}
+    '         cn.Open()
+    '         CMD.ExecuteNonQuery()
+    ' End Using
+    ' End Sub
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Timer1.Interval = 1000
         Timer1.Enabled = True
         DoubleBuffered = True
         RightToLeft = RightToLeft.Yes
         KeyPreview = True
+        WindowState = FormWindowState.Maximized
         BackgroundImage = Image.FromFile(IO.Path.Combine(Application.StartupPath, "Main1.jpg"), True)
         'Creates a Levels name = لا يوجد
-        Dim Lvlid As Integer
-        If GetDefGroup("Lvls", "LID") <= 0 Then
-            CreateDef(<sql>INSERT INTO Lvls (LNm,SubNm) VALUES ("لايوجد", "لايوجد");</sql>.Value)
-            Lvlid = IC.GetIDFrmTbl("Lvls", "LID", "Lnm", "لايوجد").Find(Function(s As Integer)
-                                                                            Return s > 0
-                                                                        End Function)
-        End If
-        'Creates a group name = لا يوجد
-        If GetDefGroup("Grps", "GrID") <= 0 Then
-            CreateDef(<sql>INSERT INTO Grps (GrNm,LID) VALUES ("لايوجد", <%= Lvlid %>);</sql>.Value)
-        End If
+        'Dim Lvlid As Integer
+        'If GetDefGroup("Lvls", "LID") <= 0 Then
+        ' CreateDef(<sql>INSERT INTO Lvls (LNm,SubNm) VALUES ("لايوجد", "لايوجد");</sql>.Value)
+        ' Lvlid = IC.GetIDFrmTbl("Lvls", "LID", "Lnm", "لايوجد").Find(Function(s As Integer)
+        ' Return s > 0
+        ' End Function)
+        ' End If
+        ' 'Creates a group name = لا يوجد
+        ' If GetDefGroup("Grps", "GrID") <= 0 Then
+        ' CreateDef(<sql>INSERT INTO Grps (GrNm,LID) VALUES ("لايوجد", <%= Lvlid %>);</sql>.Value)
+        ' End If
     End Sub
     Private Sub Form1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
         If e.KeyChar = ChrW(Keys.Escape) Then Close()
@@ -134,5 +133,15 @@ Public Class Form1
         Invalidate(True)
         Update()
         Refresh()
+    End Sub
+
+    Private Sub MnuGr_Click(sender As Object, e As EventArgs) Handles MnuGr.Click
+        IsMdiContainer = True
+        With Form4
+            .MdiParent = Me
+            .WindowState = FormWindowState.Normal
+            .ShowIcon = True
+            .Show()
+        End With
     End Sub
 End Class

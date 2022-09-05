@@ -104,7 +104,8 @@ Public Class Class1
                                     Dao.LanguageConstants.dbLangGeneral,
                                     Dao.DatabaseTypeEnum.dbVersion120, ";pwd=" & My.Settings.dbPass)
         Catch ex As Exception
-            MsgBox("Error : " & ex.Message)
+            MsgBox("Error 1: " & ex.Message)
+            End
             Return False
             Exit Function
         End Try
@@ -145,5 +146,14 @@ Public Class Class1
             End Using
         End Using
         Return Lst
+    End Function
+    Public Function GetData(ByVal SqlStr As String) As DataTable
+        Dim Dt1 As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.CurrentCulture}
+        Using CN As New OleDbConnection With {.ConnectionString = GetConStr()},
+            CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text},
+            SDA As OleDbDataAdapter = New OleDbDataAdapter(CMD)
+            SDA.Fill(Dt1)
+        End Using
+        Return Dt1
     End Function
 End Class

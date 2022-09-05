@@ -33,7 +33,7 @@ Partial Class Form1
         Me.StudentsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GroupsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.اعداداتالمجموعاتToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MnuGr = New System.Windows.Forms.ToolStripMenuItem()
         Me.TimesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip2.SuspendLayout()
@@ -99,13 +99,13 @@ Partial Class Form1
         'SToolStripMenuItem
         '
         Me.SToolStripMenuItem.Name = "SToolStripMenuItem"
-        Me.SToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
         Me.SToolStripMenuItem.Text = "اعدادات الطلاب"
         Me.SToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'GroupsToolStripMenuItem
         '
-        Me.GroupsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.اعداداتالمجموعاتToolStripMenuItem})
+        Me.GroupsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuGr})
         Me.GroupsToolStripMenuItem.Image = Global.WindowsApp1.My.Resources.Resources.Icon3
         Me.GroupsToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.GroupsToolStripMenuItem.Name = "GroupsToolStripMenuItem"
@@ -113,12 +113,12 @@ Partial Class Form1
         Me.GroupsToolStripMenuItem.Text = "المجموعات"
         Me.GroupsToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'اعداداتالمجموعاتToolStripMenuItem
+        'MnuGr
         '
-        Me.اعداداتالمجموعاتToolStripMenuItem.Name = "اعداداتالمجموعاتToolStripMenuItem"
-        Me.اعداداتالمجموعاتToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.اعداداتالمجموعاتToolStripMenuItem.Text = "اعدادات المجموعات"
-        Me.اعداداتالمجموعاتToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.MnuGr.Name = "MnuGr"
+        Me.MnuGr.Size = New System.Drawing.Size(171, 22)
+        Me.MnuGr.Text = "اعدادات المجموعات"
+        Me.MnuGr.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'TimesToolStripMenuItem
         '
@@ -126,7 +126,7 @@ Partial Class Form1
         Me.TimesToolStripMenuItem.Image = Global.WindowsApp1.My.Resources.Resources.Time
         Me.TimesToolStripMenuItem.Name = "TimesToolStripMenuItem"
         Me.TimesToolStripMenuItem.Size = New System.Drawing.Size(113, 36)
-        Me.TimesToolStripMenuItem.Text = "المواعيد"
+        Me.TimesToolStripMenuItem.Text = "الغياب"
         Me.TimesToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'SToolStripMenuItem1
@@ -165,5 +165,5 @@ Partial Class Form1
     Friend WithEvents SToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents MnuFilSav As ToolStripMenuItem
     Friend WithEvents MnuFilExi As ToolStripMenuItem
-    Friend WithEvents اعداداتالمجموعاتToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents MnuGr As ToolStripMenuItem
 End Class
