@@ -13,7 +13,18 @@ Public Class Class1
     Private Sub Btn1_Click(sender As Object, e As EventArgs)
         My.Settings.Save()
     End Sub
-    Public Function GetConStr() As String
+    Public Function ConStr() As String
+        Dim ConStr1 As String = My.Settings.Provider
+        If String.IsNullOrEmpty(ConStr1) Then
+            GetConStr()
+        Else
+            ConStr1 = My.Settings.Provider & IO.Path.Combine(Application.StartupPath, My.Settings.dbNm) & ";" &
+                        "Jet OLEDB:Database Password= " & My.Settings.dbPass & ";" &
+                        "Persist Security Info=False;"
+        End If
+        Return ConStr1
+    End Function
+    Private Function GetConStr() As String
         Dim ConStr As String = "مشكلة فى ملفات الأكسس"
         Dim Ilist As List(Of String) = New List(Of String)
         Ilist = FindProvider()
@@ -133,7 +144,7 @@ Public Class Class1
         Dim Lst As List(Of Integer) = New List(Of Integer)
         Dim SqlStr As String =
             <sql>SELECT( <%= Fld %> ) FROM <%= TblNm %> WHERE <%= Fld1 %>=?;</sql>.Value
-        Using cn As OleDbConnection = New OleDbConnection With {.ConnectionString = GetConStr()},
+        Using cn As OleDbConnection = New OleDbConnection With {.ConnectionString = ConStr()},
                 CMD As OleDbCommand = New OleDbCommand(SqlStr, cn) With {.CommandType = CommandType.Text}
             CMD.Parameters.AddWithValue("?", Fld1Val)
             cn.Open()
@@ -149,10 +160,10 @@ Public Class Class1
     End Function
     Public Function GetData(ByVal SqlStr As String) As DataTable
         Dim Dt1 As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.CurrentCulture}
-        Using CN As New OleDbConnection With {.ConnectionString = GetConStr()},
+        Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = ConStr()},
             CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text},
-            SDA As OleDbDataAdapter = New OleDbDataAdapter(CMD)
-            SDA.Fill(Dt1)
+            DataAdapter1 As OleDbDataAdapter = New OleDbDataAdapter(CMD)
+            DataAdapter1.Fill(Dt1)
         End Using
         Return Dt1
     End Function

@@ -1,6 +1,6 @@
 ﻿Imports System.Data.OleDb
 Public Class Form2
-    Private IC As New Class1, ConStr As String = IC.GetConStr
+    Private IC As New Class1, ConStr As String = IC.ConStr
     Private StNm, StMob1, StMob2 As String, StID1 As Integer
     Private DGStdnts As DataGridView = New DataGridView With
         {.Name = "DGV1", .BorderStyle = BorderStyle.None, .RightToLeft = RightToLeft.Yes,

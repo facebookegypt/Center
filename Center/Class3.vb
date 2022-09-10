@@ -36,8 +36,7 @@
             If DGRow.Cells(0).Value Is DBNull.Value Then
                 SqlStr =
                 "INSERT INTO Lvls(Lnm,SubNm,DtCrtd,DtMdfd) VALUES (?,?,?,?);"
-
-                Using cn As OleDb.OleDbConnection = New OleDb.OleDbConnection With {.ConnectionString = I.GetConStr},
+                Using cn As OleDb.OleDbConnection = New OleDb.OleDbConnection With {.ConnectionString = I.ConStr},
                     CMD As OleDb.OleDbCommand = New OleDb.OleDbCommand(SqlStr, cn) With {.CommandType = CommandType.Text}
                     With CMD.Parameters
                         .AddWithValue("?", DGRow.Cells(1).Value.ToString)
@@ -52,7 +51,7 @@
                 SqlStr =
                     "UPDATE Lvls SET Lnm=?,SubNm=?, DtMdfd=? WHERE LID=?;"
 
-                Using cn As OleDb.OleDbConnection = New OleDb.OleDbConnection With {.ConnectionString = I.GetConStr},
+                Using cn As OleDb.OleDbConnection = New OleDb.OleDbConnection With {.ConnectionString = I.ConStr},
                     CMD As OleDb.OleDbCommand = New OleDb.OleDbCommand(SqlStr, cn) With {.CommandType = CommandType.Text}
                     With CMD.Parameters
                         .AddWithValue("?", DGRow.Cells(1).Value.ToString)
