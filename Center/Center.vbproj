@@ -202,6 +202,9 @@
     <None Include="bin\Debug\All.png" />
     <None Include="bin\Debug\ShowAll.png" />
     <None Include="bin\Debug\Main3.jpg" />
+    <None Include="bin\Debug\Main4.jpg" />
+    <None Include="bin\Debug\getty_1146511178_ppbdmz.jpg" />
+    <None Include="bin\Debug\wp2805307.jpg" />
     <Content Include="Icon1.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

@@ -25,6 +25,11 @@ Partial Class Form2
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form2))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
+        Me.BtnClear = New System.Windows.Forms.ToolStripButton()
+        Me.BtnSave = New System.Windows.Forms.ToolStripButton()
+        Me.BtnEdit = New System.Windows.Forms.ToolStripButton()
+        Me.BtnDel = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
         Me.TxtMob1 = New System.Windows.Forms.TextBox()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.TxtMob2 = New System.Windows.Forms.TextBox()
@@ -32,22 +37,13 @@ Partial Class Form2
         Me.TxtNm = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-        Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.ComboBox1 = New System.Windows.Forms.ComboBox()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
-        Me.BtnClear = New System.Windows.Forms.ToolStripButton()
-        Me.BtnSave = New System.Windows.Forms.ToolStripButton()
-        Me.BtnEdit = New System.Windows.Forms.ToolStripButton()
-        Me.BtnDel = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
         Me.GroupBox1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
-        Me.GroupBox2.SuspendLayout()
-        Me.ToolStrip2.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -66,7 +62,7 @@ Partial Class Form2
         Me.GroupBox1.Location = New System.Drawing.Point(450, 12)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.GroupBox1.Size = New System.Drawing.Size(338, 305)
+        Me.GroupBox1.Size = New System.Drawing.Size(338, 327)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "بيانات الطالب"
@@ -78,11 +74,64 @@ Partial Class Form2
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.ToolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BtnClear, Me.BtnSave, Me.BtnEdit, Me.BtnDel, Me.ToolStripButton1})
-        Me.ToolStrip1.Location = New System.Drawing.Point(3, 248)
+        Me.ToolStrip1.Location = New System.Drawing.Point(3, 270)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.Size = New System.Drawing.Size(332, 54)
         Me.ToolStrip1.Stretch = True
         Me.ToolStrip1.TabIndex = 6
+        '
+        'BtnClear
+        '
+        Me.BtnClear.Image = CType(resources.GetObject("BtnClear.Image"), System.Drawing.Image)
+        Me.BtnClear.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BtnClear.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.BtnClear.Name = "BtnClear"
+        Me.BtnClear.Size = New System.Drawing.Size(36, 51)
+        Me.BtnClear.Text = "جديد"
+        Me.BtnClear.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'BtnSave
+        '
+        Me.BtnSave.Image = CType(resources.GetObject("BtnSave.Image"), System.Drawing.Image)
+        Me.BtnSave.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BtnSave.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.BtnSave.Name = "BtnSave"
+        Me.BtnSave.Size = New System.Drawing.Size(36, 51)
+        Me.BtnSave.Text = "حفظ"
+        Me.BtnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'BtnEdit
+        '
+        Me.BtnEdit.Enabled = False
+        Me.BtnEdit.Image = CType(resources.GetObject("BtnEdit.Image"), System.Drawing.Image)
+        Me.BtnEdit.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BtnEdit.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.BtnEdit.Name = "BtnEdit"
+        Me.BtnEdit.Size = New System.Drawing.Size(40, 51)
+        Me.BtnEdit.Text = "تعديل"
+        Me.BtnEdit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'BtnDel
+        '
+        Me.BtnDel.Enabled = False
+        Me.BtnDel.Image = CType(resources.GetObject("BtnDel.Image"), System.Drawing.Image)
+        Me.BtnDel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BtnDel.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.BtnDel.Name = "BtnDel"
+        Me.BtnDel.Size = New System.Drawing.Size(36, 51)
+        Me.BtnDel.Text = "حذف"
+        Me.BtnDel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'ToolStripButton1
+        '
+        Me.ToolStripButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
+        Me.ToolStripButton1.Image = Global.WindowsApp1.My.Resources.Resources.ShowAll
+        Me.ToolStripButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.ToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton1.Name = "ToolStripButton1"
+        Me.ToolStripButton1.Size = New System.Drawing.Size(62, 51)
+        Me.ToolStripButton1.Text = "عرض الكل"
+        Me.ToolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'TxtMob1
         '
@@ -167,7 +216,6 @@ Partial Class Form2
         Me.GroupBox2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox2.BackColor = System.Drawing.Color.Transparent
-        Me.GroupBox2.Controls.Add(Me.ToolStrip2)
         Me.GroupBox2.Location = New System.Drawing.Point(12, 36)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes
@@ -175,23 +223,6 @@ Partial Class Form2
         Me.GroupBox2.TabIndex = 1
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "عرض كل الطلبة"
-        '
-        'ToolStrip2
-        '
-        Me.ToolStrip2.AllowMerge = False
-        Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.ToolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
-        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel1})
-        Me.ToolStrip2.Location = New System.Drawing.Point(3, 374)
-        Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(401, 25)
-        Me.ToolStrip2.Stretch = True
-        Me.ToolStrip2.TabIndex = 7
-        '
-        'ToolStripLabel1
-        '
-        Me.ToolStripLabel1.Name = "ToolStripLabel1"
-        Me.ToolStripLabel1.Size = New System.Drawing.Size(0, 22)
         '
         'TextBox1
         '
@@ -237,71 +268,18 @@ Partial Class Form2
         Me.StatusStrip1.BackColor = System.Drawing.Color.Transparent
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1})
         Me.StatusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 428)
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 450)
         Me.StatusStrip1.Name = "StatusStrip1"
         Me.StatusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.ManagerRenderMode
         Me.StatusStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.StatusStrip1.Size = New System.Drawing.Size(800, 22)
         Me.StatusStrip1.TabIndex = 5
         '
-        'BtnClear
-        '
-        Me.BtnClear.Image = CType(resources.GetObject("BtnClear.Image"), System.Drawing.Image)
-        Me.BtnClear.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.BtnClear.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.BtnClear.Name = "BtnClear"
-        Me.BtnClear.Size = New System.Drawing.Size(36, 51)
-        Me.BtnClear.Text = "جديد"
-        Me.BtnClear.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'BtnSave
-        '
-        Me.BtnSave.Image = CType(resources.GetObject("BtnSave.Image"), System.Drawing.Image)
-        Me.BtnSave.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.BtnSave.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.BtnSave.Name = "BtnSave"
-        Me.BtnSave.Size = New System.Drawing.Size(36, 51)
-        Me.BtnSave.Text = "حفظ"
-        Me.BtnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'BtnEdit
-        '
-        Me.BtnEdit.Enabled = False
-        Me.BtnEdit.Image = CType(resources.GetObject("BtnEdit.Image"), System.Drawing.Image)
-        Me.BtnEdit.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.BtnEdit.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.BtnEdit.Name = "BtnEdit"
-        Me.BtnEdit.Size = New System.Drawing.Size(40, 51)
-        Me.BtnEdit.Text = "تعديل"
-        Me.BtnEdit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'BtnDel
-        '
-        Me.BtnDel.Enabled = False
-        Me.BtnDel.Image = CType(resources.GetObject("BtnDel.Image"), System.Drawing.Image)
-        Me.BtnDel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.BtnDel.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.BtnDel.Name = "BtnDel"
-        Me.BtnDel.Size = New System.Drawing.Size(36, 51)
-        Me.BtnDel.Text = "حذف"
-        Me.BtnDel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'ToolStripButton1
-        '
-        Me.ToolStripButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
-        Me.ToolStripButton1.Image = Global.WindowsApp1.My.Resources.Resources.ShowAll
-        Me.ToolStripButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.ToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton1.Name = "ToolStripButton1"
-        Me.ToolStripButton1.Size = New System.Drawing.Size(62, 51)
-        Me.ToolStripButton1.Text = "عرض الكل"
-        Me.ToolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
         'Form2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(800, 472)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.TextBox1)
@@ -316,10 +294,6 @@ Partial Class Form2
         Me.GroupBox1.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
-        Me.GroupBox2.ResumeLayout(False)
-        Me.GroupBox2.PerformLayout()
-        Me.ToolStrip2.ResumeLayout(False)
-        Me.ToolStrip2.PerformLayout()
         Me.StatusStrip1.ResumeLayout(False)
         Me.StatusStrip1.PerformLayout()
         Me.ResumeLayout(False)
@@ -344,8 +318,6 @@ Partial Class Form2
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Label4 As Label
     Friend WithEvents ComboBox1 As ComboBox
-    Friend WithEvents ToolStrip2 As ToolStrip
-    Friend WithEvents ToolStripLabel1 As ToolStripLabel
     Friend WithEvents ToolStripStatusLabel1 As ToolStripStatusLabel
     Friend WithEvents StatusStrip1 As StatusStrip
 End Class

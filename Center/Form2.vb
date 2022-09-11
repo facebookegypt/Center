@@ -1,18 +1,17 @@
 ﻿Imports System.Data.OleDb
 Public Class Form2
-    Private IC As New Class1, ConStr As String = IC.ConStr
+    Public Property IC As New Class1
+    Public Property Constr1 As String = IC.ConStr
     Private StNm, StMob1, StMob2 As String, StID1 As Integer
     Private DGStdnts As DataGridView = New DataGridView With
-        {.Name = "DGV1", .BorderStyle = BorderStyle.None, .RightToLeft = RightToLeft.Yes,
-        .AllowUserToAddRows = False, .Dock = DockStyle.Fill, .ColumnCount = 4,
-        .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize, .RowHeadersVisible = False,
-        .BackgroundColor = Color.WhiteSmoke},
+        {.Name = "DGV2", .BorderStyle = BorderStyle.None, .RightToLeft = RightToLeft.Yes,
+        .AllowUserToAddRows = False, .Dock = DockStyle.Fill,
+        .EnableHeadersVisualStyles = False, .RowHeadersVisible = True, .BackgroundColor = Color.WhiteSmoke,
+        .ColumnHeadersHeight = 50, .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing},
         Dt1 As DataTable
     Private Function GetGrpName(ByVal SqlStr As String, ByVal StudentID As Integer) As String
         Dim Rslt As String = String.Empty
-        'Dim SqlStr As String =
-        '    <sql>SELECT Stdnts.StID, Grps.GrNm FROM Grps INNER JOIN Stdnts ON Grps.GrID = Stdnts.GrID WHERE (((Stdnts.StID)=?));</sql>.Value
-        Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = ConStr},
+        Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
                 CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
             CMD.Parameters.AddWithValue("?", StudentID)
             CN.Open()
@@ -28,31 +27,64 @@ Public Class Form2
         End Using
         Return Rslt
     End Function
-    Private Sub ConDGV(ByVal SqlStr As String)
+    Private Sub GetStdnts(ByVal SqlStr As String)
+        Dim Dt2 As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
+        Using CN = New OleDbConnection With {.ConnectionString = Constr1()},
+            CMD = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text},
+            DataAdapter1 = New OleDbDataAdapter(CMD)
+            DataAdapter1.Fill(Dt2)
+        End Using
         With DGStdnts
+            .AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            .RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
+            .RowHeadersWidth = 30
+            With .ColumnHeadersDefaultCellStyle
+                .WrapMode = DataGridViewTriState.True
+                .Alignment = DataGridViewContentAlignment.MiddleCenter
+                .BackColor = Color.FloralWhite
+            End With
+            With .RowsDefaultCellStyle
+                .WrapMode = DataGridViewTriState.True
+                .Alignment = DataGridViewContentAlignment.MiddleCenter
+            End With
             .ReadOnly = True
+            .DefaultCellStyle.WrapMode = DataGridViewTriState.True
             .AutoGenerateColumns = False
-            .Columns(0).Name = "StID"
-            .Columns(0).HeaderText = "كود الطالب"
-            .Columns(0).DataPropertyName = "StID"
-
-            .Columns(1).Name = "StNM"
-            .Columns(1).HeaderText = "اسم الطالب"
-            .Columns(1).DataPropertyName = "StNM"
-
-            .Columns(2).Name = "Mob1"
-            .Columns(2).HeaderText = "موبيل الطالب"
-            .Columns(2).DataPropertyName = "Mob1"
-
-            .Columns(3).Name = "Mob2"
-            .Columns(3).HeaderText = "موبيل ولي الأمر"
-            .Columns(3).DataPropertyName = "Mob2"
-            .DataSource = New BindingSource(IC.GetData(SqlStr), Nothing)
+            .DataSource = Nothing
+            .DataSource = New BindingSource(Dt2.DefaultView, Nothing)
         End With
         GroupBox2.Controls.Add(DGStdnts)
+        AddHandler DGStdnts.RowPostPaint, AddressOf DGSTDNTS_RowPostPaint
         AddHandler DGStdnts.CellClick, AddressOf DGStdnts_CellClick
-        DGStdnts.Invalidate(True)
-        DGStdnts.Update()
+    End Sub
+    Private Sub DGSTDNTS_RowPostPaint(sender As Object, e As DataGridViewRowPostPaintEventArgs)
+        Dim grid = TryCast(sender, DataGridView)
+        Dim rowIdx As String = Convert.ToString(e.RowIndex + 1)
+        Using centerFormat As StringFormat = New StringFormat() With
+            {.Alignment = StringAlignment.Center, .LineAlignment = StringAlignment.Center}
+            Dim headerBounds =
+                New Rectangle(e.RowBounds.Right - 42, e.RowBounds.Top, grid.RowHeadersWidth, e.RowBounds.Height)
+            e.Graphics.DrawString(rowIdx, Font, SystemBrushes.ControlText, headerBounds, centerFormat)
+        End Using
+    End Sub
+    Private Sub ConDGV(ByVal SqlStr As String)
+        SqlStr = <sql>SELECT * From Stdnts;</sql>.Value
+        GetStdnts(SqlStr)
+        Dim DIg2 As New DataGridViewTextBoxColumn With
+            {.Name = "StNm", .ValueType = GetType(String), .DataPropertyName = "StNm", .HeaderText = "اسم الطالب"}
+        Dim DIg0 As New DataGridViewTextBoxColumn With
+            {.Name = "Mob1", .ValueType = GetType(String), .DataPropertyName = "Mob1", .HeaderText = "رقم الموبيل"}
+        Dim DIg_1 As New DataGridViewTextBoxColumn With
+            {.Name = "Mob2", .ValueType = GetType(String), .DataPropertyName = "Mob2", .HeaderText = "موبيل ولي الأمر"}
+        Dim DIg1 As New DataGridViewTextBoxColumn With
+            {.Name = "StID", .ValueType = GetType(Integer), .DataPropertyName = "StID", .Visible = False}
+        If DGStdnts.Columns.Count <= 0 Then
+            DGStdnts.Columns.Insert(0, DIg2)
+            DGStdnts.Columns.Insert(1, DIg0)
+            DGStdnts.Columns.Insert(2, DIg_1)
+            DGStdnts.Columns.Insert(3, DIg1)
+        End If
     End Sub
     Private Sub DGStdnts_CellClick(sender As Object, e As DataGridViewCellEventArgs)
         If e.RowIndex = -1 Or e.ColumnIndex = -1 Then Exit Sub
@@ -89,10 +121,10 @@ Public Class Form2
     Private Function GetCount(ByVal TblNm As String, FldNm As String) As Integer
         Dim SqlStr As String =
             <sql>SELECT COUNT( <%= FldNm %> ) FROM <%= TblNm %>;</sql>.Value
-        Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = ConStr},
+        Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
                 CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
             CN.Open()
-            Return CMD.ExecuteScalar
+            Return Convert.ToInt32(CMD.ExecuteScalar)
         End Using
     End Function
     Private Sub BtnDel_Click(sender As Object, e As EventArgs) Handles BtnDel.Click
@@ -111,7 +143,7 @@ Public Class Form2
         Dim N As Integer
         Dim SqlStr As String =
             <SQL>DELETE * Stdnts WHERE Stdnts.StID=?;</SQL>.Value
-        Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = ConStr},
+        Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
                 CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
             With CMD.Parameters
                 .AddWithValue("?", StID1)
@@ -136,7 +168,7 @@ Public Class Form2
         Dim N As Integer
         Dim SqlStr As String =
             <SQL>UPDATE Stdnts SET StNm=?,Mob1=?,Mob2=?,DtMdfd=? WHERE Stdnts.StID=?;</SQL>.Value
-        Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = ConStr},
+        Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
                 CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
             With CMD.Parameters
                 .AddWithValue("?", StNm)
@@ -196,7 +228,7 @@ Public Class Form2
         'End Function)
         Dim SqlStr As String =
             <SQL>INSERT INTO Stdnts(StNm,Mob1,Mob2,DtCrtd,DtMdfd)VALUES(?,?,?,?,?,?);</SQL>.Value
-        Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = ConStr},
+        Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
                 CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
             With CMD.Parameters
                 .AddWithValue("?", StNm)
