@@ -288,4 +288,18 @@ Public Class Form8
         AddCol()
         BtnSave.Enabled = True
     End Sub
+
+    Private Sub Form8_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+        'Use KeyCode when you don't care about the modifiers, KeyData when you do.
+        If e.KeyCode = Keys.S AndAlso e.Modifiers = Keys.Control Then
+            If BtnSave.Enabled = True Then
+                BtnSave_Click(sender, e)
+            End If
+        End If
+        If e.KeyCode = Keys.N AndAlso e.Modifiers = Keys.Control Then
+            If BtnClear.Enabled = True Then
+                BtnClear_Click(sender, e)
+            End If
+        End If
+    End Sub
 End Class

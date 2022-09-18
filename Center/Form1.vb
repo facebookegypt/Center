@@ -1,4 +1,18 @@
-﻿Public Class Form1
+﻿Imports System.Data.OleDb
+
+Public Class Form1
+    Private Property Ii As New Class1
+    Private Property Constr As String = Ii.ConStr
+    Private Function GrDtToday() As Integer
+        Dim SqlStr As String = "SELECT COUNT(GrDtID) FROM GrDt WHERE Month(GrDt.Mnm)=? AND GrDt.GrDt1=?;"
+        Using cn As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr},
+                CMD As OleDbCommand = New OleDbCommand(SqlStr, cn) With {.CommandType = CommandType.Text}
+            CMD.Parameters.AddWithValue("?", Month(Now.Date))
+            CMD.Parameters.AddWithValue("?", Now.Date)
+            cn.Open()
+            Return Convert.ToInt32(CMD.ExecuteScalar)
+        End Using
+    End Function
     'Private Function GetDefGroup(ByVal TblNm As String, ByVal Fld As String) As Integer
     ' Dim SqlStr As String =
     ' <sql>SELECT COUNT( <%= Fld %> ) FROM <%= TblNm %>;</sql>.Value
@@ -167,6 +181,12 @@
             '.WindowState = FormWindowState.Normal
             .ShowIcon = True
             .Show()
+        End With
+    End Sub
+    Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+        With Ii.PopupNotifier1
+            .ContentText = "السلام عليكم و رحمة الله و بركاته. لديك  " & GrDtToday() & " مجموعات اليوم."
+            .Popup()
         End With
     End Sub
 End Class

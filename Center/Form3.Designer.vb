@@ -53,13 +53,14 @@ Partial Class Form3
         Me.RadioButton2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadioButton2.AutoCheck = False
         Me.RadioButton2.AutoEllipsis = True
-        Me.RadioButton2.Font = New System.Drawing.Font("Times New Roman", 10.0!)
-        Me.RadioButton2.Location = New System.Drawing.Point(158, 62)
+        Me.RadioButton2.Font = New System.Drawing.Font("Times New Roman", 12.0!, System.Drawing.FontStyle.Bold)
+        Me.RadioButton2.Location = New System.Drawing.Point(158, 65)
         Me.RadioButton2.Name = "RadioButton2"
         Me.RadioButton2.Size = New System.Drawing.Size(338, 37)
         Me.RadioButton2.TabIndex = 5
         Me.RadioButton2.TabStop = True
         Me.RadioButton2.Text = "تحديث النسخة المحلية نهاية كل شهر"
+        Me.RadioButton2.UseCompatibleTextRendering = True
         Me.RadioButton2.UseVisualStyleBackColor = True
         '
         'RadioButton1
@@ -67,13 +68,14 @@ Partial Class Form3
         Me.RadioButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadioButton1.AutoCheck = False
         Me.RadioButton1.AutoEllipsis = True
-        Me.RadioButton1.Font = New System.Drawing.Font("Times New Roman", 10.0!)
-        Me.RadioButton1.Location = New System.Drawing.Point(158, 105)
+        Me.RadioButton1.Font = New System.Drawing.Font("Times New Roman", 12.0!, System.Drawing.FontStyle.Bold)
+        Me.RadioButton1.Location = New System.Drawing.Point(158, 108)
         Me.RadioButton1.Name = "RadioButton1"
         Me.RadioButton1.Size = New System.Drawing.Size(338, 37)
         Me.RadioButton1.TabIndex = 4
         Me.RadioButton1.TabStop = True
         Me.RadioButton1.Text = "تحديث النسخة المحلية يوميا"
+        Me.RadioButton1.UseCompatibleTextRendering = True
         Me.RadioButton1.UseVisualStyleBackColor = True
         '
         'TxtNm
@@ -101,6 +103,7 @@ Partial Class Form3
         Me.Label1.TabIndex = 2
         Me.Label1.Text = "مجلد الحفظ"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Label1.UseCompatibleTextRendering = True
         '
         'Form3
         '

@@ -1,6 +1,23 @@
 ﻿Imports System.Data.OleDb
 Imports Microsoft.Office.Interop.Access
+Imports Tulpep.NotificationWindow
+
 Public Class Class1
+    Public Property PopupNotifier1 = New PopupNotifier With
+        {
+        .TitleFont = New Font("Times New Roman", 12, FontStyle.Bold),
+        .TitleColor = Color.Black,
+        .TitlePadding = New Padding(5),
+        .ContentFont = New Font("Arial", 10.25, FontStyle.Bold),
+        .ContentColor = Color.White,
+        .IsRightToLeft = True,
+        .TitleText = "مرحبا فى برنامج C E N T E R",
+        .Delay = 5000,
+        .BorderColor = Color.Red,
+        .HeaderColor = Color.Red,
+        .BodyColor = Color.DeepSkyBlue,
+        .GradientPower = 10
+    }
     Private Function DbFound() As Boolean
         If IO.File.Exists(Application.StartupPath & "\Center.accdb") Then
             Return True
@@ -173,15 +190,15 @@ Public Class Class1
                         ByVal combobox As ComboBox,
                         Optional ByVal DisMem As String = "Value",
                         Optional ByVal ValMem As String = "Key")
-        Dt1 = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
+        DT1 = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
         Using CN = New OleDbConnection With {.ConnectionString = Constr1},
             CMD = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text},
             DataAdapter1 = New OleDbDataAdapter(CMD)
-            DataAdapter1.Fill(Dt1)
+            DataAdapter1.Fill(DT1)
         End Using
         With combobox
             .BeginUpdate()
-            .DataSource = Dt1.DefaultView
+            .DataSource = DT1.DefaultView
             .DisplayMember = DisMem
             .ValueMember = ValMem
             .SelectedIndex = -1

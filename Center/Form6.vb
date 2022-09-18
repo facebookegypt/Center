@@ -11,7 +11,7 @@ Public Class Form6
         .RowHeadersVisible = True, .BackgroundColor = Color.WhiteSmoke,
         .ColumnHeadersHeight = 50,
         .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing}
-    Private Sub ToolStripButton3_Click(sender As Object, e As EventArgs) Handles BtnSave.Click
+    Private Sub BtnSave_Click(sender As Object, e As EventArgs) Handles BtnSave.Click
         If String.IsNullOrEmpty(TxtNm.Text) Or TxtNm.Text.Contains("لايوجد") Then
             MsgBox("من فضلك أدخل المجموعة أولا. مع العلم لا يمكن استخدام 'لايوجد' في اسم للمجموعة")
             Exit Sub
@@ -187,5 +187,34 @@ Public Class Form6
                 CnTr.Rollback()
             End Try
         End Using
+    End Sub
+
+    Private Sub Form6_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+        'Use KeyCode when you don't care about the modifiers, KeyData when you do.
+        If e.KeyCode = Keys.S AndAlso e.Modifiers = Keys.Control Then
+            If BtnSave.Enabled = True Then
+                BtnSave_Click(sender, e)
+            End If
+        End If
+        If e.KeyCode = Keys.N AndAlso e.Modifiers = Keys.Control Then
+            If BtnAdd.Enabled = True Then
+                BtnAdd_Click(sender, e)
+            End If
+        End If
+        If e.KeyCode = Keys.A AndAlso e.Modifiers = Keys.Control Then
+            If ToolStripButton6.Enabled = True Then
+                ToolStripButton6_Click(sender, e)
+            End If
+        End If
+        If e.KeyCode = Keys.E AndAlso e.Modifiers = Keys.Control Then
+            If BtnEdit.Enabled = True Then
+                BtnEdit_Click(sender, e)
+            End If
+        End If
+        If e.KeyData = Keys.Delete Then
+            If BtnDel.Enabled = True Then
+                BtnDel_Click(sender, e)
+            End If
+        End If
     End Sub
 End Class

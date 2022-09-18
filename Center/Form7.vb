@@ -123,9 +123,9 @@ Public Class Form7
         End Using
         With DGStdnts
             .EnableHeadersVisualStyles = False  'Will display the custom formats of mine.
-            .EditMode = DataGridViewEditMode.EditOnEnter
+            .EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2
             .GridColor = SystemColors.Control
-            .SelectionMode = DataGridViewSelectionMode.FullRowSelect
+            .SelectionMode = DataGridViewSelectionMode.CellSelect
             .DataSource = New BindingSource(Dt2, Nothing)
             .MultiSelect = False
         End With
@@ -169,11 +169,12 @@ Public Class Form7
     End Sub
     Private Sub DGStdnts_CellClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs)
         'Check to ensure that the row CheckBox is clicked.
+        If e.ColumnIndex = -1 Or e.ColumnIndex = -1 Then Exit Sub
         If e.RowIndex >= 0 AndAlso DGStdnts.Columns(e.ColumnIndex).Name = "Pscore" Then
             'Reference the GridView Row.
             Dim row As DataGridViewRow = DGStdnts.Rows(e.RowIndex)
             'Set the CheckBox selection.
-            StID1 = Convert.ToInt32(row.Cells("Pscore").Value)
+            StID1 = Convert.ToInt32(row.Cells("StID").Value)
             DGStdnts.EndEdit()
         End If
     End Sub
@@ -183,9 +184,7 @@ Public Class Form7
                 DGStdnts.CommitEdit(DataGridViewDataErrorContexts.Commit)
             End If
         End If
-
     End Sub
-
     Private Sub DGStdnts_CallEndEdit(sender As Object, e As DataGridViewCellEventArgs)
         If BtnSave.Enabled = True Then RemoveHandler DGStdnts.CellEndEdit, AddressOf DGStdnts_CallEndEdit : Exit Sub
         If IsNothing(DGStdnts.CurrentCell) Then Exit Sub
@@ -198,7 +197,7 @@ Public Class Form7
             Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
                     CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
                 With CMD.Parameters
-                    .AddWithValue("?", Convert.ToDouble(DGStdnts.CurrentRow.Cells("Pscore").Value))
+                    .AddWithValue("?", Convert.ToDouble(DGStdnts.CurrentRow.Cells("Pscore").FormattedValue))
                     .AddWithValue("?", Now.Date)
                     .AddWithValue("?", StID1)
                     .AddWithValue("?", GrDtID1)
@@ -229,7 +228,6 @@ Public Class Form7
             End If
         End If
     End Sub
-
     Private Sub DGStdnts_RowPostPaint(sender As Object, e As DataGridViewRowPostPaintEventArgs)
         Dim grid = TryCast(sender, DataGridView)
         Dim rowIdx As String = Convert.ToString(e.RowIndex + 1)
@@ -243,7 +241,6 @@ Public Class Form7
     Private Sub Form7_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles MyBase.KeyPress
         If e.KeyChar = ChrW(Keys.Escape) Then Close()
     End Sub
-
     Private Sub BtnClear_Click(sender As Object, e As EventArgs) Handles BtnClear.Click
         Dim SqlStr As String =
             "SELECT Attnd.StID, Stdnts.StNm FROM (Stdnts INNER JOIN GrSt ON Stdnts.StID = GrSt.StID) INNER JOIN Attnd ON " &
@@ -264,7 +261,6 @@ Public Class Form7
         AddCol()
         BtnSave.Enabled = True
     End Sub
-
     Private Sub BtnSave_Click(sender As Object, e As EventArgs) Handles BtnSave.Click
         'Dim CNTra As OleDbTransaction = Nothing
         Dim N As Integer
@@ -283,7 +279,6 @@ Public Class Form7
             N = cmd.ExecuteNonQuery()
             cmd.Parameters.Clear()
         End Using
-
         Dim sqlstr As String = "INSERT INTO Rslts(GrDtID,StID,Mrk,DtCrtd,DtMdfd) VALUES(?,?,?,?,?);"
         For Each IRow As DataGridViewRow In DGStdnts.Rows
             'INSERT
@@ -301,13 +296,12 @@ Public Class Form7
                 cmd.Parameters.Clear()
             End Using
         Next
-        MsgBox("تم تسجيل غياب الدرجات بنجاح",
+        MsgBox("تم تسجيل الدرجات بنجاح",
                MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
         ConDGV("SELECT Stdnts.StID, Stdnts.StNm, Rslts.Mrk FROM (Stdnts INNER JOIN (Grps INNER JOIN GrSt ON Grps.GrID = GrSt.GrID) " &
                "ON Stdnts.StID = GrSt.StID) INNER JOIN Rslts ON Stdnts.StID = Rslts.StID " &
                "WHERE (((GrSt.GrID)=" & GrID1 & ") And ((Rslts.GrDtID)=" & GrDtID1 & ")) ORDER BY Stdnts.StID;")
     End Sub
-
     Private Sub Form7_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         KeyPreview = True
         DoubleBuffered = True
@@ -324,5 +318,19 @@ Public Class Form7
         GroupBox1.Controls.Add(TRV)
         AddHandler TRV.AfterSelect, AddressOf TRV_AfterSelect
         GetMainTree(dt3)
+    End Sub
+
+    Private Sub Form7_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+        'Use KeyCode when you don't care about the modifiers, KeyData when you do.
+        If e.KeyCode = Keys.S AndAlso e.Modifiers = Keys.Control Then
+            If BtnSave.Enabled = True Then
+                BtnSave_Click(sender, e)
+            End If
+        End If
+        If e.KeyCode = Keys.N AndAlso e.Modifiers = Keys.Control Then
+            If BtnClear.Enabled = True Then
+                BtnClear_Click(sender, e)
+            End If
+        End If
     End Sub
 End Class

@@ -347,7 +347,7 @@ Public Class Form2
         DoubleBuffered = True
         RightToLeft = RightToLeft.Yes
         KeyPreview = True
-        WindowState = FormWindowState.Maximized
+        WindowState = FormWindowState.Normal
         BackgroundImage = Image.FromFile(IO.Path.Combine(Application.StartupPath, "Main2.jpg"), True)
         ComboBox1.SelectedIndex = 0
         Dim sqlstr As String = <sql>SELECT GrDt.GrID, Grps.GrNm FROM Grps INNER JOIN GrDt ON Grps.GrID = GrDt.GrID 

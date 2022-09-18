@@ -18,6 +18,7 @@ Public Class Form5
     Private Sub Form5_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         KeyPreview = True
         Text = "اضافة طلاب الي " & Form2.ComboBox2.Text
+        ComboBox1.SelectedIndex = 2
         Dim sqlstr As String =
             <sql>SELECT GrDt.GrID, Grps.GrNm FROM Grps INNER JOIN GrDt ON Grps.GrID = GrDt.GrID GROUP BY GrDt.GrID, Grps.GrNm;</sql>.Value
         IC.GetGrps(Dt1, Constr1, sqlstr, ComboBox2, "GrNm", "GrID")
@@ -54,7 +55,7 @@ WHERE (((GrSt.GrID) Is Null));
             If TextBox1.Text.Length <= 0 Then Exit Sub
             Dim SqlStr2 As String = String.Empty
             Dim SqlStr1 As String =
-                "SELECT Stdnts.StID, Stdnts.StNm FROM Stdnts LEFT JOIN (Grps RIGHT JOIN (GrSt LEFT JOIN GrDt ON " & _
+                "SELECT Stdnts.StID, Stdnts.StNm FROM Stdnts LEFT JOIN (Grps RIGHT JOIN (GrSt LEFT JOIN GrDt ON " &
                 "GrSt.GrID = GrDt.GrID) ON Grps.GrID = GrDt.GrID) ON Stdnts.StID = GrSt.StID "
             If ComboBox1.SelectedIndex = 0 Then
                 SqlStr2 = <sql>WHERE (((Stdnts.StNm) LIKE '%<%= TextBox1.Text %>%') AND ((GrSt.GrID) Is Null));</sql>.Value
@@ -191,7 +192,7 @@ WHERE (((GrSt.GrID) Is Null));
     End Sub
     Private Sub ComboBox2_SelectionChangeCommitted(ByVal sender As Object, ByVal e As System.EventArgs) Handles ComboBox2.SelectionChangeCommitted
         Dim sqlstr As String =
-            "SELECT GrSt.GrID, GrSt.StID, Grps.GrNm, Stdnts.StNm FROM Stdnts INNER JOIN (GrSt INNER JOIN Grps ON " & _
+            "SELECT GrSt.GrID, GrSt.StID, Grps.GrNm, Stdnts.StNm FROM Stdnts INNER JOIN (GrSt INNER JOIN Grps ON " &
             "GrSt.GrID = Grps.GrID) ON Stdnts.StID = GrSt.StID WHERE (((GrSt.GrID)=?));"
         Dim Dt2 As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
         Using CN = New OleDbConnection With {.ConnectionString = Constr1()},
