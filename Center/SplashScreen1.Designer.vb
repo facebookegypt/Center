@@ -122,6 +122,7 @@ Partial Class SplashScreen1
         Me.Name = "SplashScreen1"
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        Me.TransparencyKey = System.Drawing.Color.MidnightBlue
         Me.MainLayoutPanel.ResumeLayout(False)
         Me.DetailsLayoutPanel.ResumeLayout(False)
         Me.ResumeLayout(False)

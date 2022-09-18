@@ -23,6 +23,7 @@
         KeyPreview = True
         WindowState = FormWindowState.Maximized
         BackgroundImage = Image.FromFile(IO.Path.Combine(Application.StartupPath, "Main1.jpg"), True)
+        IsMdiContainer = True
         'Creates a Levels name = لا يوجد
         'Dim Lvlid As Integer
         'If GetDefGroup("Lvls", "LID") <= 0 Then
@@ -42,7 +43,7 @@
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
         Text = Now.ToString
     End Sub
-    Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub Form1_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
         Dim Iu As Class1 = New Class1
         Dim BackUpFolder As String = My.Settings.LocalBackUpFolder
         Iu.CompRepair()
@@ -52,8 +53,9 @@
         Dim streamRead As New IO.FileStream(IO.Path.Combine(Application.StartupPath, My.Settings.dbNm), IO.FileMode.Open)
         'Create the file stream for the destination file
         Dim streamWrite As IO.FileStream =
-            New IO.FileStream(IO.Path.Combine(BackUpFolder, "BackUp--" & Now.Date.ToShortDateString.Replace("/", "_") & ".accdb.bak"),
-                              IO.FileMode.Create)
+            New IO.FileStream(IO.Path.Combine(BackUpFolder, "BackUp--" &
+                                              Now.Date.ToShortDateString.Replace("/", "_") & ".accdb.bak"),
+                                          IO.FileMode.Create)
         'Determine the size in bytes of the source file (-1 as our position starts at 0)
         Dim lngLen As Long = streamRead.Length - 1
         Dim byteBuffer(1048576) As Byte   'our stream buffer
@@ -74,10 +76,11 @@
         streamRead.Close()
     End Sub
     Private Sub SToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SToolStripMenuItem.Click
+        If Form2.Visible = True Then Exit Sub
         IsMdiContainer = True
         With Form2
             .MdiParent = Me
-            .WindowState = FormWindowState.Normal
+            '.WindowState = FormWindowState.Normal
             .ShowIcon = True
             .Show()
         End With
@@ -120,7 +123,7 @@
         IsMdiContainer = True
         With Form3
             .MdiParent = Me
-            .WindowState = FormWindowState.Normal
+            ' .WindowState = FormWindowState.Normal
             .ShowIcon = True
             .Show()
         End With
@@ -139,7 +142,29 @@
         IsMdiContainer = True
         With Form4
             .MdiParent = Me
-            .WindowState = FormWindowState.Normal
+            '.WindowState = FormWindowState.Normal
+            .ShowIcon = True
+            .Show()
+        End With
+    End Sub
+
+    Private Sub SToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SToolStripMenuItem1.Click
+        IsMdiContainer = True
+        Dim Frm7 As New Form8
+        With Frm7
+            .MdiParent = Me
+            '.WindowState = FormWindowState.Normal
+            .ShowIcon = True
+            .Show()
+        End With
+    End Sub
+
+    Private Sub MnuMarks_Click(sender As Object, e As EventArgs) Handles MnuMarks.Click
+        IsMdiContainer = True
+        Dim Frm7 As New Form7
+        With Frm7
+            .MdiParent = Me
+            '.WindowState = FormWindowState.Normal
             .ShowIcon = True
             .Show()
         End With

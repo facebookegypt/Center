@@ -36,6 +36,8 @@ Partial Class Form1
         Me.MnuGr = New System.Windows.Forms.ToolStripMenuItem()
         Me.TimesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.تسجيلالدرحاتToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MnuMarks = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip2.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -47,7 +49,7 @@ Partial Class Form1
         Me.MenuStrip2.BackColor = System.Drawing.Color.Transparent
         Me.MenuStrip2.Dock = System.Windows.Forms.DockStyle.Right
         Me.MenuStrip2.ImageScalingSize = New System.Drawing.Size(32, 32)
-        Me.MenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.StudentsToolStripMenuItem, Me.GroupsToolStripMenuItem, Me.TimesToolStripMenuItem})
+        Me.MenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.StudentsToolStripMenuItem, Me.GroupsToolStripMenuItem, Me.TimesToolStripMenuItem, Me.تسجيلالدرحاتToolStripMenuItem})
         Me.MenuStrip2.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow
         Me.MenuStrip2.Location = New System.Drawing.Point(674, 0)
         Me.MenuStrip2.Name = "MenuStrip2"
@@ -132,9 +134,23 @@ Partial Class Form1
         'SToolStripMenuItem1
         '
         Me.SToolStripMenuItem1.Name = "SToolStripMenuItem1"
-        Me.SToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
-        Me.SToolStripMenuItem1.Text = "اعدادات المواعيد"
+        Me.SToolStripMenuItem1.Size = New System.Drawing.Size(155, 22)
+        Me.SToolStripMenuItem1.Text = "الحضور و الغياب"
         Me.SToolStripMenuItem1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'تسجيلالدرحاتToolStripMenuItem
+        '
+        Me.تسجيلالدرحاتToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuMarks})
+        Me.تسجيلالدرحاتToolStripMenuItem.Image = Global.WindowsApp1.My.Resources.Resources.accept_button
+        Me.تسجيلالدرحاتToolStripMenuItem.Name = "تسجيلالدرحاتToolStripMenuItem"
+        Me.تسجيلالدرحاتToolStripMenuItem.Size = New System.Drawing.Size(113, 36)
+        Me.تسجيلالدرحاتToolStripMenuItem.Text = "الدرجات"
+        '
+        'MnuMarks
+        '
+        Me.MnuMarks.Name = "MnuMarks"
+        Me.MnuMarks.Size = New System.Drawing.Size(180, 22)
+        Me.MnuMarks.Text = "اعدادات الدرجات"
         '
         'Form1
         '
@@ -166,4 +182,6 @@ Partial Class Form1
     Friend WithEvents MnuFilSav As ToolStripMenuItem
     Friend WithEvents MnuFilExi As ToolStripMenuItem
     Friend WithEvents MnuGr As ToolStripMenuItem
+    Friend WithEvents تسجيلالدرحاتToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents MnuMarks As ToolStripMenuItem
 End Class

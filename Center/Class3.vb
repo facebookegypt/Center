@@ -1,83 +1,82 @@
-﻿Public Class Class3
+﻿Imports System.Data.OleDb
+
+Public Class Class3
     Inherits Form
-    Public DG As DataGridView = New DataGridView With {.Name = "DGNew", .BorderStyle = BorderStyle.None,
-        .RightToLeft = RightToLeft.Yes, .AllowUserToAddRows = True, .Dock = DockStyle.Fill, .ColumnCount = 3,
-        .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize, .RowHeadersVisible = False,
-        .BackgroundColor = Color.WhiteSmoke},
-        Dt1 As DataTable, I As Class1 = New Class1
-    Private Sub ConDGV(ByVal SqlStr As String)
-        With DG
-            .DataSource = Nothing
-            .AutoGenerateColumns = False
-            .Columns(0).Name = "LID"
-            .Columns(0).HeaderText = "كود الصف"
-            .Columns(0).DataPropertyName = "LID"
-            .Columns(0).ReadOnly = True
-
-            .Columns(1).Name = "LNm"
-            .Columns(1).HeaderText = "الصف الدراسي"
-            .Columns(1).DataPropertyName = "LNm"
-            .Columns(1).ReadOnly = False
-
-            .Columns(2).Name = "SubNm"
-            .Columns(2).HeaderText = "المادة الدراسية"
-            .Columns(2).DataPropertyName = "SubNm"
-            .Columns(2).ReadOnly = False
-
-            .DataSource = New BindingSource(I.GetData(SqlStr), Nothing)
-        End With
+    Private Property IC As Class1 = New Class1
+    Private Property Dt1 As DataTable = New DataTable
+    Private Property Constr1 As String = IC.ConStr
+    Private CboGrps As ComboBox = New ComboBox
+    Public Property GrID1 As Integer
+    Sub New()
+        MaximizeBox = False
+        MinimizeBox = False
+        FormBorderStyle = FormBorderStyle.FixedToolWindow
+        WindowState = FormWindowState.Normal
+        StartPosition = FormStartPosition.CenterParent
+        KeyPreview = True
+        Width = 150
+        Height = 59
+        BackColor = Color.WhiteSmoke
+        RightToLeft = RightToLeft.Yes
     End Sub
-    Private Sub DG_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs)
-        Dim AreYouSure As MsgBoxResult =
-            MsgBox("هل ترغب فى حفظ التغييرات?", MsgBoxStyle.YesNoCancel + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight)
-        If AreYouSure = MsgBoxResult.Yes Then
-            Dim DGRow As DataGridViewRow = DG.CurrentRow
-            Dim SqlStr As String
-            If DGRow.Cells(0).Value Is DBNull.Value Then
-                SqlStr =
-                "INSERT INTO Lvls(Lnm,SubNm,DtCrtd,DtMdfd) VALUES (?,?,?,?);"
-                Using cn As OleDb.OleDbConnection = New OleDb.OleDbConnection With {.ConnectionString = I.ConStr},
-                    CMD As OleDb.OleDbCommand = New OleDb.OleDbCommand(SqlStr, cn) With {.CommandType = CommandType.Text}
+    Private Sub CboGrps_KeyPress(sender As Object, e As KeyPressEventArgs)
+        If e.KeyChar = ChrW(Keys.Escape) Then Close()
+        If e.KeyChar = ChrW(Keys.Enter) Then
+            Dim RUSure As MsgBoxResult =
+            MsgBox("هل ترغب فى نقل الطالب الي المجموعه" & vbCrLf & CboGrps.Text & vbCrLf & "؟",
+                    MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.YesNoCancel)
+            If RUSure = MsgBoxResult.Yes Then
+                Dim N As Integer
+                Dim S As List(Of Integer) = New List(Of Integer)
+                Dim SqlStr As String =
+                    <SQL>UPDATE GrSt SET GrID=? WHERE GrSt.StID=?;</SQL>.Value
+                Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
+                        CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
                     With CMD.Parameters
-                        .AddWithValue("?", DGRow.Cells(1).Value.ToString)
-                        .AddWithValue("?", DGRow.Cells(2).Value.ToString)
-                        .AddWithValue("?", Now.Date)
-                        .AddWithValue("?", Now.Date)
+                        .AddWithValue("?", GrID1)
+                        .AddWithValue("?", Form2.StID1)
                     End With
-                    cn.Open()
-                    CMD.ExecuteNonQuery()
+                    CN.Open()
+                    N = CMD.ExecuteNonQuery
                 End Using
-            Else
-                SqlStr =
-                    "UPDATE Lvls SET Lnm=?,SubNm=?, DtMdfd=? WHERE LID=?;"
+                Dim SqlStr1 As String =
+                "Select GrDt.GrDtID From GrSt INNER Join GrDt On GrSt.GrID = GrDt.GrID Where (((GrSt.StID) = ?)) Order By GrDt.GrDt1;"
+                Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
+                        CMD As OleDbCommand = New OleDbCommand(SqlStr1, CN) With
+                        {.CommandType = CommandType.Text}
+                    CMD.Parameters.AddWithValue("?", Form2.StID1)
+                    CN.Open()
+                    Using Rdr As OleDbDataReader = CMD.ExecuteReader
+                        If Rdr.HasRows Then
+                            While Rdr.Read
+                                S.AddRange({Rdr.GetInt32(0)})
+                            End While
+                        End If
+                    End Using
+                End Using
+                Dim SqlStr2 As String = "UPDATE Attnd SET GrDtID=? WHERE StID=?;"
+                If S.Count >= 1 Then
+                    For I As Integer = 0 To S.Count - 1
+                        Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
+                        CMD As OleDbCommand = New OleDbCommand(SqlStr2, CN) With {.CommandType = CommandType.Text}
+                            CMD.Parameters.AddWithValue("?", S(I))
+                            CMD.Parameters.AddWithValue("?", Form2.StID1)
+                            CN.Open()
+                            CMD.ExecuteNonQuery()
+                            CMD.Parameters.Clear()
+                        End Using
+                    Next
 
-                Using cn As OleDb.OleDbConnection = New OleDb.OleDbConnection With {.ConnectionString = I.ConStr},
-                    CMD As OleDb.OleDbCommand = New OleDb.OleDbCommand(SqlStr, cn) With {.CommandType = CommandType.Text}
-                    With CMD.Parameters
-                        .AddWithValue("?", DGRow.Cells(1).Value.ToString)
-                        .AddWithValue("?", DGRow.Cells(2).Value.ToString)
-                        .AddWithValue("?", Now.Date)
-                        .AddWithValue("?", Convert.ToInt32(DGRow.Cells(0).Value))
-                    End With
-                    cn.Open()
-                    CMD.ExecuteNonQuery()
-                End Using
+                End If
+                MsgBox("تم تعديل المجموعة.")
+            Else
+                MsgBox("لم يكتمل النقل")
             End If
             Close()
         End If
     End Sub
-    Sub New()
-        FormBorderStyle = FormBorderStyle.None
-        KeyPreview = True
-        Width = 450
-        Height = 400
-        BackColor = Color.WhiteSmoke
-        ConDGV("SELECT * FROM Lvls;")
-        Controls.Add(DG)
-        AddHandler DG.CellEndEdit, AddressOf DG_CellEndEdit
-        DG.Invalidate(True)
-        DG.Update()
-        DG.Refresh()
+    Private Sub CboGrps_SelectionChangeCommitted(sender As Object, e As EventArgs)
+        GrID1 = Convert.ToInt32(CboGrps.SelectedValue)
     End Sub
     Private Sub InitializeComponent()
         Me.SuspendLayout()
@@ -89,8 +88,23 @@
         Me.ResumeLayout(False)
 
     End Sub
-
     Private Sub Class3_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
         If e.KeyChar = ChrW(Keys.Escape) Then Close()
+    End Sub
+
+    Private Sub Class3_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Text = "المجموعات"
+        Dim sqlstr As String = <sql>SELECT GrDt.GrID, Grps.GrNm FROM Grps INNER JOIN GrDt ON Grps.GrID = GrDt.GrID 
+            GROUP BY GrDt.GrID, Grps.GrNm;</sql>.Value
+        With CboGrps
+            .Font = New Font("Arial", 13.25, FontStyle.Bold)
+            .Dock = DockStyle.Top
+            .DropDownStyle = ComboBoxStyle.DropDownList
+            .ResumeLayout(False)
+        End With
+        Controls.Add(CboGrps)
+        AddHandler CboGrps.SelectionChangeCommitted, AddressOf CboGrps_SelectionChangeCommitted
+        AddHandler CboGrps.KeyPress, AddressOf CboGrps_KeyPress
+        IC.GetGrps(Dt1, Constr1, sqlstr, CboGrps, "GrNm", "GrID")
     End Sub
 End Class

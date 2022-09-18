@@ -2,7 +2,6 @@
 
 Public Class Form4
     Private Dt1 As DataTable
-    Public Property GroupsDic1 As Dictionary(Of Integer, String)
     Public Property IU As Class1 = New Class1
     Public Property Constr1 As String = IU.ConStr
     Private Property GrID As Integer
@@ -13,6 +12,11 @@ Public Class Form4
         .AllowUserToAddRows = False, .Dock = DockStyle.Fill, .EnableHeadersVisualStyles = False,
         .RowHeadersVisible = True, .BackgroundColor = Color.WhiteSmoke,
         .ColumnHeadersHeight = 50,
+        .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing}
+    Private DG2 As DataGridView = New DataGridView With
+        {.Name = "DGV", .BorderStyle = BorderStyle.None, .RightToLeft = RightToLeft.Yes,
+        .AllowUserToAddRows = False, .Dock = DockStyle.Top, .EnableHeadersVisualStyles = False,
+        .RowHeadersVisible = True, .BackgroundColor = Color.WhiteSmoke, .Height = Height / 2,
         .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing}
     Private Sub GetGrps(ByVal SqlStr As String,
                         ByVal combobox As ComboBox,
@@ -34,6 +38,15 @@ Public Class Form4
             .Update()
         End With
     End Sub
+    Private Function GetCount(ByVal SqlStr As String) As String
+        Dim Rslt As String = String.Empty
+        Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
+                CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
+            CN.Open()
+            Rslt = "عدد الطلاب بالمجموعة : "
+            Return Rslt & Convert.ToInt32(CMD.ExecuteScalar) & " طالب."
+        End Using
+    End Function
     Private Sub Form4_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         KeyPreview = True
         DoubleBuffered = True
@@ -50,7 +63,7 @@ Public Class Form4
             .CustomFormat = "dddd dd/MMMM/yyyy hh:mm tt"
             .ShowUpDown = True
         End With
-        WindowState = FormWindowState.Maximized
+        'WindowState = FormWindowState.Maximized
         BackgroundImageLayout = ImageLayout.Stretch
         BackgroundImage = My.Resources.getty_1146511178_ppbdmz
     End Sub
@@ -148,6 +161,9 @@ Public Class Form4
         BtnEdit.Enabled = True
         BtnDel.Enabled = True
         BtnSave.Enabled = False
+        Dim SqlStr As String = <sql>SELECT Count([GrSt].[StID]) AS Expr1 FROM Stdnts INNER JOIN (GrSt INNER JOIN Grps ON 
+            GrSt.GrID = Grps.GrID) ON Stdnts.StID = GrSt.StID WHERE (((GrSt.GrID)=<%= GrID %>));</sql>.Value
+        ToolStripLabel1.Text = GetCount(SqlStr)
     End Sub
     Private Sub DG1_RowPostPaint(sender As Object, e As DataGridViewRowPostPaintEventArgs)
         Dim grid = TryCast(sender, DataGridView)
@@ -165,7 +181,7 @@ Public Class Form4
     Private Sub ToolStripButton10_Click(sender As Object, e As EventArgs) Handles ToolStripButton10.Click
         Dim SqlStr As String =
         <sql>SELECT GrDt.GrDtID, GrDt.GrID, Grps.GrNm, Grps.Lnm, Grps.SubNm, GrDt.Mnm, GrDt.GrDt1, GrDt.GrDt2, Tsks.TaskID, Tsks.TaskNm 
-        FROM Tsks INNER JOIN (GrDt INNER JOIN Grps ON GrDt.GrID = Grps.GrID) ON Tsks.TaskID = GrDt.TaskID;</sql>.Value
+        FROM Tsks INNER JOIN (GrDt INNER JOIN Grps ON GrDt.GrID = Grps.GrID) ON Tsks.TaskID = GrDt.TaskID ORDER BY GrDt.GrID;</sql>.Value
         GetGrpsDts(SqlStr)
         Dim DIg1 As New DataGridViewTextBoxColumn With
             {.Name = "GrNm", .ValueType = GetType(String), .DataPropertyName = "GrNm", .HeaderText = "المجموعة"}
@@ -202,7 +218,6 @@ Public Class Form4
             DG1.Columns.Insert(8, DIg0)
             DG1.Columns.Insert(9, DIg_1)
         End If
-
     End Sub
     Private Sub BtnClear_Click(sender As Object, e As EventArgs) Handles BtnClear.Click
         BtnEdit.Enabled = False
@@ -213,7 +228,6 @@ Public Class Form4
         DateTimePicker1.Value = Now.Date
         DateTimePicker2.Value = Now.Date
     End Sub
-
     Private Sub BtnEdit_Click(sender As Object, e As EventArgs) Handles BtnEdit.Click
         'Edit
         Dim N As Integer, SqlStr As String =
@@ -238,8 +252,32 @@ Public Class Form4
             End Try
         End Using
     End Sub
-
     Private Sub BtnDel_Click(sender As Object, e As EventArgs) Handles BtnDel.Click
 
+    End Sub
+
+    Private Sub Form4_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+        'Use KeyCode when you don't care about the modifiers, KeyData when you do.
+        If e.KeyCode = Keys.S AndAlso e.Modifiers = Keys.Control Then
+            If BtnSave.Enabled = True Then
+                BtnSave_Click(sender, e)
+            End If
+        End If
+        If e.KeyCode = Keys.N AndAlso e.Modifiers = Keys.Control Then
+            If BtnClear.Enabled = True Then
+                BtnClear_Click(sender, e)
+            End If
+        End If
+
+        If e.KeyCode = Keys.E AndAlso e.Modifiers = Keys.Control Then
+            If BtnEdit.Enabled = True Then
+                BtnEdit_Click(sender, e)
+            End If
+        End If
+        If e.KeyData = Keys.Delete Then
+            If BtnDel.Enabled = True Then
+                BtnDel_Click(sender, e)
+            End If
+        End If
     End Sub
 End Class

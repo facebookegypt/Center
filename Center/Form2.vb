@@ -2,26 +2,34 @@
 Public Class Form2
     Public Property IC As New Class1
     Public Property Constr1 As String = IC.ConStr
-    Private StNm, StMob1, StMob2 As String, StID1 As Integer
+    Private StNm, StMob1, StMob2 As String
+    Public StID1 As Integer
     Private DGStdnts As DataGridView = New DataGridView With
         {.Name = "DGV2", .BorderStyle = BorderStyle.None, .RightToLeft = RightToLeft.Yes,
         .AllowUserToAddRows = False, .Dock = DockStyle.Fill,
         .EnableHeadersVisualStyles = False, .RowHeadersVisible = True, .BackgroundColor = Color.WhiteSmoke,
         .ColumnHeadersHeight = 50, .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing},
-        Dt1 As DataTable
-    Private Function GetGrpName(ByVal SqlStr As String, ByVal StudentID As Integer) As String
-        Dim Rslt As String = String.Empty
+        Dt1 As DataTable, dt2 As DataTable
+    Private Mnu1 As ToolStripMenuItem = New ToolStripMenuItem With
+        {
+        .Name = "", .Enabled = True, .Text = "نقل الي مجموعة اخري", .Visible = True
+    }
+    Private Mnu2 As ToolStripMenuItem = New ToolStripMenuItem With
+        {
+        .Name = "", .Enabled = True, .Text = "حذف من المجموعة الحالية", .Visible = True
+    }
+    Private Function GetGrpName(ByVal SqlStr As String) As String()
+        Dim Rslt As String() = Nothing
         Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
                 CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
-            CMD.Parameters.AddWithValue("?", StudentID)
             CN.Open()
             Using Rdr As OleDbDataReader = CMD.ExecuteReader
                 If Rdr.HasRows Then
                     While Rdr.Read
-                        Rslt = Rdr.GetString(1)
+                        Rslt = {Rdr.GetString(1)}
                     End While
                 Else
-                    Rslt = "لا يوجد"
+                    Rslt = {"لايوجد"}
                 End If
             End Using
         End Using
@@ -57,6 +65,7 @@ Public Class Form2
         GroupBox2.Controls.Add(DGStdnts)
         AddHandler DGStdnts.RowPostPaint, AddressOf DGSTDNTS_RowPostPaint
         AddHandler DGStdnts.CellClick, AddressOf DGStdnts_CellClick
+
     End Sub
     Private Sub DGSTDNTS_RowPostPaint(sender As Object, e As DataGridViewRowPostPaintEventArgs)
         Dim grid = TryCast(sender, DataGridView)
@@ -69,7 +78,7 @@ Public Class Form2
         End Using
     End Sub
     Private Sub ConDGV(ByVal SqlStr As String)
-        SqlStr = <sql>SELECT * From Stdnts;</sql>.Value
+        'SqlStr = <sql>SELECT * From Stdnts;</sql>.Value
         GetStdnts(SqlStr)
         Dim DIg2 As New DataGridViewTextBoxColumn With
             {.Name = "StNm", .ValueType = GetType(String), .DataPropertyName = "StNm", .HeaderText = "اسم الطالب"}
@@ -88,16 +97,84 @@ Public Class Form2
     End Sub
     Private Sub DGStdnts_CellClick(sender As Object, e As DataGridViewCellEventArgs)
         If e.RowIndex = -1 Or e.ColumnIndex = -1 Then Exit Sub
+        ToolStripStatusLabel2.Text = String.Empty
+        StID1 = 0
+        ToolStripStatusLabel1.Text = String.Empty
         Dim SelectedRow As DataGridViewRow = DGStdnts.Rows(e.RowIndex)
         StID1 = Convert.ToInt32(SelectedRow.Cells.Item("STID").Value.ToString)
         TxtNm.Text = SelectedRow.Cells.Item("StNM").Value.ToString
         TxtMob1.Text = SelectedRow.Cells.Item("Mob1").Value.ToString
         TxtMob2.Text = SelectedRow.Cells.Item("Mob2").Value.ToString
         'Fetch Group Name
-        'ToolStripLabel1.Text = "المجموعه : " & GetGrpName(StID1)
+        Dim SqlStr As String =
+            "SELECT Stdnts.StID, Grps.GrNm FROM (Stdnts INNER JOIN GrSt ON Stdnts.StID = GrSt.StID) INNER JOIN Grps " &
+            "ON GrSt.GrID = Grps.GrID WHERE (((Stdnts.StID)=" & StID1 & "));"
+        ToolStripStatusLabel2.Text = "المجموعه : " & GetGrpName(SqlStr).First
+        Dim SqlStr1 As String = <sql>SELECT COUNT(GrID) FROM GrSt Where StID=<%= StID1 %>;</sql>.Value
+        If Convert.ToInt32(GetCount1(SqlStr1)) >= 1 Then
+            Dim dropDownItems As ToolStripItemCollection = Form1.SToolStripMenuItem.DropDownItems
+            dropDownItems.AddRange({Mnu1, Mnu2})
+            AddHandler Mnu1.Click, AddressOf Mnu1_click
+            AddHandler Mnu2.Click, AddressOf Mnu2_click
+        Else
+            'RemoveHandler Mnu1.Click, AddressOf Mnu1_click
+            'RemoveHandler Mnu2.Click, AddressOf Mnu2_click
+            Dim dropDownItems As ToolStripItemCollection = Form1.SToolStripMenuItem.DropDownItems
+            If dropDownItems.Count > 0 Then
+                dropDownItems.Clear()
+            End If
+        End If
+        'Fetch Attnd count
+        Dim SqlStr2 As String =
+            "SELECT Count([StID]) AS Expr1 FROM Attnd WHERE (((Attnd.PStat)=True) AND ((Attnd.StID)=" & StID1 & "));"
+        ToolStripStatusLabel4.Text = "الغياب الكلي : " & GetCount1(SqlStr2) & " يوم."
         BtnEdit.Enabled = True
         BtnDel.Enabled = True
         BtnSave.Enabled = False
+    End Sub
+    Private Sub Mnu1_click(sender As Object, e As EventArgs)
+        Class3.ShowDialog()
+        RemoveHandler Mnu1.Click, AddressOf Mnu1_click
+    End Sub
+    Private Sub Mnu2_click(sender As Object, e As EventArgs)
+        If StID1 <= 0 Then
+            MsgBox("من فضلك اختر طالب أولا.")
+            Exit Sub
+        End If
+        Dim SqlStr As String = <sql>SELECT COUNT(GrID) FROM GrSt Where StID=<%= StID1 %>;</sql>.Value
+        If Convert.ToInt32(GetCount1(SqlStr)) >= 1 Then
+            Dim RUSre As MsgBoxResult = MsgBox("تأكيد حذف الطالب من المجموعة فقط.",
+                                               MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight +
+                                               MsgBoxStyle.Critical + MsgBoxStyle.YesNoCancel)
+            If RUSre = MsgBoxResult.Yes Then
+                Dim N As Integer
+                Dim SqlStr1 As String =
+                        <SQL>DELETE * FROM GrSt WHERE GrSt.StID=?;</SQL>.Value
+                Using CN As New OleDbConnection With {.ConnectionString = Constr1},
+                            CMD As New OleDbCommand(SqlStr1, CN) With {.CommandType = CommandType.Text}
+                    With CMD.Parameters
+                        .AddWithValue("?", StID1)
+                    End With
+                    CN.Open()
+                    N = CMD.ExecuteNonQuery
+                    CMD.Parameters.Clear()
+                End Using
+                Dim SqlStr2 As String =
+                        <SQL>DELETE * FROM Attnd WHERE Attnd.StID=?;</SQL>.Value
+                Using CN As New OleDbConnection With {.ConnectionString = Constr1},
+                            CMD As New OleDbCommand(SqlStr1, CN) With {.CommandType = CommandType.Text}
+                    With CMD.Parameters
+                        .AddWithValue("?", StID1)
+                    End With
+                    CN.Open()
+                    N = CMD.ExecuteNonQuery
+                    CMD.Parameters.Clear()
+                End Using
+                MsgBox("تم حذف الطالب من المجموعة , وكشوف الغياب", _
+                       MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
+            End If
+        End If
+        RemoveHandler Mnu2.Click, AddressOf Mnu2_click
     End Sub
     Private Sub BtnClear_Click(sender As Object, e As EventArgs) Handles BtnClear.Click
         For Each Ctrl As Control In Me.GroupBox1.Controls
@@ -117,6 +194,8 @@ Public Class Form2
     Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
         ToolStripStatusLabel1.Text = "لديك " & GetCount("Stdnts", "StID") & " طالب."
         ConDGV(<sql>SELECT * FROM Stdnts;</sql>.Value)
+        ToolStripStatusLabel2.Text = String.Empty
+        ToolStripStatusLabel4.Text = String.Empty
     End Sub
     Private Function GetCount(ByVal TblNm As String, FldNm As String) As Integer
         Dim SqlStr As String =
@@ -130,28 +209,39 @@ Public Class Form2
     Private Sub BtnDel_Click(sender As Object, e As EventArgs) Handles BtnDel.Click
         'Attend and Results Tables are linked with Students
         If StID1 <= 0 Then
-            MsgBox("يجب اختيار طالب أولا.", MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
+            MsgBox("يجب اختيار طالب أولا.",
+                   MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
             Exit Sub
         End If
-        'Dim Ig As String = GetGrpName(StID1)
-        'If String.IsNullOrEmpty(Ig) Or
-        ' Ig <> "لايوجد" Then
-        ' MsgBox("يجب حذف الطالب أولا من المجوعة المنتمي اليها.",
-        ' MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
-        ' Exit Sub
-        ' End If
-        Dim N As Integer
-        Dim SqlStr As String =
-            <SQL>DELETE * Stdnts WHERE Stdnts.StID=?;</SQL>.Value
-        Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
-                CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
-            With CMD.Parameters
-                .AddWithValue("?", StID1)
-            End With
-            CN.Open()
-            N = CMD.ExecuteNonQuery
-        End Using
-        MsgBox("تم حذف بيانات " & N.ToString & " طالب.")
+        Dim SqlStr1 As String =
+            <sql>SELECT COUNT(StID) FROM GrSt Where StID=<%= StID1 %>;</sql>.Value
+        Dim Ig As String = GetCount1(SqlStr1)
+        If Ig >= 1 Then
+            MsgBox("يجب حذف الطالب أولا من المجوعة المنتمي اليها.",
+             MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
+            Exit Sub
+        End If
+        Dim RUSre As MsgBoxResult = MsgBox("تأكيد حذف الطالب من البرنامج.",
+                                               MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight +
+                                               MsgBoxStyle.Critical + MsgBoxStyle.YesNoCancel)
+        If RUSre = MsgBoxResult.Yes Then
+            Dim N As Integer
+            Dim SqlStr As String =
+                <SQL>DELETE * From Stdnts WHERE Stdnts.StID=?;</SQL>.Value
+            Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
+                    CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
+                With CMD.Parameters
+                    .AddWithValue("?", StID1)
+                End With
+                CN.Open()
+                N = CMD.ExecuteNonQuery
+            End Using
+            MsgBox("تم حذف بيانات " & N.ToString & " طالب.",
+                   MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
+        Else
+            MsgBox("تم الغاء العملية",
+                   MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
+        End If
         BtnSave.Enabled = True
         BtnEdit.Enabled = False
         BtnDel.Enabled = False
@@ -162,7 +252,8 @@ Public Class Form2
         StMob1 = TxtMob1.Text
         StMob2 = TxtMob2.Text
         If StID1 <= 0 Then
-            MsgBox("يجب اختيار طالب أولا.", MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
+            MsgBox("يجب اختيار طالب أولا.",
+                   MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
             Exit Sub
         End If
         Dim N As Integer
@@ -180,7 +271,8 @@ Public Class Form2
             CN.Open()
             N = CMD.ExecuteNonQuery
         End Using
-        MsgBox("تم تعديل بيانات " & N.ToString & " طالب.")
+        MsgBox("تم تعديل بيانات " & N.ToString & " طالب.",
+               MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
         BtnSave.Enabled = True
         BtnEdit.Enabled = False
         BtnDel.Enabled = False
@@ -189,7 +281,8 @@ Public Class Form2
         If TxtNm.Text.Contains("'") Or
         TxtNm.Text.Contains(",") Or
         TxtNm.Text.Contains(".") Then
-            MsgBox("الاسم الذي أدخلته غير صحيح")
+            MsgBox("الاسم الذي أدخلته غير صحيح",
+                   MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
             SendKeys.Send("{BackSpace}")
             Exit Sub
         End If
@@ -198,7 +291,8 @@ Public Class Form2
         If TxtMob1.Text.Contains("'") Or
             TxtMob1.Text.Contains(",") Or
             TxtMob1.Text.Contains(".") Then
-            MsgBox("الرقم الذي أدخلته غير صحيح")
+            MsgBox("الرقم الذي أدخلته غير صحيح",
+                   MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
             SendKeys.Send("{BackSpace}")
             Exit Sub
         End If
@@ -207,7 +301,8 @@ Public Class Form2
         If TxtMob2.Text.Contains("'") Or
             TxtMob2.Text.Contains(",") Or
             TxtMob2.Text.Contains(".") Then
-            MsgBox("الرقم الذي أدخلته غير صحيح")
+            MsgBox("الرقم الذي أدخلته غير صحيح",
+                   MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
             SendKeys.Send("{BackSpace}")
             Exit Sub
         End If
@@ -218,7 +313,8 @@ Public Class Form2
         StMob1 = TxtMob1.Text
         StMob2 = TxtMob2.Text
         If StNm.Length <= 0 Then
-            MsgBox("يجب ادخال اسم الطالب", MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
+            MsgBox("يجب ادخال اسم الطالب",
+                   MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
             Exit Sub
         End If
         'In case no Groups were added, you need to create a pretend one (i.e. : GrID=1) to save a new student.
@@ -227,7 +323,7 @@ Public Class Form2
         'Return s
         'End Function)
         Dim SqlStr As String =
-            <SQL>INSERT INTO Stdnts(StNm,Mob1,Mob2,DtCrtd,DtMdfd)VALUES(?,?,?,?,?,?);</SQL>.Value
+            <SQL>INSERT INTO Stdnts(StNm,Mob1,Mob2,DtCrtd,DtMdfd)VALUES(?,?,?,?,?);</SQL>.Value
         Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
                 CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
             With CMD.Parameters
@@ -240,7 +336,8 @@ Public Class Form2
             CN.Open()
             N = CMD.ExecuteNonQuery
         End Using
-        MsgBox("تم حفظ " & N.ToString & " طالب.")
+        MsgBox("تم حفظ " & N.ToString & " طالب.",
+               MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
         BtnClear_Click(sender, e)
         ToolStripStatusLabel1.Text = "لديك " & GetCount("Stdnts", "StID") & " طالب."
         ConDGV(<SQL>SELECT * FROM Stdnts;</SQL>.Value)
@@ -253,6 +350,9 @@ Public Class Form2
         WindowState = FormWindowState.Maximized
         BackgroundImage = Image.FromFile(IO.Path.Combine(Application.StartupPath, "Main2.jpg"), True)
         ComboBox1.SelectedIndex = 0
+        Dim sqlstr As String = <sql>SELECT GrDt.GrID, Grps.GrNm FROM Grps INNER JOIN GrDt ON Grps.GrID = GrDt.GrID 
+            GROUP BY GrDt.GrID, Grps.GrNm;</sql>.Value
+        IC.GetGrps(Dt1, Constr1, sqlstr, ComboBox2, "GrNm", "GrID")
     End Sub
     Private Sub Form2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
         If e.KeyChar = ChrW(Keys.Escape) Then Close()
@@ -262,13 +362,14 @@ Public Class Form2
             If TextBox1.Text.Contains("'") Or
                     TextBox1.Text.Contains(",") Or
                     TextBox1.Text.Contains(".") Then
-                MsgBox("الاسم الذي أدخلته غير صحيح")
+                MsgBox("الاسم الذي أدخلته غير صحيح",
+                       MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
                 Exit Sub
             End If
             If TextBox1.Text.Length <= 0 Then Exit Sub
             Dim SqlStr1 As String = String.Empty
             If ComboBox1.SelectedIndex = 0 Then
-                SqlStr1 = <sql>SELECT * FROM Stdnts WHERE StNM LIKE '%<%= TextBox1.Text %>%';</sql>.Value
+                SqlStr1 = <sql>SELECT * FROM Stdnts WHERE StNm LIKE '%<%= TextBox1.Text %>%';</sql>.Value
             ElseIf ComboBox1.SelectedIndex = 1 Then
                 SqlStr1 = <sql>SELECT * FROM Stdnts WHERE Mob1 LIKE '%<%= TextBox1.Text %>%';</sql>.Value
             ElseIf ComboBox1.SelectedIndex = 2 Then
@@ -277,20 +378,89 @@ Public Class Form2
                     SendKeys.Send("{BackSpace}")
                     Exit Sub
                 End If
-                SqlStr1 = <sql>SELECT * FROM Stdnts WHERE StID LIKE '%<%= Convert.ToInt32(TextBox1.Text) %>%';</sql>.Value
+                SqlStr1 = <sql>SELECT * FROM Stdnts WHERE StID=<%= Convert.ToInt32(TextBox1.Text) %>;</sql>.Value
             End If
             ConDGV(SqlStr1)
         End If
     End Sub
     Private Sub ComboBox1_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles ComboBox1.SelectionChangeCommitted
+        TextBox1.SelectAll()
         TextBox1.Text = String.Empty
         BtnClear_Click(sender, e)
     End Sub
-
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        If ComboBox2.Items.Count <= 0 Then
+            MsgBox("من فضلك قم بانشاء مجموعة أولا.",
+                   MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
+            Exit Sub
+        End If
+        If IsNothing(ComboBox2.SelectedItem) Then
+            MsgBox("من فضلك اختر المجموعة أولا.",
+                   MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
+            Exit Sub
+        End If
+        Form5.ShowDialog()
+    End Sub
     Private Sub Form2_Resize(sender As Object, e As EventArgs) Handles Me.Resize
         BackgroundImageLayout = ImageLayout.Stretch
         Invalidate(True)
         Update()
         Refresh()
+    End Sub
+
+    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub ComboBox2_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles ComboBox2.SelectionChangeCommitted
+        Dim SqlStr As String = <sql>SELECT COUNT(StID) FROM GrSt Where GrID=<%= Convert.ToInt32(ComboBox2.SelectedValue) %>;</sql>.Value
+        Dim Rslt As String = "عدد الطلاب بالمجموعة : "
+        GroupBox3.Text = Rslt & Convert.ToInt32(GetCount1(SqlStr)) & " طالب."
+    End Sub
+    Private Function GetCount1(ByVal SqlStr As String) As Object
+        Dim Rslt As String = String.Empty
+        Dim Obj As Object
+        Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
+                CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
+            CN.Open()
+            Obj = CMD.ExecuteScalar
+            Return Obj
+        End Using
+    End Function
+
+    Private Sub Form2_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        Dim dropDownItems As ToolStripItemCollection = Form1.SToolStripMenuItem.DropDownItems
+        If dropDownItems.Count > 0 Then
+            dropDownItems.Clear()
+        End If
+    End Sub
+
+    Private Sub Form2_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+        'Use KeyCode when you don't care about the modifiers, KeyData when you do.
+        If e.KeyCode = Keys.S AndAlso e.Modifiers = Keys.Control Then
+            If BtnSave.Enabled = True Then
+                BtnSave_Click(sender, e)
+            End If
+        End If
+        If e.KeyCode = Keys.N AndAlso e.Modifiers = Keys.Control Then
+            If BtnClear.Enabled = True Then
+                BtnClear_Click(sender, e)
+            End If
+        End If
+        If e.KeyCode = Keys.A AndAlso e.Modifiers = Keys.Control Then
+            If ToolStripButton1.Enabled = True Then
+                ToolStripButton1_Click(sender, e)
+            End If
+        End If
+        If e.KeyCode = Keys.E AndAlso e.Modifiers = Keys.Control Then
+            If BtnEdit.Enabled = True Then
+                BtnEdit_Click(sender, e)
+            End If
+        End If
+        If e.KeyData = Keys.Delete Then
+            If BtnDel.Enabled = True Then
+                BtnDel_Click(sender, e)
+            End If
+        End If
     End Sub
 End Class

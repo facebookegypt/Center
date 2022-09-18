@@ -16,4 +16,8 @@
         Dim Iu As Class1 = New Class1
         TxtNm.Text = Iu.OfdOpn("من فضلك أختر مجلد لحفظ النسخة الاحتياطية.")
     End Sub
+
+    Private Sub Form3_Click(sender As Object, e As EventArgs) Handles Me.Click
+        Class2.Show()
+    End Sub
 End Class

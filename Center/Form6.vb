@@ -2,7 +2,6 @@
 
 Public Class Form6
     Private Dt1 As DataTable
-    Public Property GroupsDic1 As Dictionary(Of Integer, String)
     Public Property IU As Class1 = New Class1
     Public Property Constr1 As String = IU.ConStr
     Private Property GrID As Integer
@@ -13,8 +12,8 @@ Public Class Form6
         .ColumnHeadersHeight = 50,
         .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing}
     Private Sub ToolStripButton3_Click(sender As Object, e As EventArgs) Handles BtnSave.Click
-        If String.IsNullOrEmpty(TxtNm.Text) Then
-            MsgBox("من فضلك أدخل المجموعة أولا.")
+        If String.IsNullOrEmpty(TxtNm.Text) Or TxtNm.Text.Contains("لايوجد") Then
+            MsgBox("من فضلك أدخل المجموعة أولا. مع العلم لا يمكن استخدام 'لايوجد' في اسم للمجموعة")
             Exit Sub
         End If
         If String.IsNullOrEmpty(TxtSub.Text) Or String.IsNullOrEmpty(TextBox1.Text) Then

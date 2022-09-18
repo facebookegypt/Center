@@ -167,4 +167,26 @@ Public Class Class1
         End Using
         Return Dt1
     End Function
+    Public Sub GetGrps(ByVal DT1 As DataTable,
+                       ByVal Constr1 As String,
+                       ByVal SqlStr As String,
+                        ByVal combobox As ComboBox,
+                        Optional ByVal DisMem As String = "Value",
+                        Optional ByVal ValMem As String = "Key")
+        Dt1 = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
+        Using CN = New OleDbConnection With {.ConnectionString = Constr1},
+            CMD = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text},
+            DataAdapter1 = New OleDbDataAdapter(CMD)
+            DataAdapter1.Fill(Dt1)
+        End Using
+        With combobox
+            .BeginUpdate()
+            .DataSource = Dt1.DefaultView
+            .DisplayMember = DisMem
+            .ValueMember = ValMem
+            .SelectedIndex = -1
+            .EndUpdate()
+            .Update()
+        End With
+    End Sub
 End Class
