@@ -121,12 +121,14 @@ Partial Class Form5
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.GroupBox2.ForeColor = System.Drawing.Color.Green
         Me.GroupBox2.Location = New System.Drawing.Point(0, 57)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.GroupBox2.Size = New System.Drawing.Size(785, 336)
         Me.GroupBox2.TabIndex = 39
         Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "طلبة غير مسجلين بأي مجموعة"
         Me.GroupBox2.UseCompatibleTextRendering = True
         '
         'ToolStrip1

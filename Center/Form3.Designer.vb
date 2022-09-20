@@ -24,17 +24,22 @@ Partial Class Form3
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form3))
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
+        Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ToolStripStatusLabel2 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.RadioButton2 = New System.Windows.Forms.RadioButton()
         Me.RadioButton1 = New System.Windows.Forms.RadioButton()
         Me.TxtNm = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox2.SuspendLayout()
+        Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'GroupBox2
         '
         Me.GroupBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox2.BackColor = System.Drawing.Color.Transparent
+        Me.GroupBox2.Controls.Add(Me.StatusStrip1)
         Me.GroupBox2.Controls.Add(Me.RadioButton2)
         Me.GroupBox2.Controls.Add(Me.RadioButton1)
         Me.GroupBox2.Controls.Add(Me.TxtNm)
@@ -42,11 +47,35 @@ Partial Class Form3
         Me.GroupBox2.Location = New System.Drawing.Point(12, 12)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.GroupBox2.Size = New System.Drawing.Size(608, 160)
+        Me.GroupBox2.Size = New System.Drawing.Size(608, 196)
         Me.GroupBox2.TabIndex = 2
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "نسخة محلية"
         Me.GroupBox2.UseCompatibleTextRendering = True
+        '
+        'StatusStrip1
+        '
+        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.ToolStripStatusLabel2})
+        Me.StatusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow
+        Me.StatusStrip1.Location = New System.Drawing.Point(3, 171)
+        Me.StatusStrip1.Name = "StatusStrip1"
+        Me.StatusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.ManagerRenderMode
+        Me.StatusStrip1.Size = New System.Drawing.Size(602, 22)
+        Me.StatusStrip1.SizingGrip = False
+        Me.StatusStrip1.TabIndex = 6
+        Me.StatusStrip1.Text = "StatusStrip1"
+        '
+        'ToolStripStatusLabel1
+        '
+        Me.ToolStripStatusLabel1.Name = "ToolStripStatusLabel1"
+        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(88, 17)
+        Me.ToolStripStatusLabel1.Text = "اخر تحديث بتاريخ"
+        '
+        'ToolStripStatusLabel2
+        '
+        Me.ToolStripStatusLabel2.Name = "ToolStripStatusLabel2"
+        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(62, 17)
+        Me.ToolStripStatusLabel2.Text = "__/__/_____"
         '
         'RadioButton2
         '
@@ -54,12 +83,12 @@ Partial Class Form3
         Me.RadioButton2.AutoCheck = False
         Me.RadioButton2.AutoEllipsis = True
         Me.RadioButton2.Font = New System.Drawing.Font("Times New Roman", 12.0!, System.Drawing.FontStyle.Bold)
-        Me.RadioButton2.Location = New System.Drawing.Point(158, 65)
+        Me.RadioButton2.Location = New System.Drawing.Point(6, 108)
         Me.RadioButton2.Name = "RadioButton2"
-        Me.RadioButton2.Size = New System.Drawing.Size(338, 37)
+        Me.RadioButton2.Size = New System.Drawing.Size(490, 37)
         Me.RadioButton2.TabIndex = 5
         Me.RadioButton2.TabStop = True
-        Me.RadioButton2.Text = "تحديث النسخة المحلية نهاية كل شهر"
+        Me.RadioButton2.Text = "تحديث النسخة المحلية شهريا"
         Me.RadioButton2.UseCompatibleTextRendering = True
         Me.RadioButton2.UseVisualStyleBackColor = True
         '
@@ -69,9 +98,9 @@ Partial Class Form3
         Me.RadioButton1.AutoCheck = False
         Me.RadioButton1.AutoEllipsis = True
         Me.RadioButton1.Font = New System.Drawing.Font("Times New Roman", 12.0!, System.Drawing.FontStyle.Bold)
-        Me.RadioButton1.Location = New System.Drawing.Point(158, 108)
+        Me.RadioButton1.Location = New System.Drawing.Point(6, 65)
         Me.RadioButton1.Name = "RadioButton1"
-        Me.RadioButton1.Size = New System.Drawing.Size(338, 37)
+        Me.RadioButton1.Size = New System.Drawing.Size(490, 37)
         Me.RadioButton1.TabIndex = 4
         Me.RadioButton1.TabStop = True
         Me.RadioButton1.Text = "تحديث النسخة المحلية يوميا"
@@ -81,7 +110,7 @@ Partial Class Form3
         'TxtNm
         '
         Me.TxtNm.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxtNm.Font = New System.Drawing.Font("Times New Roman", 11.0!)
         Me.TxtNm.Location = New System.Drawing.Point(6, 35)
         Me.TxtNm.MaxLength = 60
@@ -118,6 +147,8 @@ Partial Class Form3
         Me.Text = "نسخة احتياطية"
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
+        Me.StatusStrip1.ResumeLayout(False)
+        Me.StatusStrip1.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -127,4 +158,7 @@ Partial Class Form3
     Friend WithEvents Label1 As Label
     Friend WithEvents RadioButton2 As RadioButton
     Friend WithEvents RadioButton1 As RadioButton
+    Friend WithEvents StatusStrip1 As System.Windows.Forms.StatusStrip
+    Friend WithEvents ToolStripStatusLabel1 As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents ToolStripStatusLabel2 As System.Windows.Forms.ToolStripStatusLabel
 End Class

@@ -51,7 +51,7 @@ Partial Class Form4
         'GroupBox5
         '
         Me.GroupBox5.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox5.BackColor = System.Drawing.Color.Transparent
         Me.GroupBox5.Controls.Add(Me.Button1)
         Me.GroupBox5.Controls.Add(Me.ToolStrip1)
@@ -66,6 +66,7 @@ Partial Class Form4
         Me.GroupBox5.Controls.Add(Me.DateTimePicker2)
         Me.GroupBox5.Controls.Add(Me.Label6)
         Me.GroupBox5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.GroupBox5.ForeColor = System.Drawing.Color.DarkGreen
         Me.GroupBox5.Location = New System.Drawing.Point(169, 12)
         Me.GroupBox5.Name = "GroupBox5"
         Me.GroupBox5.Size = New System.Drawing.Size(645, 455)
@@ -75,6 +76,11 @@ Partial Class Form4
         '
         'Button1
         '
+        Me.Button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.Button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray
+        Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button1.ForeColor = System.Drawing.Color.SeaShell
         Me.Button1.Location = New System.Drawing.Point(227, 44)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(75, 25)
@@ -174,8 +180,8 @@ Partial Class Form4
         'GroupBox1
         '
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.GroupBox1.Location = New System.Drawing.Point(6, 170)
         Me.GroupBox1.Name = "GroupBox1"
@@ -202,12 +208,14 @@ Partial Class Form4
         Me.Label4.AutoEllipsis = True
         Me.Label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label4.Font = New System.Drawing.Font("Times New Roman", 11.0!)
+        Me.Label4.ForeColor = System.Drawing.Color.Beige
         Me.Label4.Location = New System.Drawing.Point(539, 44)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(100, 25)
         Me.Label4.TabIndex = 33
         Me.Label4.Text = "المجموعة الدراسية"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Label4.UseCompatibleTextRendering = True
         '
         'DateTimePicker1
         '
@@ -226,12 +234,14 @@ Partial Class Form4
         Me.Label5.AutoEllipsis = True
         Me.Label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label5.Font = New System.Drawing.Font("Times New Roman", 11.0!)
+        Me.Label5.ForeColor = System.Drawing.Color.Beige
         Me.Label5.Location = New System.Drawing.Point(539, 77)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(100, 24)
         Me.Label5.TabIndex = 31
         Me.Label5.Text = "الشهر"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Label5.UseCompatibleTextRendering = True
         '
         'ComboBox3
         '
@@ -252,12 +262,14 @@ Partial Class Form4
         Me.Label8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label8.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Label8.Font = New System.Drawing.Font("Times New Roman", 11.0!)
+        Me.Label8.ForeColor = System.Drawing.Color.Beige
         Me.Label8.Location = New System.Drawing.Point(539, 139)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(100, 25)
         Me.Label8.TabIndex = 26
         Me.Label8.Text = "الأعمال"
         Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Label8.UseCompatibleTextRendering = True
         '
         'DateTimePicker2
         '
@@ -276,12 +288,14 @@ Partial Class Form4
         Me.Label6.AutoEllipsis = True
         Me.Label6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label6.Font = New System.Drawing.Font("Times New Roman", 11.0!)
+        Me.Label6.ForeColor = System.Drawing.Color.Beige
         Me.Label6.Location = New System.Drawing.Point(539, 108)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(100, 24)
         Me.Label6.TabIndex = 24
         Me.Label6.Text = "اليوم/الساعه"
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Label6.UseCompatibleTextRendering = True
         '
         'Form4
         '
@@ -292,7 +306,6 @@ Partial Class Form4
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Form4"
-        Me.Text = "k,"
         Me.GroupBox5.ResumeLayout(False)
         Me.GroupBox5.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)

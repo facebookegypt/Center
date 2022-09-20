@@ -7,17 +7,11 @@ Public Class Form4
     Private Property GrID As Integer
     Private Property GrDtID As Integer
     Public Property TaskID As Integer
-    Private DG1 As DataGridView = New DataGridView With
-        {.Name = "DGV2", .BorderStyle = BorderStyle.None, .RightToLeft = RightToLeft.Yes,
-        .AllowUserToAddRows = False, .Dock = DockStyle.Fill, .EnableHeadersVisualStyles = False,
-        .RowHeadersVisible = True, .BackgroundColor = Color.WhiteSmoke,
-        .ColumnHeadersHeight = 50,
-        .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing}
-    Private DG2 As DataGridView = New DataGridView With
-        {.Name = "DGV", .BorderStyle = BorderStyle.None, .RightToLeft = RightToLeft.Yes,
-        .AllowUserToAddRows = False, .Dock = DockStyle.Top, .EnableHeadersVisualStyles = False,
-        .RowHeadersVisible = True, .BackgroundColor = Color.WhiteSmoke, .Height = Height / 2,
-        .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing}
+    Private WithEvents DG1 As DataGridView = New DataGridView With
+        {.Name = "DGV1", .BorderStyle = BorderStyle.None, .RightToLeft = RightToLeft.Yes,
+        .AllowUserToAddRows = False, .Dock = DockStyle.Fill,
+        .EnableHeadersVisualStyles = False, .RowHeadersVisible = True, .BackgroundColor = Color.WhiteSmoke,
+        .ColumnHeadersHeight = 50, .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing}
     Private Sub GetGrps(ByVal SqlStr As String,
                         ByVal combobox As ComboBox,
                         Optional DisMem As String = "Value",
@@ -49,6 +43,7 @@ Public Class Form4
     End Function
     Private Sub Form4_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         KeyPreview = True
+        WindowState = FormWindowState.Normal
         DoubleBuffered = True
         Text = "اعدادات المجموعات"
         GetGrps("SELECT GrID,GrNm FROM Grps;", ComboBox2, "GrNm", "GrID")
@@ -118,20 +113,11 @@ Public Class Form4
             DataAdapter1.Fill(Dt2)
         End Using
         With DG1
-            .AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke
-            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-            .RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
-            .RowHeadersWidth = 30
-            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
-            With .ColumnHeadersDefaultCellStyle
-                .WrapMode = DataGridViewTriState.True
-                .Alignment = DataGridViewContentAlignment.MiddleCenter
-                .BackColor = Color.FloralWhite
-            End With
-            With .RowsDefaultCellStyle
-                .WrapMode = DataGridViewTriState.True
-                .Alignment = DataGridViewContentAlignment.MiddleCenter
-            End With
+            .EnableHeadersVisualStyles = False  'Will display the custom formats of mine.
+            .EditMode = DataGridViewEditMode.EditOnEnter
+            .GridColor = SystemColors.Control
+            .SelectionMode = DataGridViewSelectionMode.FullRowSelect
+            .MultiSelect = False
             .ReadOnly = True
             .DefaultCellStyle.WrapMode = DataGridViewTriState.True
             .AutoGenerateColumns = False
@@ -139,6 +125,22 @@ Public Class Form4
             .DataSource = New BindingSource(Dt2.DefaultView, Nothing)
         End With
         GroupBox1.Controls.Add(DG1)
+        With DG1.ColumnHeadersDefaultCellStyle
+            .BackColor = Color.DarkCyan
+            .ForeColor = Color.White
+            .Font = New Font("Arial", 13, FontStyle.Bold)
+            .Alignment = DataGridViewContentAlignment.MiddleCenter
+        End With
+        With DG1.RowHeadersDefaultCellStyle
+            .BackColor = Color.DarkCyan
+            .ForeColor = Color.White
+            .Font = New Font("Arial", 11, FontStyle.Regular)
+            .Alignment = DataGridViewContentAlignment.MiddleCenter
+        End With
+        With DG1.DefaultCellStyle
+            .SelectionBackColor = Color.LightCyan
+            .SelectionForeColor = Color.Navy
+        End With
         AddHandler DG1.RowPostPaint, AddressOf DG1_RowPostPaint
         AddHandler DG1.CellClick, AddressOf DG1_CellClick
     End Sub
@@ -253,9 +255,48 @@ Public Class Form4
         End Using
     End Sub
     Private Sub BtnDel_Click(sender As Object, e As EventArgs) Handles BtnDel.Click
-
+        'Attend and Results Tables are linked with Students
+        If GrDtID <= 0 Then
+            DG1.AllowUserToDeleteRows = False
+            MsgBox("يجب اختيار مجموعة أولا.",
+                   MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
+            Exit Sub
+        End If
+        Dim SqlStr1 As String =
+            <sql>SELECT COUNT(GrDtID) FROM Attnd Where GrDtID=<%= GrDtID %>;</sql>.Value
+        Dim Ig As Integer = IU.GetCount1(SqlStr1)
+        If Ig >= 1 Then
+            DG1.AllowUserToDeleteRows = False
+            MsgBox("يجب حذف الميعاد أولا من كشف الغياب.",
+             MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
+            Exit Sub
+        End If
+        DG1.AllowUserToDeleteRows = True
+        Dim RUSre As MsgBoxResult = MsgBox("تأكيد حذف هذا الميعاد من المجموعة.",
+                                               MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight +
+                                               MsgBoxStyle.Critical + MsgBoxStyle.YesNoCancel)
+        If RUSre = MsgBoxResult.Yes Then
+            Dim N As Integer
+            Dim SqlStr As String =
+                <SQL>DELETE * From GrDt WHERE GrDt.GrDtID=?;</SQL>.Value
+            Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
+                    CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
+                With CMD.Parameters
+                    .AddWithValue("?", GrDtID)
+                End With
+                CN.Open()
+                N = CMD.ExecuteNonQuery
+            End Using
+            MsgBox("تم حذف الميعاد " & N.ToString & " المجموعة.",
+                   MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
+        Else
+            MsgBox("تم الغاء العملية",
+                   MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
+        End If
+        BtnSave.Enabled = True
+        BtnEdit.Enabled = False
+        BtnDel.Enabled = False
     End Sub
-
     Private Sub Form4_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         'Use KeyCode when you don't care about the modifiers, KeyData when you do.
         If e.KeyCode = Keys.S AndAlso e.Modifiers = Keys.Control Then
@@ -272,6 +313,11 @@ Public Class Form4
         If e.KeyCode = Keys.E AndAlso e.Modifiers = Keys.Control Then
             If BtnEdit.Enabled = True Then
                 BtnEdit_Click(sender, e)
+            End If
+        End If
+        If e.KeyCode = Keys.A AndAlso e.Modifiers = Keys.Control Then
+            If ToolStripButton10.Enabled = True Then
+                ToolStripButton10_Click(sender, e)
             End If
         End If
         If e.KeyData = Keys.Delete Then

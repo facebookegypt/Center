@@ -8,12 +8,12 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Center App")>
-<Assembly: AssemblyDescription("Center Desktop Application")>
+<Assembly: AssemblyTitle("SMS Center")>
+<Assembly: AssemblyDescription("Students Management System")>
 <Assembly: AssemblyCompany("Evry1falls")>
-<Assembly: AssemblyProduct("Center App.")>
+<Assembly: AssemblyProduct("SMS Center App.")>
 <Assembly: AssemblyCopyright("Copyright © Evry1falls-01012209977 2022")>
-<Assembly: AssemblyTrademark("")>
+<Assembly: AssemblyTrademark("Evry1falls-")>
 
 <Assembly: ComVisible(False)>
 

@@ -5,6 +5,8 @@ Imports Tulpep.NotificationWindow
 Public Class Class1
     Public Property PopupNotifier1 = New PopupNotifier With
         {
+        .ShowCloseButton = True,
+        .ShowOptionsButton = True,
         .TitleFont = New Font("Times New Roman", 12, FontStyle.Bold),
         .TitleColor = Color.Black,
         .TitlePadding = New Padding(5),
@@ -30,6 +32,18 @@ Public Class Class1
     Private Sub Btn1_Click(sender As Object, e As EventArgs)
         My.Settings.Save()
     End Sub
+    Public Function LstUpdt(ByVal Bckpfldr As String) As Date
+        Try
+            Dim Iu As New Class1
+            Dim Done As Boolean = Iu.CompRepair(Bckpfldr)
+            If Done Then
+                My.Settings.LstBckPDt = Now.Date
+            End If
+        Catch ex As Exception
+            My.Settings.LstBckPDt = New Date(2022, 9, 20)
+        End Try
+        Return My.Settings.LstBckPDt
+    End Function
     Public Function ConStr() As String
         Dim ConStr1 As String = My.Settings.Provider
         If String.IsNullOrEmpty(ConStr1) Then
@@ -115,7 +129,7 @@ Public Class Class1
         End If
         Return Rslt
     End Function
-    Public Function CompRepair(Optional NewLocation As String = "") As Boolean
+    Public Function CompRepair(Optional Compactedfil As String = "") As Boolean
         'expression .CompactDatabase(SrcName, DstName, DstLocale, Options, password)
         'This will Compact & Repair MSAccess2007 Database to the same location with the same name.
         'CloseCN()
@@ -123,16 +137,20 @@ Public Class Class1
         Dim Result As Boolean = False
         Cursor.Current = Cursors.WaitCursor
         'Compact & Repair needs the Database File (*.accdb) to be closed.
+
+        Dim Di As IO.DirectoryInfo = New IO.DirectoryInfo(Compactedfil)
+        If Not Di.Exists Then
+            Di.Create()
+        End If
         Dim MyAccDB As New Dao.DBEngine()
-        Dim Compactedfil As String = Application.StartupPath & "\BackUp\" & Now.Date.ToShortDateString.Replace("/", "_") & ".accdb"
+        Compactedfil = IO.Path.Combine(Application.StartupPath, "BackUp_" & Now.Date.ToShortDateString.Replace("/", "_") & ".accdb")
         Try
-            Debug.WriteLine(MyAccDB.Version.ToString)
             MyAccDB.CompactDatabase(IO.Path.Combine(Application.StartupPath, My.Settings.dbNm),
                                     Compactedfil,
                                     Dao.LanguageConstants.dbLangGeneral,
                                     Dao.DatabaseTypeEnum.dbVersion120, ";pwd=" & My.Settings.dbPass)
         Catch ex As Exception
-            MsgBox("Error 1: " & ex.Message)
+            MsgBox("Error 1: " & ex.Message, MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Critical)
             End
             Return False
             Exit Function
@@ -141,7 +159,7 @@ Public Class Class1
             My.Computer.FileSystem.DeleteFile(IO.Path.Combine(Application.StartupPath, My.Settings.dbNm))
             Result = True
         Catch ex As Exception
-            MsgBox("Error :  " & ex.Message)
+            MsgBox("Error :  " & ex.Message, MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Critical)
             Return Result
             Exit Function
         End Try
@@ -149,7 +167,7 @@ Public Class Class1
             Rename(Compactedfil, IO.Path.Combine(Application.StartupPath, My.Settings.dbNm))
             Result = True
         Catch ex As Exception
-            MsgBox("Error : " & ex.Message)
+            MsgBox("Error : " & ex.Message, MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Critical)
             Return Result
             Exit Function
         End Try
@@ -191,11 +209,17 @@ Public Class Class1
                         Optional ByVal DisMem As String = "Value",
                         Optional ByVal ValMem As String = "Key")
         DT1 = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
-        Using CN = New OleDbConnection With {.ConnectionString = Constr1},
-            CMD = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text},
-            DataAdapter1 = New OleDbDataAdapter(CMD)
-            DataAdapter1.Fill(DT1)
-        End Using
+        Try
+            Using CN = New OleDbConnection With {.ConnectionString = Constr1},
+                CMD = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text},
+                DataAdapter1 = New OleDbDataAdapter(CMD)
+                DataAdapter1.Fill(DT1)
+            End Using
+        Catch ex As OleDbException
+            MsgBox("مشكلة فى التعرف علي قاعدة البيانات : " & vbCrLf & ex.Message, _
+                   MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Critical)
+            Class2.ShowDialog()
+        End Try
         With combobox
             .BeginUpdate()
             .DataSource = DT1.DefaultView
@@ -206,4 +230,14 @@ Public Class Class1
             .Update()
         End With
     End Sub
+    Public Function GetCount1(ByVal SqlStr As String) As Object
+        Dim Rslt As String = String.Empty
+        Dim Obj As Object
+        Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = ConStr()},
+                CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
+            CN.Open()
+            Obj = CMD.ExecuteScalar
+            Return Obj
+        End Using
+    End Function
 End Class

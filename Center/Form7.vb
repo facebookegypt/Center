@@ -3,7 +3,6 @@
 Public Class Form7
     Public Property IC As New Class1
     Private Property GrDtID1 As Integer
-
     Private Property StID1 As Integer
     Private Property StAttVal As Boolean
     Private Property GrID1 As Integer
@@ -19,19 +18,10 @@ Public Class Form7
         .BorderStyle = BorderStyle.None
     }
     Private DGStdnts As DataGridView = New DataGridView With
-        {
-        .Name = "DGV2",
-        .BorderStyle = BorderStyle.None,
-        .RightToLeft = RightToLeft.Yes,
-        .AllowUserToAddRows = False,
-        .Dock = DockStyle.Fill,
-        .EnableHeadersVisualStyles = False,
-        .RowHeadersVisible = True,
-        .BackgroundColor = Color.WhiteSmoke,
-        .ColumnHeadersHeight = 50,
-        .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing,
-        .ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised
-    }
+        {.Name = "DGV2", .BorderStyle = BorderStyle.None, .RightToLeft = RightToLeft.Yes,
+        .AllowUserToAddRows = False, .Dock = DockStyle.Fill,
+        .RowHeadersVisible = True, .BackgroundColor = Color.WhiteSmoke, .ColumnHeadersHeight = 50,
+         .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing}
     Private Dtable As DataTable, Dtable1 As DataTable
     Private Function GetMainTree(ByVal DT As DataTable) As TreeView
         DT = IC.GetData(<SQL>SELECT Grps.GrID, Grps.GrNm FROM Grps INNER JOIN GrDt ON Grps.GrID = GrDt.GrID GROUP BY Grps.GrID, 
@@ -51,16 +41,6 @@ Public Class Form7
             TRV.EndUpdate()
         End If
         Return TRV
-    End Function
-    Private Function GetCount1(ByVal SqlStr As String) As Object
-        Dim Rslt As String = String.Empty
-        Dim Obj As Object
-        Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
-                CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
-            CN.Open()
-            Obj = CMD.ExecuteScalar
-            Return Obj
-        End Using
     End Function
     Private Sub TRV_AfterSelect(ByVal sender As Object, ByVal e As TreeViewEventArgs)
         Dim DT As DataTable =
@@ -83,18 +63,20 @@ Public Class Form7
             Label4.Text = String.Empty
             DGStdnts.Visible = False
             BtnSave.Enabled = False
+            BtnDel.Enabled = True
         Else
             GrDtID1 = Integer.Parse(e.Node.Name)
             GrID1 = Integer.Parse(e.Node.Parent.Name)
             'Attnd
             Dim SqlStr1 As String = <sql>SELECT COUNT(GrDtID) FROM Attnd Where GrDtID=<%= GrDtID1 %>;</sql>.Value
-            If GetCount1(SqlStr1) <= 0 Then
+            If IC.GetCount1(SqlStr1) <= 0 Then
                 MsgBox("برجاء تسجيل غياب المجموعة أولا")
                 Exit Sub
             End If
             Label4.Text = e.Node.Text
             DGStdnts.Visible = True
             BtnSave.Enabled = False
+            BtnDel.Enabled = True
         End If
         ConDGV("SELECT Stdnts.StID, Stdnts.StNm, Rslts.Mrk FROM (Stdnts INNER JOIN (Grps INNER JOIN GrSt ON Grps.GrID = GrSt.GrID) " &
                "ON Stdnts.StID = GrSt.StID) INNER JOIN Rslts ON Stdnts.StID = Rslts.StID " &
@@ -260,6 +242,7 @@ Public Class Form7
         DGStdnts.Columns("StNm").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
         AddCol()
         BtnSave.Enabled = True
+        BtnDel.Enabled = False
     End Sub
     Private Sub BtnSave_Click(sender As Object, e As EventArgs) Handles BtnSave.Click
         'Dim CNTra As OleDbTransaction = Nothing
@@ -331,6 +314,57 @@ Public Class Form7
             If BtnClear.Enabled = True Then
                 BtnClear_Click(sender, e)
             End If
+        End If
+        If e.KeyData = Keys.Delete Then
+            If BtnDel.Enabled = True Then
+                BtnDel_Click(sender, e)
+            End If
+        End If
+    End Sub
+
+    Private Sub BtnDel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnDel.Click
+        'Delete
+        'Attend and Results Tables are linked with Students
+        If DGStdnts.Rows.Count <= 0 Or GrDtID1 <= 0 Then
+            DGStdnts.AllowUserToDeleteRows = False
+            MsgBox("يجب اختيار ميعاد أولا.",
+                   MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
+            Exit Sub
+        End If
+        Dim SqlStr1 As String =
+            <sql>SELECT COUNT(GrDtID) FROM Rslts Where GrDtID=<%= GrDtID1 %>;</sql>.Value
+
+
+        Dim AreUsURE As MsgBoxResult =
+            MsgBox("يجب حذف درجات طلاب المجوعه فى هذا اليوم أولا.",
+         MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical + MsgBoxStyle.YesNoCancel)
+        If AreUsURE = MsgBoxResult.Yes Then
+            DGStdnts.AllowUserToDeleteRows = True
+            Dim RUSre As MsgBoxResult = MsgBox("تأكيد حذف كشف الغياب من البرنامج.",
+                                                   MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight +
+                                                   MsgBoxStyle.Critical + MsgBoxStyle.YesNoCancel)
+            If RUSre = MsgBoxResult.Yes Then
+                Dim N As Integer
+                Dim SqlStr As String =
+                    <SQL>DELETE * From Attnd WHERE Attnd.GrDtID=?;</SQL>.Value
+                Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
+                        CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
+                    With CMD.Parameters
+                        .AddWithValue("?", GrDtID1)
+                    End With
+                    CN.Open()
+                    N = CMD.ExecuteNonQuery
+                End Using
+                MsgBox("تم حذف عدد  " & N.ToString & " كشف غياب.",
+                       MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
+            Else
+                MsgBox("تم الغاء العملية",
+                       MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
+            End If
+            BtnSave.Enabled = False
+            BtnDel.Enabled = False
+        Else
+            DGStdnts.AllowUserToDeleteRows = False
         End If
     End Sub
 End Class

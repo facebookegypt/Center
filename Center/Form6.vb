@@ -5,19 +5,20 @@ Public Class Form6
     Public Property IU As Class1 = New Class1
     Public Property Constr1 As String = IU.ConStr
     Private Property GrID As Integer
-    Private DG1 As DataGridView = New DataGridView With
-        {.Name = "DGV2", .BorderStyle = BorderStyle.None, .RightToLeft = RightToLeft.Yes,
-        .AllowUserToAddRows = False, .Dock = DockStyle.Fill, .EnableHeadersVisualStyles = False,
-        .RowHeadersVisible = True, .BackgroundColor = Color.WhiteSmoke,
-        .ColumnHeadersHeight = 50,
-        .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing}
+    Private WithEvents DG1 As DataGridView = New DataGridView With
+           {.Name = "DGV2", .BorderStyle = BorderStyle.None, .RightToLeft = RightToLeft.Yes,
+           .AllowUserToAddRows = False, .Dock = DockStyle.Fill,
+           .EnableHeadersVisualStyles = False, .RowHeadersVisible = True, .BackgroundColor = Color.WhiteSmoke,
+           .ColumnHeadersHeight = 50, .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing}
     Private Sub BtnSave_Click(sender As Object, e As EventArgs) Handles BtnSave.Click
         If String.IsNullOrEmpty(TxtNm.Text) Or TxtNm.Text.Contains("لايوجد") Then
-            MsgBox("من فضلك أدخل المجموعة أولا. مع العلم لا يمكن استخدام 'لايوجد' في اسم للمجموعة")
+            MsgBox("من فضلك أدخل المجموعة أولا. مع العلم لا يمكن استخدام 'لايوجد' في اسم للمجموعة", _
+                   MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
             Exit Sub
         End If
         If String.IsNullOrEmpty(TxtSub.Text) Or String.IsNullOrEmpty(TextBox1.Text) Then
-            MsgBox("من فضلك ادخل الصف الدراسي و المادة الدراسية.")
+            MsgBox("من فضلك ادخل الصف الدراسي و المادة الدراسية.", _
+                   MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
             Exit Sub
         End If
         Dim SqlStr As String =
@@ -35,9 +36,11 @@ Public Class Form6
             Try
                 CN.Open()
                 N = cmd.ExecuteNonQuery()
-                MsgBox("تم الحفظ بنجاح.")
+                MsgBox("تم الحفظ بنجاح.", _
+                   MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Information)
             Catch ex As Exception
-                MsgBox("خطأ مجموعات : " & ex.Message)
+                MsgBox("خطأ مجموعات : " & ex.Message, _
+                   MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
             End Try
         End Using
     End Sub
@@ -56,20 +59,11 @@ Public Class Form6
             DataAdapter1.Fill(Dt2)
         End Using
         With DG1
-            .AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke
-            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-            .RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
-            .RowHeadersWidth = 30
-            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
-            With .ColumnHeadersDefaultCellStyle
-                .WrapMode = DataGridViewTriState.True
-                .Alignment = DataGridViewContentAlignment.MiddleCenter
-                .BackColor = Color.FloralWhite
-            End With
-            With .RowsDefaultCellStyle
-                .WrapMode = DataGridViewTriState.True
-                .Alignment = DataGridViewContentAlignment.MiddleCenter
-            End With
+            .EnableHeadersVisualStyles = False  'Will display the custom formats of mine.
+            .EditMode = DataGridViewEditMode.EditOnEnter
+            .GridColor = SystemColors.Control
+            .SelectionMode = DataGridViewSelectionMode.FullRowSelect
+            .MultiSelect = False
             .ReadOnly = True
             .DefaultCellStyle.WrapMode = DataGridViewTriState.True
             .AutoGenerateColumns = False
@@ -77,6 +71,22 @@ Public Class Form6
             .DataSource = New BindingSource(Dt2.DefaultView, Nothing)
         End With
         GroupBox4.Controls.Add(DG1)
+        With DG1.ColumnHeadersDefaultCellStyle
+            .BackColor = Color.DarkCyan
+            .ForeColor = Color.White
+            .Font = New Font("Arial", 13, FontStyle.Bold)
+            .Alignment = DataGridViewContentAlignment.MiddleCenter
+        End With
+        With DG1.RowHeadersDefaultCellStyle
+            .BackColor = Color.DarkCyan
+            .ForeColor = Color.White
+            .Font = New Font("Arial", 11, FontStyle.Regular)
+            .Alignment = DataGridViewContentAlignment.MiddleCenter
+        End With
+        With DG1.DefaultCellStyle
+            .SelectionBackColor = Color.LightCyan
+            .SelectionForeColor = Color.Navy
+        End With
         AddHandler DG1.RowPostPaint, AddressOf DG1_RowPostPaint
         AddHandler DG1.CellClick, AddressOf DG1_CellClick
     End Sub
@@ -85,7 +95,8 @@ Public Class Form6
         Try
             GrID = Convert.ToInt32(DG1.CurrentRow.Cells("GrID").Value)
         Catch ex As Exception
-            MsgBox("خطأ في التشغيل 1 : " & ex.Message)
+            MsgBox("خطأ في التشغيل 1 : " & ex.Message, _
+                   MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
             Exit Sub
         End Try
         TxtNm.Text = Convert.ToString(DG1.CurrentRow.Cells("GrNm").Value)
@@ -102,10 +113,8 @@ Public Class Form6
             e.Graphics.DrawString(rowHeader, dgv.DefaultCellStyle.Font, b, e.ClipBounds.Width - 30, e.RowBounds.Location.Y + 4)
         End Using
     End Sub
-
     Private Sub ToolStripButton6_Click(sender As Object, e As EventArgs) Handles ToolStripButton6.Click
-        Dim SqlStr As String =
-        <sql>SELECT * From Grps;</sql>.Value
+        Dim SqlStr As String = <sql>SELECT * From Grps;</sql>.Value
         GetGrpsDts(SqlStr)
         Dim DIg2 As New DataGridViewTextBoxColumn With
             {.Name = "GrNm", .ValueType = GetType(String), .DataPropertyName = "GrNm", .HeaderText = "المجموعة"}
@@ -121,8 +130,10 @@ Public Class Form6
             DG1.Columns.Insert(2, DIg_1)
             DG1.Columns.Insert(3, DIg1)
         End If
+        DIg2.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+        DIg0.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+        DIg_1.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
     End Sub
-
     Private Sub BtnAdd_Click(sender As Object, e As EventArgs) Handles BtnAdd.Click
         BtnEdit.Enabled = False
         BtnDel.Enabled = False
@@ -131,7 +142,6 @@ Public Class Form6
         TxtNm.Clear()
         TextBox1.Clear()
     End Sub
-
     Private Sub BtnEdit_Click(sender As Object, e As EventArgs) Handles BtnEdit.Click
         'Edit
         Dim N As Integer, SqlStr As String =
@@ -148,47 +158,64 @@ Public Class Form6
             Try
                 CN.Open()
                 N = cmd.ExecuteNonQuery()
-                MsgBox("تم التعديل بنجاح.")
+                MsgBox("تم التعديل بنجاح.", _
+                   MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
             Catch ex As Exception
-                MsgBox("خطأ في التعديل : " & ex.Message)
+                MsgBox("خطأ في التعديل : " & ex.Message, _
+                   MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
             End Try
         End Using
     End Sub
     Private Sub BtnDel_Click(sender As Object, e As EventArgs) Handles BtnDel.Click
         'Del
-        Dim SqlStr1 As String =
+        Dim SqlStr As String =
             "SELECT COUNT(GrDtID) From GrDt WHERE GrID=?;"
-        Dim N As Integer, SqlStr As String =
+        Dim SqlStr1 As String =
             "DELETE * FROM Grps WHERE GrID=?;"
+        Dim N As Integer
+        Dim SqlStr2 As String =
+            "DELETE * FROM GrSt WHERE GrID=?;"
         Dim cmd As OleDbCommand
         Using CN = New OleDbConnection(Constr1)
             Dim CnTr As OleDbTransaction = Nothing
             Try
                 CN.Open()
                 CnTr = CN.BeginTransaction(IsolationLevel.ReadCommitted)
-                cmd = New OleDbCommand(SqlStr1, CN, CnTr) With {.CommandType = CommandType.Text}
+                cmd = New OleDbCommand(SqlStr, CN, CnTr) With {.CommandType = CommandType.Text}
                 With cmd.Parameters
                     .AddWithValue("?", GrID)
                 End With
                 N = Convert.ToInt32(cmd.ExecuteScalar)
                 If N >= 1 Then
-                    MsgBox("يجب أولا حذف المواعيد المحددة للمجموعه.")
+                    MsgBox("يجب أولا حذف المواعيد المحددة للمجموعه.",
+                   MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
+                    CnTr.Rollback()
+                    CN.Close()
                     Exit Sub
                 End If
                 cmd.Parameters.Clear()
-                cmd = New OleDbCommand(SqlStr, CN, CnTr) With {.CommandType = CommandType.Text}
+                cmd = New OleDbCommand(SqlStr2, CN, CnTr) With {.CommandType = CommandType.Text}
+                With cmd.Parameters
+                    .AddWithValue("?", GrID)
+                End With
+                N = cmd.ExecuteNonQuery
+                cmd.Parameters.Clear()
+                cmd = New OleDbCommand(SqlStr1, CN, CnTr) With {.CommandType = CommandType.Text}
                 With cmd.Parameters
                     .AddWithValue("?", GrID)
                 End With
                 N = cmd.ExecuteNonQuery
                 CnTr.Commit()
+                MsgBox("تم حذف المجموعة بنجاح.",
+                   MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Information)
+                ToolStripButton6_Click(sender, e)
             Catch ex As OleDbException
-                MsgBox("خطأ فى الحذف : " & ex.Message)
+                MsgBox("خطأ فى الحذف : " & ex.Message, _
+                   MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
                 CnTr.Rollback()
             End Try
         End Using
     End Sub
-
     Private Sub Form6_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         'Use KeyCode when you don't care about the modifiers, KeyData when you do.
         If e.KeyCode = Keys.S AndAlso e.Modifiers = Keys.Control Then

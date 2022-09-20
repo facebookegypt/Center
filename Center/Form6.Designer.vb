@@ -130,7 +130,7 @@ Partial Class Form6
         'TextBox1
         '
         Me.TextBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox1.Font = New System.Drawing.Font("Times New Roman", 11.0!)
         Me.TextBox1.Location = New System.Drawing.Point(6, 49)
         Me.TextBox1.MaxLength = 60
@@ -143,7 +143,7 @@ Partial Class Form6
         'TxtNm
         '
         Me.TxtNm.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxtNm.Font = New System.Drawing.Font("Times New Roman", 11.0!)
         Me.TxtNm.Location = New System.Drawing.Point(6, 16)
         Me.TxtNm.MaxLength = 60
@@ -165,11 +165,12 @@ Partial Class Form6
         Me.Label1.TabIndex = 27
         Me.Label1.Text = "اسم المجموعة"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Label1.UseCompatibleTextRendering = True
         '
         'TxtSub
         '
         Me.TxtSub.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxtSub.Font = New System.Drawing.Font("Times New Roman", 11.0!)
         Me.TxtSub.Location = New System.Drawing.Point(6, 82)
         Me.TxtSub.MaxLength = 60
@@ -192,6 +193,7 @@ Partial Class Form6
         Me.Label2.TabIndex = 30
         Me.Label2.Text = "المادة الدراسية"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Label2.UseCompatibleTextRendering = True
         '
         'Label3
         '
@@ -206,12 +208,13 @@ Partial Class Form6
         Me.Label3.TabIndex = 29
         Me.Label3.Text = "الصف الدراسي"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Label3.UseCompatibleTextRendering = True
         '
         'GroupBox4
         '
         Me.GroupBox4.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.GroupBox4.Location = New System.Drawing.Point(6, 109)
         Me.GroupBox4.Name = "GroupBox4"

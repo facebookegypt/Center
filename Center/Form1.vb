@@ -2,54 +2,45 @@
 
 Public Class Form1
     Private Property Ii As New Class1
-    Private Property Constr As String = Ii.ConStr
+    Private Property Constr As String
     Private Function GrDtToday() As Integer
         Dim SqlStr As String = "SELECT COUNT(GrDtID) FROM GrDt WHERE Month(GrDt.Mnm)=? AND GrDt.GrDt1=?;"
-        Using cn As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr},
-                CMD As OleDbCommand = New OleDbCommand(SqlStr, cn) With {.CommandType = CommandType.Text}
+        Using CN = New OleDbConnection With {.ConnectionString = Constr},
+                CMD = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
             CMD.Parameters.AddWithValue("?", Month(Now.Date))
             CMD.Parameters.AddWithValue("?", Now.Date)
-            cn.Open()
+            Try
+                CN.Open()
+            Catch ex As OleDbException
+                MsgBox("مشكلة فى التعرف علي قاعدة البيانات : " & vbCrLf & ex.Message,
+                       MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Critical)
+                Class2.ShowDialog()
+            End Try
             Return Convert.ToInt32(CMD.ExecuteScalar)
         End Using
     End Function
-    'Private Function GetDefGroup(ByVal TblNm As String, ByVal Fld As String) As Integer
-    ' Dim SqlStr As String =
-    ' <sql>SELECT COUNT( <%= Fld %> ) FROM <%= TblNm %>;</sql>.Value
-    ' Using cn As OleDbConnection = New OleDbConnection With {.ConnectionString = IC.GetConStr},
-    '             CMD As OleDbCommand = New OleDbCommand(SqlStr, cn) With {.CommandType = CommandType.Text}
-    '         cn.Open()
-    ' Return Convert.ToInt32(CMD.ExecuteScalar)
-    'End Using
-    'End Function
-    'Private Sub CreateDef(ByVal SqlStr As String)
-    ' Using cn As OleDbConnection = New OleDbConnection With {.ConnectionString = IC.GetConStr},
-    '             CMD As OleDbCommand = New OleDbCommand(SqlStr, cn) With {.CommandType = CommandType.Text}
-    '         cn.Open()
-    '         CMD.ExecuteNonQuery()
-    ' End Using
-    ' End Sub
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub Form1_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
+        KeyPreview = True
+        RightToLeft = RightToLeft.Yes
         Timer1.Interval = 1000
         Timer1.Enabled = True
         DoubleBuffered = True
-        RightToLeft = RightToLeft.Yes
-        KeyPreview = True
+        Constr = Ii.ConStr
         WindowState = FormWindowState.Maximized
         BackgroundImage = Image.FromFile(IO.Path.Combine(Application.StartupPath, "Main1.jpg"), True)
+        LayoutMdi(MdiLayout.ArrangeIcons)
         IsMdiContainer = True
-        'Creates a Levels name = لا يوجد
-        'Dim Lvlid As Integer
-        'If GetDefGroup("Lvls", "LID") <= 0 Then
-        ' CreateDef(<sql>INSERT INTO Lvls (LNm,SubNm) VALUES ("لايوجد", "لايوجد");</sql>.Value)
-        ' Lvlid = IC.GetIDFrmTbl("Lvls", "LID", "Lnm", "لايوجد").Find(Function(s As Integer)
-        ' Return s > 0
-        ' End Function)
-        ' End If
-        ' 'Creates a group name = لا يوجد
-        ' If GetDefGroup("Grps", "GrID") <= 0 Then
-        ' CreateDef(<sql>INSERT INTO Grps (GrNm,LID) VALUES ("لايوجد", <%= Lvlid %>);</sql>.Value)
-        ' End If
+        If Not IsNothing(My.Settings.LstBckPDt) And My.Settings.BackUpSet <> 0 And My.Settings.LocalBackUpFolder.Length >= 1 Then
+            If My.Settings.BackUpSet = 1 Then  'Day
+                If DateDiff(DateInterval.Day, Now.Date, My.Settings.LstBckPDt) > 2 Then
+                    Dim I As Date = Ii.LstUpdt(My.Settings.LocalBackUpFolder)
+                End If
+            ElseIf My.Settings.BackUpSet = 2 Then  'Month
+                If DateDiff(DateInterval.Day, Now.Date, My.Settings.LstBckPDt) > 2 Then
+                    Dim I As Date = Ii.LstUpdt(My.Settings.LocalBackUpFolder)
+                End If
+            End If
+        End If
     End Sub
     Private Sub Form1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
         If e.KeyChar = ChrW(Keys.Escape) Then Close()
@@ -60,7 +51,7 @@ Public Class Form1
     Private Sub Form1_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
         Dim Iu As Class1 = New Class1
         Dim BackUpFolder As String = My.Settings.LocalBackUpFolder
-        Iu.CompRepair()
+        Iu.CompRepair(BackUpFolder)
         'Create the file stream for the source file
         Dim BackUpPath As String = BackUpFolder
         'Exception: if Database file is open then an error occures 'File is being used by another process" 01Sept2022
@@ -90,7 +81,7 @@ Public Class Form1
         streamRead.Close()
     End Sub
     Private Sub SToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SToolStripMenuItem.Click
-        If Form2.Visible = True Then Exit Sub
+        If Form2.Visible = True Then Form2.BringToFront()
         IsMdiContainer = True
         With Form2
             .MdiParent = Me
@@ -134,6 +125,7 @@ Public Class Form1
     End Sub
 
     Private Sub QToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles QToolStripMenuItem.Click
+        If Form3.Visible = True Then Form3.BringToFront()
         IsMdiContainer = True
         With Form3
             .MdiParent = Me
@@ -153,6 +145,7 @@ Public Class Form1
     End Sub
 
     Private Sub MnuGr_Click(sender As Object, e As EventArgs) Handles MnuGr.Click
+        If Form4.Visible = True Then Form4.BringToFront()
         IsMdiContainer = True
         With Form4
             .MdiParent = Me
@@ -163,6 +156,7 @@ Public Class Form1
     End Sub
 
     Private Sub SToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SToolStripMenuItem1.Click
+        If Form8.Visible Then Form8.BringToFront()
         IsMdiContainer = True
         Dim Frm7 As New Form8
         With Frm7
@@ -174,6 +168,7 @@ Public Class Form1
     End Sub
 
     Private Sub MnuMarks_Click(sender As Object, e As EventArgs) Handles MnuMarks.Click
+        If Form7.Visible Then Form7.BringToFront()
         IsMdiContainer = True
         Dim Frm7 As New Form7
         With Frm7
@@ -183,7 +178,7 @@ Public Class Form1
             .Show()
         End With
     End Sub
-    Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+    Private Sub Form1_Shown(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Shown
         With Ii.PopupNotifier1
             .ContentText = "السلام عليكم و رحمة الله و بركاته. لديك  " & GrDtToday() & " مجموعات اليوم."
             .Popup()

@@ -1,22 +1,23 @@
 ﻿Imports System.Data.OleDb
 Public Class Form2
-    Public Property IC As New Class1
-    Public Property Constr1 As String = IC.ConStr
+    Private Property IC As New Class1
+    Private Property Constr1 As String
     Private StNm, StMob1, StMob2 As String
-    Public StID1 As Integer
+    Public Property StID1 As Integer
+    Public Property GrID1 As Integer
     Private DGStdnts As DataGridView = New DataGridView With
         {.Name = "DGV2", .BorderStyle = BorderStyle.None, .RightToLeft = RightToLeft.Yes,
         .AllowUserToAddRows = False, .Dock = DockStyle.Fill,
-        .EnableHeadersVisualStyles = False, .RowHeadersVisible = True, .BackgroundColor = Color.WhiteSmoke,
-        .ColumnHeadersHeight = 50, .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing},
+        .RowHeadersVisible = True, .BackgroundColor = Color.WhiteSmoke, .ColumnHeadersHeight = 50,
+         .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing},
         Dt1 As DataTable, dt2 As DataTable
     Private Mnu1 As ToolStripMenuItem = New ToolStripMenuItem With
         {
-        .Name = "", .Enabled = True, .Text = "نقل الي مجموعة اخري", .Visible = True
+        .Name = "Mnu1", .Enabled = True, .Text = "نقل الي مجموعة اخري", .Visible = True
     }
     Private Mnu2 As ToolStripMenuItem = New ToolStripMenuItem With
         {
-        .Name = "", .Enabled = True, .Text = "حذف من المجموعة الحالية", .Visible = True
+        .Name = "Mnu2", .Enabled = True, .Text = "حذف من المجموعة الحالية", .Visible = True
     }
     Private Function GetGrpName(ByVal SqlStr As String) As String()
         Dim Rslt As String() = Nothing
@@ -43,19 +44,11 @@ Public Class Form2
             DataAdapter1.Fill(Dt2)
         End Using
         With DGStdnts
-            .AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke
-            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-            .RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders
-            .RowHeadersWidth = 30
-            With .ColumnHeadersDefaultCellStyle
-                .WrapMode = DataGridViewTriState.True
-                .Alignment = DataGridViewContentAlignment.MiddleCenter
-                .BackColor = Color.FloralWhite
-            End With
-            With .RowsDefaultCellStyle
-                .WrapMode = DataGridViewTriState.True
-                .Alignment = DataGridViewContentAlignment.MiddleCenter
-            End With
+                .EnableHeadersVisualStyles = False  'Will display the custom formats of mine.
+                .EditMode = DataGridViewEditMode.EditOnEnter
+                .GridColor = SystemColors.Control
+                .SelectionMode = DataGridViewSelectionMode.FullRowSelect
+                .MultiSelect = False
             .ReadOnly = True
             .DefaultCellStyle.WrapMode = DataGridViewTriState.True
             .AutoGenerateColumns = False
@@ -63,6 +56,22 @@ Public Class Form2
             .DataSource = New BindingSource(Dt2.DefaultView, Nothing)
         End With
         GroupBox2.Controls.Add(DGStdnts)
+        With DGStdnts.ColumnHeadersDefaultCellStyle
+            .BackColor = Color.DarkCyan
+            .ForeColor = Color.White
+            .Font = New Font("Arial", 13, FontStyle.Bold)
+            .Alignment = DataGridViewContentAlignment.MiddleCenter
+        End With
+        With DGStdnts.RowHeadersDefaultCellStyle
+            .BackColor = Color.DarkCyan
+            .ForeColor = Color.White
+            .Font = New Font("Arial", 11, FontStyle.Regular)
+            .Alignment = DataGridViewContentAlignment.MiddleCenter
+        End With
+        With DGStdnts.DefaultCellStyle
+            .SelectionBackColor = Color.LightCyan
+            .SelectionForeColor = Color.Navy
+        End With
         AddHandler DGStdnts.RowPostPaint, AddressOf DGSTDNTS_RowPostPaint
         AddHandler DGStdnts.CellClick, AddressOf DGStdnts_CellClick
 
@@ -94,12 +103,15 @@ Public Class Form2
             DGStdnts.Columns.Insert(2, DIg_1)
             DGStdnts.Columns.Insert(3, DIg1)
         End If
+        DIg2.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        DIg0.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+        DIg_1.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+        DIg1.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
     End Sub
     Private Sub DGStdnts_CellClick(sender As Object, e As DataGridViewCellEventArgs)
         If e.RowIndex = -1 Or e.ColumnIndex = -1 Then Exit Sub
         ToolStripStatusLabel2.Text = String.Empty
         StID1 = 0
-        ToolStripStatusLabel1.Text = String.Empty
         Dim SelectedRow As DataGridViewRow = DGStdnts.Rows(e.RowIndex)
         StID1 = Convert.ToInt32(SelectedRow.Cells.Item("STID").Value.ToString)
         TxtNm.Text = SelectedRow.Cells.Item("StNM").Value.ToString
@@ -111,23 +123,17 @@ Public Class Form2
             "ON GrSt.GrID = Grps.GrID WHERE (((Stdnts.StID)=" & StID1 & "));"
         ToolStripStatusLabel2.Text = "المجموعه : " & GetGrpName(SqlStr).First
         Dim SqlStr1 As String = <sql>SELECT COUNT(GrID) FROM GrSt Where StID=<%= StID1 %>;</sql>.Value
-        If Convert.ToInt32(GetCount1(SqlStr1)) >= 1 Then
+        If Convert.ToInt32(IC.GetCount1(SqlStr1)) >= 1 Then
             Dim dropDownItems As ToolStripItemCollection = Form1.SToolStripMenuItem.DropDownItems
             dropDownItems.AddRange({Mnu1, Mnu2})
             AddHandler Mnu1.Click, AddressOf Mnu1_click
             AddHandler Mnu2.Click, AddressOf Mnu2_click
         Else
-            'RemoveHandler Mnu1.Click, AddressOf Mnu1_click
-            'RemoveHandler Mnu2.Click, AddressOf Mnu2_click
             Dim dropDownItems As ToolStripItemCollection = Form1.SToolStripMenuItem.DropDownItems
             If dropDownItems.Count > 0 Then
                 dropDownItems.Clear()
             End If
         End If
-        'Fetch Attnd count
-        Dim SqlStr2 As String =
-            "SELECT Count([StID]) AS Expr1 FROM Attnd WHERE (((Attnd.PStat)=True) AND ((Attnd.StID)=" & StID1 & "));"
-        ToolStripStatusLabel4.Text = "الغياب الكلي : " & GetCount1(SqlStr2) & " يوم."
         BtnEdit.Enabled = True
         BtnDel.Enabled = True
         BtnSave.Enabled = False
@@ -142,7 +148,7 @@ Public Class Form2
             Exit Sub
         End If
         Dim SqlStr As String = <sql>SELECT COUNT(GrID) FROM GrSt Where StID=<%= StID1 %>;</sql>.Value
-        If Convert.ToInt32(GetCount1(SqlStr)) >= 1 Then
+        If Convert.ToInt32(IC.GetCount1(SqlStr)) >= 1 Then
             Dim RUSre As MsgBoxResult = MsgBox("تأكيد حذف الطالب من المجموعة فقط.",
                                                MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight +
                                                MsgBoxStyle.Critical + MsgBoxStyle.YesNoCancel)
@@ -194,8 +200,6 @@ Public Class Form2
     Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
         ToolStripStatusLabel1.Text = "لديك " & GetCount("Stdnts", "StID") & " طالب."
         ConDGV(<sql>SELECT * FROM Stdnts;</sql>.Value)
-        ToolStripStatusLabel2.Text = String.Empty
-        ToolStripStatusLabel4.Text = String.Empty
     End Sub
     Private Function GetCount(ByVal TblNm As String, FldNm As String) As Integer
         Dim SqlStr As String =
@@ -209,18 +213,21 @@ Public Class Form2
     Private Sub BtnDel_Click(sender As Object, e As EventArgs) Handles BtnDel.Click
         'Attend and Results Tables are linked with Students
         If StID1 <= 0 Then
+            DGStdnts.AllowUserToDeleteRows = False
             MsgBox("يجب اختيار طالب أولا.",
                    MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
             Exit Sub
         End If
         Dim SqlStr1 As String =
             <sql>SELECT COUNT(StID) FROM GrSt Where StID=<%= StID1 %>;</sql>.Value
-        Dim Ig As String = GetCount1(SqlStr1)
+        Dim Ig As Integer = IC.GetCount1(SqlStr1)
         If Ig >= 1 Then
+            DGStdnts.AllowUserToDeleteRows = False
             MsgBox("يجب حذف الطالب أولا من المجوعة المنتمي اليها.",
              MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
             Exit Sub
         End If
+        DGStdnts.AllowUserToDeleteRows = True
         Dim RUSre As MsgBoxResult = MsgBox("تأكيد حذف الطالب من البرنامج.",
                                                MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight +
                                                MsgBoxStyle.Critical + MsgBoxStyle.YesNoCancel)
@@ -347,7 +354,8 @@ Public Class Form2
         DoubleBuffered = True
         RightToLeft = RightToLeft.Yes
         KeyPreview = True
-        WindowState = FormWindowState.Normal
+        Constr1 = IC.ConStr
+        'WindowState = FormWindowState.Maximized
         BackgroundImage = Image.FromFile(IO.Path.Combine(Application.StartupPath, "Main2.jpg"), True)
         ComboBox1.SelectedIndex = 0
         Dim sqlstr As String = <sql>SELECT GrDt.GrID, Grps.GrNm FROM Grps INNER JOIN GrDt ON Grps.GrID = GrDt.GrID 
@@ -383,8 +391,7 @@ Public Class Form2
             ConDGV(SqlStr1)
         End If
     End Sub
-    Private Sub ComboBox1_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles ComboBox1.SelectionChangeCommitted
-        TextBox1.SelectAll()
+    Private Sub ComboBox1_SelectionChangeCommitted(sender As Object, e As EventArgs)
         TextBox1.Text = String.Empty
         BtnClear_Click(sender, e)
     End Sub
@@ -399,35 +406,18 @@ Public Class Form2
                    MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
             Exit Sub
         End If
+        GrID1 = Convert.ToInt32(ComboBox2.SelectedValue)
         Form5.ShowDialog()
     End Sub
     Private Sub Form2_Resize(sender As Object, e As EventArgs) Handles Me.Resize
         BackgroundImageLayout = ImageLayout.Stretch
         Invalidate(True)
-        Update()
-        Refresh()
     End Sub
-
-    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
-
-    End Sub
-
     Private Sub ComboBox2_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles ComboBox2.SelectionChangeCommitted
         Dim SqlStr As String = <sql>SELECT COUNT(StID) FROM GrSt Where GrID=<%= Convert.ToInt32(ComboBox2.SelectedValue) %>;</sql>.Value
         Dim Rslt As String = "عدد الطلاب بالمجموعة : "
-        GroupBox3.Text = Rslt & Convert.ToInt32(GetCount1(SqlStr)) & " طالب."
+        GroupBox3.Text = Rslt & Convert.ToInt32(IC.GetCount1(SqlStr)) & " طالب."
     End Sub
-    Private Function GetCount1(ByVal SqlStr As String) As Object
-        Dim Rslt As String = String.Empty
-        Dim Obj As Object
-        Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
-                CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
-            CN.Open()
-            Obj = CMD.ExecuteScalar
-            Return Obj
-        End Using
-    End Function
-
     Private Sub Form2_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         Dim dropDownItems As ToolStripItemCollection = Form1.SToolStripMenuItem.DropDownItems
         If dropDownItems.Count > 0 Then
@@ -462,5 +452,15 @@ Public Class Form2
                 BtnDel_Click(sender, e)
             End If
         End If
+    End Sub
+
+    Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
+        Dim sqlstr As String = <sql>SELECT GrDt.GrID, Grps.GrNm FROM Grps INNER JOIN GrDt ON Grps.GrID = GrDt.GrID 
+            GROUP BY GrDt.GrID, Grps.GrNm;</sql>.Value
+        IC.GetGrps(Dt1, Constr1, sqlstr, ComboBox2, "GrNm", "GrID")
+    End Sub
+
+    Private Sub Form2_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
+        WindowState = FormWindowState.Normal
     End Sub
 End Class
