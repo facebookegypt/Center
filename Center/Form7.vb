@@ -83,11 +83,11 @@ Public Class Form7
                "WHERE (((GrSt.GrID)=" & GrID1 & ") And ((Rslts.GrDtID)=" & GrDtID1 & ")) ORDER BY Stdnts.StID;")
     End Sub
     Private Sub AddCol()
-        If Not DGStdnts.Columns.Contains("PScore") Then
+        If Not DGStdnts.Columns.Contains("Pscore") Then
             Dim AddColumn As New DataGridViewCheckBoxColumn
             With AddColumn
                 .HeaderText = "درجة الطالب / 30"
-                .Name = "Pstat"
+                .Name = "Pscore"
                 .FlatStyle = FlatStyle.Standard
                 .CellTemplate = New DataGridViewCheckBoxCell()
                 .CellTemplate.Style.BackColor = Color.Beige
@@ -96,7 +96,7 @@ Public Class Form7
                 .AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                 .DataPropertyName = "Mrk"
             End With
-            DGStdnts.Columns.Insert(0, AddColumn)
+            DGStdnts.Columns.Insert(2, AddColumn)
         End If
     End Sub
     Private Sub ConDGV(ByVal SqlStr As String)

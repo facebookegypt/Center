@@ -75,7 +75,7 @@ Partial Class Form8
         Me.Label4.ForeColor = System.Drawing.Color.White
         Me.Label4.Location = New System.Drawing.Point(3, 16)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(407, 23)
+        Me.Label4.Size = New System.Drawing.Size(407, 28)
         Me.Label4.TabIndex = 45
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
