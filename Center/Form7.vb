@@ -84,11 +84,10 @@ Public Class Form7
     End Sub
     Private Sub AddCol()
         If Not DGStdnts.Columns.Contains("Pscore") Then
-            Dim AddColumn As New DataGridViewCheckBoxColumn
+            Dim AddColumn As New DataGridViewTextBoxColumn
             With AddColumn
                 .HeaderText = "درجة الطالب / 30"
                 .Name = "Pscore"
-                .FlatStyle = FlatStyle.Standard
                 .CellTemplate = New DataGridViewTextBoxCell()
                 .CellTemplate.Style.BackColor = Color.Beige
                 .CellTemplate.Style.ForeColor = Color.Black
