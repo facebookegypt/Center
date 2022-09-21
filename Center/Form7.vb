@@ -84,17 +84,19 @@ Public Class Form7
     End Sub
     Private Sub AddCol()
         If Not DGStdnts.Columns.Contains("PScore") Then
-            Dim AddColumn1 As New DataGridViewTextBoxColumn
-            With AddColumn1
+            Dim AddColumn As New DataGridViewCheckBoxColumn
+            With AddColumn
                 .HeaderText = "درجة الطالب / 30"
-                .Name = "Pscore"
-                .ValueType = GetType(Double)
+                .Name = "Pstat"
+                .FlatStyle = FlatStyle.Standard
                 .CellTemplate = New DataGridViewCheckBoxCell()
                 .CellTemplate.Style.BackColor = Color.Beige
+                .ValueType = GetType(Boolean)
+                .ThreeState = False
                 .AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                 .DataPropertyName = "Mrk"
             End With
-            DGStdnts.Columns.Insert(DGStdnts.ColumnCount, AddColumn1)
+            DGStdnts.Columns.Insert(0, AddColumn)
         End If
     End Sub
     Private Sub ConDGV(ByVal SqlStr As String)
