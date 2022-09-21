@@ -89,6 +89,8 @@ Public Class Form7
                 .HeaderText = "درجة الطالب / 30"
                 .Name = "Pscore"
                 .ValueType = GetType(Double)
+                .CellTemplate = New DataGridViewCheckBoxCell()
+                .CellTemplate.Style.BackColor = Color.Beige
                 .AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                 .DataPropertyName = "Mrk"
             End With

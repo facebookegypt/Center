@@ -145,7 +145,7 @@ Public Class Form5
         AddHandler DGStdnts.EditingControlShowing, AddressOf DGStdnts_EditingControlShowing
     End Sub
     Private WithEvents m_editingcontrol As Control
-    Private Sub DGStdnts_EditingControlShowing(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewEditingControlShowingEventArgs)
+    Private Sub DGStdnts_EditingControlShowing(ByVal sender As Object, ByVal e As DataGridViewEditingControlShowingEventArgs)
         m_editingcontrol = e.Control ' ←　Register EventHandler Here
     End Sub
     Private Sub m_editingcontrol_PreviewKeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.PreviewKeyDownEventArgs) Handles m_editingcontrol.PreviewKeyDown

@@ -145,9 +145,6 @@ Public Class Form8
         If DGStdnts.Columns.Contains("PStat") Then
             DGStdnts.Columns.Remove("PStat")
         End If
-        'DGStdnts.Columns("Pstat").HeaderCell.Value = "غياب"
-        'DGStdnts.Columns("Pstat").ReadOnly = False
-        'DGStdnts.Columns("Pstat").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
         AddCol()
         DGStdnts.Columns("StID").HeaderCell.Value = "كود الطالب"
         DGStdnts.Columns("StID").ReadOnly = True
@@ -156,26 +153,10 @@ Public Class Form8
         DGStdnts.Columns("StNm").ReadOnly = True
         DGStdnts.Columns("StNm").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
         AddHandler DGStdnts.RowPostPaint, AddressOf DGSTDNTS_RowPostPaint
-        AddHandler DGStdnts.CellContentClick, AddressOf DGStdnts_CellClick
-        AddHandler DGStdnts.CellValueChanged, AddressOf Dgstdnts_CellValueChanged
+        'AddHandler DGStdnts.CellContentClick, AddressOf DGStdnts_CellClick
+        AddHandler DGStdnts.CellValueChanged, AddressOf DGStdnts_CellValueChanged
         AddHandler DGStdnts.CurrentCellDirtyStateChanged, AddressOf DGStdnts_CurrentCellDirtyStateChanged
         AddHandler DGStdnts.CellFormatting, AddressOf Dgstdnts_CellFormatting
-    End Sub
-    Private Sub DGStdnts_CellClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs)
-        'Check to ensure that the row CheckBox is clicked.
-        If e.RowIndex >= 0 AndAlso DGStdnts.Columns(e.ColumnIndex).Name = "PStat" Then
-            'Reference the GridView Row.
-            Dim row As DataGridViewRow = DGStdnts.Rows(e.RowIndex)
-            'Set the CheckBox selection.
-            row.Cells("PStat").Value = Convert.ToBoolean(row.Cells("PStat").EditedFormattedValue)
-            If Convert.ToBoolean(row.Cells("PStat").EditedFormattedValue) = True Then
-                row.DefaultCellStyle.BackColor = Color.Honeydew
-            Else
-                row.DefaultCellStyle.BackColor = Color.White
-            End If
-            BtnSave.Enabled = True
-            DGStdnts.EndEdit()
-        End If
     End Sub
     Private Sub Dgstdnts_CellFormatting(ByVal sender As Object, ByVal e As DataGridViewCellFormattingEventArgs)
         If DGStdnts.Columns(e.ColumnIndex).Name = "PStat" Then
@@ -187,17 +168,41 @@ Public Class Form8
         End If
     End Sub
     Sub DGStdnts_CurrentCellDirtyStateChanged(ByVal sender As Object, ByVal e As EventArgs)
-        If TypeOf DGStdnts.CurrentCell Is DataGridViewCheckBoxCell Then
+        If TypeOf DGStdnts.CurrentCell Is DataGridViewCheckBoxCell And DGStdnts.IsCurrentCellDirty Then
+            StID1 = Convert.ToInt32(DGStdnts.CurrentRow.Cells("StID").Value)
+            DGStdnts.CommitEdit(DataGridViewDataErrorContexts.Commit)
             DGStdnts.EndEdit()
-            If DGStdnts.IsCurrentCellDirty Then
-                DGStdnts.CommitEdit(DataGridViewDataErrorContexts.Commit)
-            End If
         End If
     End Sub
     ' If a check box cell is clicked, this event handler disables  
     ' or enables the button in the same row as the clicked cell.
     Private Sub DGStdnts_CellValueChanged(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs)
-        DGStdnts.Invalidate()
+        If e.ColumnIndex = -1 Or e.RowIndex = -1 Then Exit Sub
+        If DGStdnts.Columns(e.ColumnIndex).Name = "PStat" Then
+            RemoveHandler DGStdnts.CellValueChanged, AddressOf DGStdnts_CellValueChanged
+            Dim checkCell As DataGridViewCheckBoxCell = CType(DGStdnts.Rows(e.RowIndex).Cells("PStat"), DataGridViewCheckBoxCell)
+            Dim N As Integer
+            Dim SqlStr As String =
+                <SQL>UPDATE Attnd SET PStat=?, Dtmdfd=? WHERE Attnd.StID=? AND Attnd.GrDtID=?;</SQL>.Value
+            Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
+                    CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
+                With CMD.Parameters
+                    .AddWithValue("?", Convert.ToBoolean(DGStdnts.CurrentRow.Cells("PStat").FormattedValue))
+                    .AddWithValue("?", Now.Date)
+                    .AddWithValue("?", StID1)
+                    .AddWithValue("?", GrDtID1)
+                End With
+                CN.Open()
+                N = CMD.ExecuteNonQuery
+            End Using
+            If N >= 1 Then
+                DGStdnts.CurrentRow.DefaultCellStyle.BackColor = Color.LightGreen
+            Else
+                DGStdnts.CurrentRow.DefaultCellStyle.BackColor = Color.Red
+            End If
+            AddHandler DGStdnts.CellValueChanged, AddressOf DGStdnts_CellValueChanged
+            DGStdnts.Refresh()
+        End If
     End Sub
     Private Sub AddCol()
         If Not DGStdnts.Columns.Contains("PStat") Then
@@ -205,8 +210,11 @@ Public Class Form8
             With AddColumn
                 .HeaderText = "الغياب"
                 .Name = "PStat"
-                .Width = 80
+                .FlatStyle = FlatStyle.Standard
+                .CellTemplate = New DataGridViewCheckBoxCell()
+                .CellTemplate.Style.BackColor = Color.Beige
                 .ValueType = GetType(Boolean)
+                .ThreeState = False
                 .AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                 .DataPropertyName = "PStat"
             End With
