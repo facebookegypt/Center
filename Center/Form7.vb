@@ -89,10 +89,11 @@ Public Class Form7
                 .HeaderText = "درجة الطالب / 30"
                 .Name = "Pscore"
                 .FlatStyle = FlatStyle.Standard
-                .CellTemplate = New DataGridViewCheckBoxCell()
+                .CellTemplate = New DataGridViewTextBoxCell()
                 .CellTemplate.Style.BackColor = Color.Beige
-                .ValueType = GetType(Boolean)
-                .ThreeState = False
+                .CellTemplate.Style.ForeColor = Color.Black
+                .CellTemplate.Style.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .ValueType = GetType(Double)
                 .AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                 .DataPropertyName = "Mrk"
             End With
@@ -306,7 +307,6 @@ Public Class Form7
         AddHandler TRV.AfterSelect, AddressOf TRV_AfterSelect
         GetMainTree(dt3)
     End Sub
-
     Private Sub Form7_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         'Use KeyCode when you don't care about the modifiers, KeyData when you do.
         If e.KeyCode = Keys.S AndAlso e.Modifiers = Keys.Control Then
@@ -325,7 +325,6 @@ Public Class Form7
             End If
         End If
     End Sub
-
     Private Sub BtnDel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnDel.Click
         'Delete
         'Attend and Results Tables are linked with Students
@@ -337,8 +336,6 @@ Public Class Form7
         End If
         Dim SqlStr1 As String =
             <sql>SELECT COUNT(GrDtID) FROM Rslts Where GrDtID=<%= GrDtID1 %>;</sql>.Value
-
-
         Dim AreUsURE As MsgBoxResult =
             MsgBox("يجب حذف درجات طلاب المجوعه فى هذا اليوم أولا.",
          MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical + MsgBoxStyle.YesNoCancel)
