@@ -2,7 +2,7 @@
 
 Public Class Form1
     Private Property Ii As New Class1
-    Private Property Constr As String
+    Private Property Constr As String = Ii.ConStr
     Private Function GrDtToday() As Integer
         Dim SqlStr As String = "SELECT COUNT(GrDtID) FROM GrDt WHERE Month(GrDt.Mnm)=? AND GrDt.GrDt1=?;"
         Using CN = New OleDbConnection With {.ConnectionString = Constr},
@@ -25,9 +25,8 @@ Public Class Form1
         Timer1.Interval = 1000
         Timer1.Enabled = True
         DoubleBuffered = True
-        Constr = Ii.ConStr
         WindowState = FormWindowState.Maximized
-        BackgroundImage = Image.FromFile(IO.Path.Combine(Application.StartupPath, "Main1.jpg"), True)
+        BackgroundImage = My.Resources.ResourceManager.GetObject("Main1")
         LayoutMdi(MdiLayout.ArrangeIcons)
         IsMdiContainer = True
         If Not IsNothing(My.Settings.LstBckPDt) And My.Settings.BackUpSet <> 0 And My.Settings.LocalBackUpFolder.Length >= 1 Then
@@ -94,7 +93,7 @@ Public Class Form1
         Dim Iu As Class1 = New Class1
         Dim BackUpFolder As String = Iu.OfdOpn("اختر مجلد حفظ نسخة احتياطية")
         If String.IsNullOrEmpty(BackUpFolder) Then
-            BackUpFolder = Application.StartupPath
+            Exit Sub
         End If
         Iu.CompRepair(BackUpFolder)
         'Create the file stream for the source file
@@ -112,8 +111,7 @@ Public Class Form1
                 Application.DoEvents()    'do it
             End While
         End Using
-        MsgBox("تم تصدير النسخة بنجاح.", MsgBoxStyle.Information)
-        IsMdiContainer = True
+        MsgBox("تم تصدير النسخة بنجاح.", MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
     End Sub
     Private Sub QToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles QToolStripMenuItem.Click
         If Form3.Visible = True Then Form3.BringToFront()
@@ -136,7 +134,10 @@ Public Class Form1
     End Sub
 
     Private Sub MnuGr_Click(sender As Object, e As EventArgs) Handles MnuGr.Click
-        If Form4.Visible = True Then Form4.BringToFront()
+        If Form4.Visible = True Then
+            Form4.BringToFront()
+            Exit Sub
+        End If
         IsMdiContainer = True
         With Form4
             .MdiParent = Me
@@ -147,7 +148,10 @@ Public Class Form1
     End Sub
 
     Private Sub SToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SToolStripMenuItem1.Click
-        If Form8.Visible Then Form8.BringToFront()
+        If Form8.Visible = True Then
+            Form8.BringToFront()
+            Exit Sub
+        End If
         IsMdiContainer = True
         Dim Frm7 As New Form8
         With Frm7
@@ -159,7 +163,10 @@ Public Class Form1
     End Sub
 
     Private Sub MnuMarks_Click(sender As Object, e As EventArgs) Handles MnuMarks.Click
-        If Form7.Visible Then Form7.BringToFront()
+        If Form7.Visible Then
+            Form7.BringToFront()
+            Exit Sub
+        End If
         IsMdiContainer = True
         Dim Frm7 As New Form7
         With Frm7
@@ -174,8 +181,5 @@ Public Class Form1
             .ContentText = "السلام عليكم و رحمة الله و بركاته. لديك  " & GrDtToday() & " مجموعات اليوم."
             .Popup()
         End With
-    End Sub
-    Private Sub MnuMrk_Click(sender As Object, e As EventArgs) Handles MnuMrk.Click
-
     End Sub
 End Class

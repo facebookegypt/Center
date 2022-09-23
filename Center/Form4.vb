@@ -73,39 +73,55 @@ Public Class Form4
     End Sub
     Private Sub BtnSave_Click(sender As Object, e As EventArgs) Handles BtnSave.Click
         If IsNothing(ComboBox2.SelectedItem) Then
-            MsgBox("من فضلك اختر المجموعة أولا.")
+            MsgBox("من فضلك اختر المجموعة أولا.",
+                   MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Exclamation)
             Exit Sub
         End If
         If IsNothing(ComboBox3.SelectedItem) Then
-            MsgBox("من فضلك اختر الأعمال.")
+            MsgBox("من فضلك اختر الأعمال.",
+                   MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Exclamation)
             Exit Sub
         End If
         If TxtMrk.Text.Length <= 0 Then
-            MsgBox("من فضلك ادخل الدرجة العظمي للأعمال.")
+            MsgBox("من فضلك ادخل الدرجة العظمي للأعمال.",
+                   MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Exclamation)
             Exit Sub
+        End If
+        Dim Mnthly As Integer = 0, NxtDy As Date = DateTimePicker2.Value.Date
+        If CheckBox1.CheckState = CheckState.Checked Then
+            Mnthly = 3
         End If
         Dim SqlStr1 As String =
             "INSERT INTO GrDT (GrID,Mnm,GrDt1,GrDt2,TaskID,TskFlMrk,DtCrtd,DtMdfd) VALUES (?,?,?,?,?,?,?,?);"
         Dim N As Integer
-        Using CN = New OleDbConnection(Constr1),
+        For I As Integer = 0 To Mnthly
+            If Mnthly = 0 Then NxtDy = DateTimePicker2.Value.Date : Exit For
+            NxtDy = DateAdd(DateInterval.WeekOfYear, I, DateTimePicker2.Value.Date)
+            Using CN = New OleDbConnection(Constr1),
                 cmd = New OleDbCommand(SqlStr1, CN) With {.CommandType = CommandType.Text}
-            With cmd.Parameters
-                .AddWithValue("?", GrID)
-                .AddWithValue("?", DateTimePicker1.Value.Date)
-                .AddWithValue("?", DateTimePicker2.Value.Date)
-                .AddWithValue("?", DateTimePicker2.Value.TimeOfDay)
-                .AddWithValue("?", TaskID)
-                .AddWithValue("?", Convert.ToInt32(TxtMrk.Text))
-                .AddWithValue("?", Now.Date)
-                .AddWithValue("?", Now.Date)
-            End With
-            Try
+                With cmd.Parameters
+                    .AddWithValue("?", GrID)
+                    .AddWithValue("?", DateTimePicker1.Value.Date)
+                    .AddWithValue("?", NxtDy)
+                    .AddWithValue("?", DateTimePicker2.Value.TimeOfDay)
+                    .AddWithValue("?", TaskID)
+                    .AddWithValue("?", Convert.ToInt32(TxtMrk.Text))
+                    .AddWithValue("?", Now.Date)
+                    .AddWithValue("?", Now.Date)
+                End With
                 CN.Open()
                 N = cmd.ExecuteNonQuery()
-                MsgBox("تم الحفظ بنجاح.")
-            Catch ex As Exception
-            End Try
-        End Using
+                cmd.Parameters.Clear()
+            End Using
+        Next
+        If N = 0 Then
+            MsgBox("مشكلة فى عملية الحفظ, برجاء اعادة المحاولة.",
+                   MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Critical)
+        ElseIf N >= 1 Then
+            MsgBox("تم الحفظ بنجاح.",
+                   MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
+            ToolStripButton10_Click(sender, e)
+        End If
     End Sub
     Private Sub ComboBox2_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles ComboBox2.SelectionChangeCommitted
         GrID = Convert.ToInt32(ComboBox2.SelectedValue)
@@ -271,9 +287,11 @@ Public Class Form4
             Try
                 CN.Open()
                 N = cmd.ExecuteNonQuery()
-                MsgBox("تم التعديل بنجاح.")
+                MsgBox("تم التعديل بنجاح.",
+                       MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
             Catch ex As Exception
-                MsgBox("خطأ في التعديل : " & ex.Message)
+                MsgBox("خطأ في التعديل : " & ex.Message,
+                       MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Critical)
             End Try
         End Using
     End Sub
@@ -297,7 +315,7 @@ Public Class Form4
         DG1.AllowUserToDeleteRows = True
         Dim RUSre As MsgBoxResult = MsgBox("تأكيد حذف هذا الميعاد من المجموعة.",
                                                MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight +
-                                               MsgBoxStyle.Critical + MsgBoxStyle.YesNoCancel)
+                                               MsgBoxStyle.Question + MsgBoxStyle.YesNoCancel)
         If RUSre = MsgBoxResult.Yes Then
             Dim N As Integer
             Dim SqlStr As String =
@@ -359,5 +377,8 @@ Public Class Form4
         'Copy & Paste
         Dim digitsOnly As Regex = New Regex("[^\d]")
         TxtMrk.Text = digitsOnly.Replace(TxtMrk.Text, "")
+    End Sub
+    Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
+
     End Sub
 End Class

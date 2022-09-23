@@ -2,8 +2,8 @@
 Imports Microsoft.Office.Interop.Access
 Imports Microsoft.Win32
 Imports Tulpep.NotificationWindow
-
 Public Class Class1
+    Public Property ConstrU As String
     Public Property PopupNotifier1 = New PopupNotifier With
         {
         .ShowCloseButton = True,
@@ -22,7 +22,7 @@ Public Class Class1
         .GradientPower = 10
     }
     Private Function DbFound() As Boolean
-        If IO.File.Exists(Application.StartupPath & "\Centerq.accdb") Then
+        If IO.File.Exists(IO.Path.Combine(Application.StartupPath, My.Settings.dbNm)) Then
             Return True
         Else
             MsgBox("ملف قاعدة البيانات غير موجود" & vbCrLf & "برجاء الاتصال بـ " & vbCrLf & "9977 1220 010",
@@ -46,18 +46,18 @@ Public Class Class1
         Return My.Settings.LstBckPDt
     End Function
     Public Function ConStr() As String
-        Dim ConStr1 As String = My.Settings.Provider
-        If String.IsNullOrEmpty(ConStr1) Then
+        ConstrU = My.Settings.Provider
+        If String.IsNullOrEmpty(ConstrU) Then
             GetConStr()
         Else
-            ConStr1 = My.Settings.Provider & IO.Path.Combine(Application.StartupPath, My.Settings.dbNm) & ";" &
+            ConstrU = My.Settings.Provider & IO.Path.Combine(Application.StartupPath, My.Settings.dbNm) & ";" &
                         "Jet OLEDB:Database Password= " & My.Settings.dbPass & ";" &
                         "Persist Security Info=False;"
         End If
-        Return ConStr1
+        Return ConstrU
     End Function
     Private Function GetConStr() As String
-        Dim ConStr As String = "مشكلة فى ملفات الأكسس"
+        ConstrU = "مشكلة فى ملفات الأكسس"
         Dim Ilist As List(Of String) = New List(Of String)
         Ilist = FindProvider()
         Dim Pro As String = String.Empty
@@ -69,21 +69,21 @@ Public Class Class1
                     Pro = Class2.Txt1.Text
                     My.Settings.Provider = Pro
                     My.Settings.Save()
-                    ConStr = Pro & IO.Path.Combine(Application.StartupPath, My.Settings.dbNm) & ";" &
+                    ConstrU = Pro & IO.Path.Combine(Application.StartupPath, My.Settings.dbNm) & ";" &
                     "Jet OLEDB:Database Password= " & My.Settings.dbPass & ";" &
                     "Persist Security Info=False;"
                 Else
-                    ConStr = FindProvider(0) & IO.Path.Combine(Application.StartupPath, My.Settings.dbNm) & ";" &
+                    ConstrU = FindProvider(0) & IO.Path.Combine(Application.StartupPath, My.Settings.dbNm) & ";" &
                         "Jet OLEDB:Database Password= " & My.Settings.dbPass & ";" &
                         "Persist Security Info=False;"
                 End If
             Else
-                ConStr = My.Settings.Provider & IO.Path.Combine(Application.StartupPath, My.Settings.dbNm) & ";" &
+                ConstrU = My.Settings.Provider & IO.Path.Combine(Application.StartupPath, My.Settings.dbNm) & ";" &
                         "Jet OLEDB:Database Password= " & My.Settings.dbPass & ";" &
                         "Persist Security Info=False;"
             End If
         End If
-        Return ConStr
+        Return ConstrU
     End Function
     Private Function FindProvider() As List(Of String)
         Dim Provider As String = String.Empty
@@ -118,7 +118,7 @@ Public Class Class1
             .ShowNewFolderButton = True
         End With
         Dim result As DialogResult = OFD.ShowDialog()
-        If (result = DialogResult.OK) Then
+        If result = DialogResult.OK Then
             FolderName = OFD.SelectedPath
             Rslt = FolderName
             DefaultLocalFolder = New IO.DirectoryInfo(Rslt)
@@ -199,7 +199,7 @@ Public Class Class1
                 DataAdapter1.Fill(DT1)
             End Using
         Catch ex As OleDbException
-            MsgBox("مشكلة فى التعرف علي قاعدة البيانات : " & vbCrLf & ex.Message, _
+            MsgBox("مشكلة فى التعرف علي قاعدة البيانات : " & vbCrLf & ex.Message,
                    MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Critical)
             Class2.ShowDialog()
         End Try

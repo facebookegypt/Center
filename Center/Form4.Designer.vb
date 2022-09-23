@@ -24,6 +24,8 @@ Partial Class Form4
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form4))
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
+        Me.TxtMrk = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.BtnClear = New System.Windows.Forms.ToolStripButton()
@@ -43,8 +45,7 @@ Partial Class Form4
         Me.Label8 = New System.Windows.Forms.Label()
         Me.DateTimePicker2 = New System.Windows.Forms.DateTimePicker()
         Me.Label6 = New System.Windows.Forms.Label()
-        Me.TxtMrk = New System.Windows.Forms.TextBox()
-        Me.Label1 = New System.Windows.Forms.Label()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.GroupBox5.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.ToolStrip2.SuspendLayout()
@@ -55,6 +56,7 @@ Partial Class Form4
         Me.GroupBox5.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox5.BackColor = System.Drawing.Color.Transparent
+        Me.GroupBox5.Controls.Add(Me.CheckBox1)
         Me.GroupBox5.Controls.Add(Me.TxtMrk)
         Me.GroupBox5.Controls.Add(Me.Label1)
         Me.GroupBox5.Controls.Add(Me.Button1)
@@ -78,6 +80,36 @@ Partial Class Form4
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.UseCompatibleTextRendering = True
         '
+        'TxtMrk
+        '
+        Me.TxtMrk.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TxtMrk.Font = New System.Drawing.Font("Times New Roman", 12.25!)
+        Me.TxtMrk.Location = New System.Drawing.Point(140, 139)
+        Me.TxtMrk.MaxLength = 60
+        Me.TxtMrk.Name = "TxtMrk"
+        Me.TxtMrk.RightToLeft = System.Windows.Forms.RightToLeft.Yes
+        Me.TxtMrk.Size = New System.Drawing.Size(122, 26)
+        Me.TxtMrk.TabIndex = 40
+        Me.TxtMrk.Text = "0"
+        Me.TxtMrk.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.TxtMrk.WordWrap = False
+        '
+        'Label1
+        '
+        Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label1.AutoEllipsis = True
+        Me.Label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Label1.Font = New System.Drawing.Font("Times New Roman", 11.0!)
+        Me.Label1.ForeColor = System.Drawing.Color.Beige
+        Me.Label1.Location = New System.Drawing.Point(268, 139)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(100, 25)
+        Me.Label1.TabIndex = 39
+        Me.Label1.Text = "درجة الأعمال"
+        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Label1.UseCompatibleTextRendering = True
+        '
         'Button1
         '
         Me.Button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
@@ -85,7 +117,7 @@ Partial Class Form4
         Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button1.ForeColor = System.Drawing.Color.SeaShell
-        Me.Button1.Location = New System.Drawing.Point(227, 44)
+        Me.Button1.Location = New System.Drawing.Point(293, 44)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(75, 25)
         Me.Button1.TabIndex = 38
@@ -301,35 +333,25 @@ Partial Class Form4
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.Label6.UseCompatibleTextRendering = True
         '
-        'TxtMrk
+        'CheckBox1
         '
-        Me.TxtMrk.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TxtMrk.Font = New System.Drawing.Font("Times New Roman", 12.25!)
-        Me.TxtMrk.Location = New System.Drawing.Point(140, 139)
-        Me.TxtMrk.MaxLength = 60
-        Me.TxtMrk.Name = "TxtMrk"
-        Me.TxtMrk.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.TxtMrk.Size = New System.Drawing.Size(122, 26)
-        Me.TxtMrk.TabIndex = 40
-        Me.TxtMrk.Text = "0"
-        Me.TxtMrk.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.TxtMrk.WordWrap = False
-        '
-        'Label1
-        '
-        Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label1.AutoEllipsis = True
-        Me.Label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Label1.Font = New System.Drawing.Font("Times New Roman", 11.0!)
-        Me.Label1.ForeColor = System.Drawing.Color.Beige
-        Me.Label1.Location = New System.Drawing.Point(268, 139)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(100, 25)
-        Me.Label1.TabIndex = 39
-        Me.Label1.Text = "درجة الأعمال"
-        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.Label1.UseCompatibleTextRendering = True
+        Me.CheckBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.CheckBox1.AutoEllipsis = True
+        Me.CheckBox1.FlatAppearance.CheckedBackColor = System.Drawing.Color.Silver
+        Me.CheckBox1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+        Me.CheckBox1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.CheckBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.CheckBox1.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Bold)
+        Me.CheckBox1.ForeColor = System.Drawing.Color.LightGreen
+        Me.CheckBox1.Location = New System.Drawing.Point(140, 108)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Padding = New System.Windows.Forms.Padding(2)
+        Me.CheckBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
+        Me.CheckBox1.Size = New System.Drawing.Size(228, 24)
+        Me.CheckBox1.TabIndex = 41
+        Me.CheckBox1.Text = "ميعاد ثابت طول الشهر"
+        Me.CheckBox1.UseCompatibleTextRendering = True
+        Me.CheckBox1.UseVisualStyleBackColor = True
         '
         'Form4
         '
@@ -371,4 +393,5 @@ Partial Class Form4
     Friend WithEvents ToolStripLabel2 As ToolStripLabel
     Friend WithEvents TxtMrk As TextBox
     Friend WithEvents Label1 As Label
+    Friend WithEvents CheckBox1 As CheckBox
 End Class

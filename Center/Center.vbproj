@@ -261,6 +261,15 @@
     <None Include="bin\Debug\accept_button.png" />
     <None Include="bin\Debug\Del.png" />
     <None Include="bin\Debug\qwe.png" />
+    <None Include="bin\Debug\Main1.jpg" />
+    <None Include="bin\Debug\Main1.png" />
+    <None Include="bin\Debug\account_menu.png" />
+    <None Include="bin\Debug\folder_add.png" />
+    <None Include="bin\Debug\door_out.png" />
+    <None Include="bin\Debug\group_gear.png" />
+    <None Include="bin\Debug\table_gear.png" />
+    <None Include="bin\Debug\page_gear.png" />
+    <None Include="bin\Debug\script_gear.png" />
     <Content Include="Icon1.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

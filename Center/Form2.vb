@@ -371,7 +371,7 @@ Public Class Form2
                     TextBox1.Text.Contains(",") Or
                     TextBox1.Text.Contains(".") Then
                 MsgBox("الاسم الذي أدخلته غير صحيح",
-                       MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
+                       MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Critical)
                 Exit Sub
             End If
             If TextBox1.Text.Length <= 0 Then Exit Sub
@@ -398,12 +398,12 @@ Public Class Form2
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If ComboBox2.Items.Count <= 0 Then
             MsgBox("من فضلك قم بانشاء مجموعة أولا.",
-                   MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
+                   MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Exclamation)
             Exit Sub
         End If
         If IsNothing(ComboBox2.SelectedItem) Then
             MsgBox("من فضلك اختر المجموعة أولا.",
-                   MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
+                   MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Exclamation)
             Exit Sub
         End If
         GrID1 = Convert.ToInt32(ComboBox2.SelectedValue)
@@ -453,14 +453,9 @@ Public Class Form2
             End If
         End If
     End Sub
-
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
         Dim sqlstr As String = <sql>SELECT GrDt.GrID, Grps.GrNm FROM Grps INNER JOIN GrDt ON Grps.GrID = GrDt.GrID 
             GROUP BY GrDt.GrID, Grps.GrNm;</sql>.Value
         IC.GetGrps(Dt1, Constr1, sqlstr, ComboBox2, "GrNm", "GrID")
-    End Sub
-
-    Private Sub Form2_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
-        WindowState = FormWindowState.Normal
     End Sub
 End Class

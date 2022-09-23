@@ -67,7 +67,6 @@ Public Class Form7
             DGStdnts.Visible = False
             BtnSave.Enabled = False
             BtnDel.Enabled = True
-            Form1.MnuMrk.Visible = False
         Else
             GrDtID1 = Integer.Parse(e.Node.Name)
             GrID1 = Integer.Parse(e.Node.Parent.Name)
@@ -77,7 +76,6 @@ Public Class Form7
                 MsgBox("برجاء تسجيل غياب المجموعة أولا")
                 Exit Sub
             End If
-            Form1.MnuMrk.Visible = True
             Label4.Text = e.Node.Text
             DGStdnts.Visible = True
             BtnSave.Enabled = False
