@@ -93,37 +93,28 @@ Public Class Form1
     Private Sub MnuFilSav_Click(sender As Object, e As EventArgs) Handles MnuFilSav.Click
         Dim Iu As Class1 = New Class1
         Dim BackUpFolder As String = Iu.OfdOpn("اختر مجلد حفظ نسخة احتياطية")
-        If String.IsNullOrEmpty(BackUpFolder) Then Exit Sub
-        Iu.CompRepair()
+        If String.IsNullOrEmpty(BackUpFolder) Then
+            BackUpFolder = Application.StartupPath
+        End If
+        Iu.CompRepair(BackUpFolder)
         'Create the file stream for the source file
-        Dim BackUpPath As String = BackUpFolder
-        Dim streamRead As New IO.FileStream(IO.Path.Combine(Application.StartupPath, My.Settings.dbNm), IO.FileMode.Open)
-        'Create the file stream for the destination file
-        Dim streamWrite As IO.FileStream =
-            New IO.FileStream(IO.Path.Combine(BackUpFolder, "BackUp--" & Now.Date.ToShortDateString.Replace("/", "_") & ".accdb.bak"),
-                              IO.FileMode.Create)
-        'Determine the size in bytes of the source file (-1 as our position starts at 0)
-        Dim lngLen As Long = streamRead.Length - 1
-        Dim byteBuffer(1048576) As Byte   'our stream buffer
-        Dim intBytesRead As Integer    'number of bytes read
-
-        While streamRead.Position < lngLen    'keep streaming until EOF
-            'Read from the Source
-            intBytesRead = (streamRead.Read(byteBuffer, 0, 1048576))
-            'Write to the Target
-            streamWrite.Write(byteBuffer, 0, intBytesRead)
-            'Display the progress
-            'ToolStripProgressBar1.Value = CInt(streamRead.Position / lngLen * 100)
-            Application.DoEvents()    'do it
-        End While
-        'Clean up 
-        streamWrite.Flush()
-        streamWrite.Close()
-        streamRead.Close()
+        Using StrmRdr As New IO.FileStream(IO.Path.Combine(Application.StartupPath, My.Settings.dbNm), IO.FileMode.Open),
+            StrmWrtr As New IO.FileStream(IO.Path.Combine(BackUpFolder,
+                                                            "BackUp--" & Now.Date.ToShortDateString.Replace("/", "_") & ".accdb.bak"),
+                                            IO.FileMode.Create)
+            Dim lngLen As Long = StrmRdr.Length - 1
+            Dim byteBuffer(1048576) As Byte   'our stream buffer
+            Dim intBytesRead As Integer    'number of bytes read
+            While StrmRdr.Position < lngLen    'keep streaming until EOF
+                'Read from the Source
+                intBytesRead = (StrmRdr.Read(byteBuffer, 0, 1048576))
+                StrmWrtr.Write(byteBuffer, 0, intBytesRead)
+                Application.DoEvents()    'do it
+            End While
+        End Using
         MsgBox("تم تصدير النسخة بنجاح.", MsgBoxStyle.Information)
         IsMdiContainer = True
     End Sub
-
     Private Sub QToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles QToolStripMenuItem.Click
         If Form3.Visible = True Then Form3.BringToFront()
         IsMdiContainer = True
@@ -183,5 +174,8 @@ Public Class Form1
             .ContentText = "السلام عليكم و رحمة الله و بركاته. لديك  " & GrDtToday() & " مجموعات اليوم."
             .Popup()
         End With
+    End Sub
+    Private Sub MnuMrk_Click(sender As Object, e As EventArgs) Handles MnuMrk.Click
+
     End Sub
 End Class

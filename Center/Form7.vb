@@ -6,6 +6,7 @@ Public Class Form7
     Private Property StID1 As Integer
     Private Property StAttVal As Boolean
     Private Property GrID1 As Integer
+    Private Property FlMrk As Double
     Public Property Constr1 As String = IC.ConStr
     Private TRV As TreeView = New TreeView With {
         .Dock = DockStyle.Fill,
@@ -43,17 +44,19 @@ Public Class Form7
         Return TRV
     End Function
     Private Sub TRV_AfterSelect(ByVal sender As Object, ByVal e As TreeViewEventArgs)
+        Dim SqlStr1 As String =
+            "SELECT GrDt.GrDtID, GrDt.GrID, Tsks.TaskID, Grps.GrNm, GrDt.Mnm, GrDt.GrDt1, GrDt.GrDt2, Tsks.TaskNm, GrDt.TskFlMrk " &
+            "FROM Tsks INNER JOIN (Grps INNER JOIN GrDt ON Grps.GrID = GrDt.GrID) ON Tsks.TaskID = GrDt.TaskID " &
+            "WHERE (((GrDt.GrID)=" & Integer.Parse(e.Node.Name) & "));"
         Dim DT As DataTable =
-            IC.GetData(<SQL>SELECT GrDt.GrDtID, GrDt.GrID, Tsks.TaskID, Grps.GrNm, GrDt.Mnm, GrDt.GrDt1, GrDt.GrDt2, Tsks.TaskNm,  
-            Tsks.Fmark FROM Tsks INNER JOIN (Grps INNER JOIN GrDt ON Grps.GrID = GrDt.GrID) ON  
-            Tsks.TaskID = GrDt.TaskID WHERE (((GrDt.GrID)=<%= Integer.Parse(e.Node.Name) %>));</SQL>.Value)
+            IC.GetData(SqlStr1)
         e.Node.Nodes.Clear()
         If DT.Rows.Count > 0 Then
             For Each dr As DataRow In DT.Rows
                 Dim DadNode As TreeNode = New TreeNode With {
                     .Name = dr("GrDtID").ToString(),
                     .Text = Format(dr("Mnm"), "MMMMyyyy") & " -- " & Format(dr("GrDt1"), "dddd, dd/MMMM") &
-                    " -- " & Format(dr("GrDt2"), "hh:mm tt") & " -- " & dr("TaskNm").ToString & "( " & dr("Fmark").ToString & " )",
+                    " -- " & Format(dr("GrDt2"), "hh:mm tt") & " -- " & dr("TaskNm").ToString & "( " & dr("TskFlMrk").ToString & " )",
                     .Tag = dr("TaskID").ToString()}
                 If e.Node.Level = 0 Then e.Node.Nodes.Add(DadNode)
             Next
@@ -64,29 +67,46 @@ Public Class Form7
             DGStdnts.Visible = False
             BtnSave.Enabled = False
             BtnDel.Enabled = True
+            Form1.MnuMrk.Visible = False
         Else
             GrDtID1 = Integer.Parse(e.Node.Name)
             GrID1 = Integer.Parse(e.Node.Parent.Name)
             'Attnd
-            Dim SqlStr1 As String = <sql>SELECT COUNT(GrDtID) FROM Attnd Where GrDtID=<%= GrDtID1 %>;</sql>.Value
-            If IC.GetCount1(SqlStr1) <= 0 Then
+            Dim SqlStr2 As String = <sql>SELECT COUNT(GrDtID) FROM Attnd Where GrDtID=<%= GrDtID1 %>;</sql>.Value
+            If IC.GetCount1(SqlStr2) <= 0 Then
                 MsgBox("برجاء تسجيل غياب المجموعة أولا")
                 Exit Sub
             End If
+            Form1.MnuMrk.Visible = True
             Label4.Text = e.Node.Text
             DGStdnts.Visible = True
             BtnSave.Enabled = False
             BtnDel.Enabled = True
         End If
+
         ConDGV("SELECT Stdnts.StID, Stdnts.StNm, Rslts.Mrk FROM (Stdnts INNER JOIN (Grps INNER JOIN GrSt ON Grps.GrID = GrSt.GrID) " &
                "ON Stdnts.StID = GrSt.StID) INNER JOIN Rslts ON Stdnts.StID = Rslts.StID " &
                "WHERE (((GrSt.GrID)=" & GrID1 & ") And ((Rslts.GrDtID)=" & GrDtID1 & ")) ORDER BY Stdnts.StID;")
     End Sub
     Private Sub AddCol()
+        Using CN As New OleDbConnection(Constr1),
+                CMD As New OleDbCommand("SELECT GrDt.TskFlMrk FROM GrDt WHERE GrDtID=?;", CN) With {.CommandType = CommandType.Text}
+            CMD.Parameters.AddWithValue("?", GrDtID1)
+            CN.Open()
+            Using Rdr As OleDbDataReader = CMD.ExecuteReader
+                ' Call GetOrdinal and assign value to variable.
+                Dim TskFlMrkOrd As Integer = Rdr.GetOrdinal("TskFlMrk")
+                If Rdr.HasRows Then
+                    While Rdr.Read
+                        FlMrk = Rdr!TskFlMrk
+                    End While
+                End If
+            End Using
+        End Using
         If Not DGStdnts.Columns.Contains("Pscore") Then
             Dim AddColumn As New DataGridViewTextBoxColumn
             With AddColumn
-                .HeaderText = "درجة الطالب / 30"
+                .HeaderText = "درجة الطالب / " & FlMrk.ToString
                 .Name = "Pscore"
                 .CellTemplate = New DataGridViewTextBoxCell()
                 .CellTemplate.Style.BackColor = Color.Beige
@@ -98,6 +118,17 @@ Public Class Form7
             End With
             DGStdnts.Columns.Insert(2, AddColumn)
         End If
+    End Sub
+    Private Sub DGStdnts_DataError(ByVal sender As Object, ByVal e As DataGridViewDataErrorEventArgs)
+        ' If the data source raises an exception when a cell value is 
+        ' commited, display an error message.
+        If DGStdnts.Columns(e.ColumnIndex).Name = "Pscore" Then
+            If e.Exception IsNot Nothing And e.Exception.Message = "Input string was not in a correct format." _
+                        AndAlso e.Context = DataGridViewDataErrorContexts.Commit Then
+                e.Cancel = True
+            End If
+        End If
+
     End Sub
     Private Sub ConDGV(ByVal SqlStr As String)
         'SqlStr = <sql>SELECT * From Stdnts;</sql>.Value
@@ -151,7 +182,7 @@ Public Class Form7
         AddHandler DGStdnts.CellClick, AddressOf DGStdnts_CellClick
         AddHandler DGStdnts.CurrentCellDirtyStateChanged, AddressOf DGStdnts_CurrentCellDirtyStateChanged
         AddHandler DGStdnts.CellEndEdit, AddressOf DGStdnts_CallEndEdit
-        '    AddHandler DGStdnts.CurrentCellDirtyStateChanged, AddressOf DGStdnts_CurrentCellDirtyStateChanged
+        AddHandler DGStdnts.DataError, AddressOf DGStdnts_DataError
     End Sub
     Private Sub DGStdnts_CellClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs)
         'Check to ensure that the row CheckBox is clicked.
@@ -161,7 +192,7 @@ Public Class Form7
             Dim row As DataGridViewRow = DGStdnts.Rows(e.RowIndex)
             'Set the CheckBox selection.
             StID1 = Convert.ToInt32(row.Cells("StID").Value)
-            DGStdnts.EndEdit()
+            DGStdnts.EndEdit(DataGridViewDataErrorContexts.Commit)
         End If
     End Sub
     Sub DGStdnts_CurrentCellDirtyStateChanged(ByVal sender As Object, ByVal e As EventArgs)

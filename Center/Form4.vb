@@ -1,4 +1,5 @@
 ﻿Imports System.Data.OleDb
+Imports System.Text.RegularExpressions
 
 Public Class Form4
     Private Dt1 As DataTable
@@ -9,9 +10,9 @@ Public Class Form4
     Public Property TaskID As Integer
     Private WithEvents DG1 As DataGridView = New DataGridView With
         {.Name = "DGV1", .BorderStyle = BorderStyle.None, .RightToLeft = RightToLeft.Yes,
-        .AllowUserToAddRows = False, .Dock = DockStyle.Fill,
-        .EnableHeadersVisualStyles = False, .RowHeadersVisible = True, .BackgroundColor = Color.WhiteSmoke,
-        .ColumnHeadersHeight = 50, .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing}
+        .AllowUserToAddRows = False, .Dock = DockStyle.Fill, .EnableHeadersVisualStyles = False, .RowHeadersVisible = True,
+        .BackgroundColor = Color.WhiteSmoke, .ColumnHeadersHeight = 50, .RowHeadersWidth = 35,
+        .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing}
     Private Sub GetGrps(ByVal SqlStr As String,
                         ByVal combobox As ComboBox,
                         Optional DisMem As String = "Value",
@@ -79,8 +80,12 @@ Public Class Form4
             MsgBox("من فضلك اختر الأعمال.")
             Exit Sub
         End If
+        If TxtMrk.Text.Length <= 0 Then
+            MsgBox("من فضلك ادخل الدرجة العظمي للأعمال.")
+            Exit Sub
+        End If
         Dim SqlStr1 As String =
-            "INSERT INTO GrDT (GrID,Mnm,GrDt1,GrDt2,TaskID,DtCrtd,DtMdfd) VALUES (?,?,?,?,?,?,?);"
+            "INSERT INTO GrDT (GrID,Mnm,GrDt1,GrDt2,TaskID,TskFlMrk,DtCrtd,DtMdfd) VALUES (?,?,?,?,?,?,?,?);"
         Dim N As Integer
         Using CN = New OleDbConnection(Constr1),
                 cmd = New OleDbCommand(SqlStr1, CN) With {.CommandType = CommandType.Text}
@@ -90,6 +95,7 @@ Public Class Form4
                 .AddWithValue("?", DateTimePicker2.Value.Date)
                 .AddWithValue("?", DateTimePicker2.Value.TimeOfDay)
                 .AddWithValue("?", TaskID)
+                .AddWithValue("?", Convert.ToInt32(TxtMrk.Text))
                 .AddWithValue("?", Now.Date)
                 .AddWithValue("?", Now.Date)
             End With
@@ -160,6 +166,7 @@ Public Class Form4
         Dim DT As TimeSpan = Convert.ToDateTime(DG1.CurrentRow.Cells("GrDt2").Value).TimeOfDay
         DateTimePicker2.Value = DT0 + DT
         ComboBox3.SelectedValue = TaskID
+        TxtMrk.Text = Convert.ToInt32(DG1.CurrentRow.Cells("TskFlMrk").Value)
         BtnEdit.Enabled = True
         BtnDel.Enabled = True
         BtnSave.Enabled = False
@@ -182,26 +189,36 @@ Public Class Form4
     End Sub
     Private Sub ToolStripButton10_Click(sender As Object, e As EventArgs) Handles ToolStripButton10.Click
         Dim SqlStr As String =
-        <sql>SELECT GrDt.GrDtID, GrDt.GrID, Grps.GrNm, Grps.Lnm, Grps.SubNm, GrDt.Mnm, GrDt.GrDt1, GrDt.GrDt2, Tsks.TaskID, Tsks.TaskNm 
-        FROM Tsks INNER JOIN (GrDt INNER JOIN Grps ON GrDt.GrID = Grps.GrID) ON Tsks.TaskID = GrDt.TaskID ORDER BY GrDt.GrID;</sql>.Value
+            "SELECT GrDt.GrDtID, GrDt.GrID, Grps.GrNm, Grps.Lnm, Grps.SubNm, GrDt.Mnm, GrDt.GrDt1, GrDt.GrDt2, Tsks.TaskID, Tsks.TaskNm, " &
+            "GrDt.TskFlMrk FROM Tsks INNER JOIN (GrDt INNER JOIN Grps ON GrDt.GrID = Grps.GrID) ON Tsks.TaskID = GrDt.TaskID ORDER BY GrDt.GrID;"
         GetGrpsDts(SqlStr)
         Dim DIg1 As New DataGridViewTextBoxColumn With
-            {.Name = "GrNm", .ValueType = GetType(String), .DataPropertyName = "GrNm", .HeaderText = "المجموعة"}
+            {.Name = "GrNm", .ValueType = GetType(String), .DataPropertyName = "GrNm", .HeaderText = "المجموعة",
+            .AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader}
         Dim DIg2 As New DataGridViewTextBoxColumn With
-            {.Name = "Lnm", .ValueType = GetType(String), .DataPropertyName = "Lnm", .HeaderText = "الصف الدراسي"}
+            {.Name = "Lnm", .ValueType = GetType(String), .DataPropertyName = "Lnm", .HeaderText = "الصف الدراسي",
+            .AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader}
         Dim DIg3 As New DataGridViewTextBoxColumn With
-            {.Name = "SubNm", .ValueType = GetType(String), .DataPropertyName = "SubNm", .HeaderText = "المادة الدراسية"}
+            {.Name = "SubNm", .ValueType = GetType(String), .DataPropertyName = "SubNm", .HeaderText = "المادة الدراسية",
+            .AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill}
         Dim DIg4 As New DataGridViewTextBoxColumn With
-            {.Name = "Mnm", .ValueType = GetType(Date), .DataPropertyName = "Mnm", .HeaderText = "الشهر"}
+            {.Name = "Mnm", .ValueType = GetType(Date), .DataPropertyName = "Mnm", .HeaderText = "الشهر",
+            .AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader}
         DIg4.DefaultCellStyle.Format = "MMMMyyyy"
         Dim DIg5 As New DataGridViewTextBoxColumn With
-            {.Name = "GrDt1", .ValueType = GetType(Date), .DataPropertyName = "GrDt1", .HeaderText = "اليوم"}
+            {.Name = "GrDt1", .ValueType = GetType(Date), .DataPropertyName = "GrDt1", .HeaderText = "اليوم",
+            .AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells}
         DIg5.DefaultCellStyle.Format = "dddd dd/MMMM"
         Dim DIg6 As New DataGridViewTextBoxColumn With
-            {.Name = "GrDt2", .ValueType = GetType(Date), .DataPropertyName = "GrDt2", .HeaderText = "الساعة"}
+            {.Name = "GrDt2", .ValueType = GetType(Date), .DataPropertyName = "GrDt2", .HeaderText = "الساعة",
+            .AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells}
         DIg6.DefaultCellStyle.Format = "hh:mm tt"
         Dim DIg7 As New DataGridViewTextBoxColumn With
-            {.Name = "TaskNm", .ValueType = GetType(String), .DataPropertyName = "TaskNm", .HeaderText = "الأعمال"}
+            {.Name = "TaskNm", .ValueType = GetType(String), .DataPropertyName = "TaskNm", .HeaderText = "الأعمال",
+            .AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader}
+        Dim DIg8 As New DataGridViewTextBoxColumn With
+            {.Name = "TskFlMrk", .ValueType = GetType(Integer), .DataPropertyName = "TskFlMrk", .HeaderText = "درجة الأعمال",
+            .AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill}
         Dim DIg As New DataGridViewTextBoxColumn With
             {.Name = "GrDtID", .ValueType = GetType(Integer), .DataPropertyName = "GrDtID", .Visible = False}
         Dim DIg0 As New DataGridViewTextBoxColumn With
@@ -216,9 +233,13 @@ Public Class Form4
             DG1.Columns.Insert(4, DIg5)
             DG1.Columns.Insert(5, DIg6)
             DG1.Columns.Insert(6, DIg7)
-            DG1.Columns.Insert(7, DIg)
-            DG1.Columns.Insert(8, DIg0)
-            DG1.Columns.Insert(9, DIg_1)
+            DG1.Columns.Insert(7, DIg8)
+            DG1.Columns.Insert(8, DIg)
+            DG1.Columns.Insert(9, DIg0)
+            DG1.Columns.Insert(10, DIg_1)
+            DG1.CellBorderStyle = DataGridViewCellBorderStyle.Single
+            DG1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            DG1.RowsDefaultCellStyle.WrapMode = DataGridViewTriState.True
         End If
     End Sub
     Private Sub BtnClear_Click(sender As Object, e As EventArgs) Handles BtnClear.Click
@@ -227,13 +248,14 @@ Public Class Form4
         BtnSave.Enabled = True
         ComboBox2.SelectedItem = Nothing
         ComboBox3.SelectedItem = Nothing
+        TxtMrk.Text = 0.ToString
         DateTimePicker1.Value = Now.Date
         DateTimePicker2.Value = Now.Date
     End Sub
     Private Sub BtnEdit_Click(sender As Object, e As EventArgs) Handles BtnEdit.Click
         'Edit
         Dim N As Integer, SqlStr As String =
-            "UPDATE GrDt SET GrID=?, Mnm=?, GrDt1=?, GrDt2=?, TaskID=?, DtMdfd=? WHERE GrDtID=?;"
+            "UPDATE GrDt SET GrID=?, Mnm=?, GrDt1=?, GrDt2=?, TaskID=?, TskFlMrk=?, DtMdfd=? WHERE GrDtID=?;"
         Using CN = New OleDbConnection(Constr1),
                 cmd = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
             With cmd.Parameters
@@ -242,6 +264,7 @@ Public Class Form4
                 .AddWithValue("?", DateTimePicker2.Value.Date)
                 .AddWithValue("?", DateTimePicker2.Value.TimeOfDay)
                 .AddWithValue("?", TaskID)
+                .AddWithValue("?", Convert.ToInt32(TxtMrk.Text))
                 .AddWithValue("?", Now.Date)
                 .AddWithValue("?", GrDtID)
             End With
@@ -325,5 +348,16 @@ Public Class Form4
                 BtnDel_Click(sender, e)
             End If
         End If
+    End Sub
+    Private Sub TxtMrk_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtMrk.KeyPress
+        'Numbers Only
+        If Not Char.IsNumber(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+    Private Sub TxtMrk_TextChanged(sender As Object, e As EventArgs) Handles TxtMrk.TextChanged
+        'Copy & Paste
+        Dim digitsOnly As Regex = New Regex("[^\d]")
+        TxtMrk.Text = digitsOnly.Replace(TxtMrk.Text, "")
     End Sub
 End Class

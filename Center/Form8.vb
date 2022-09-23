@@ -153,7 +153,6 @@ Public Class Form8
         DGStdnts.Columns("StNm").ReadOnly = True
         DGStdnts.Columns("StNm").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
         AddHandler DGStdnts.RowPostPaint, AddressOf DGSTDNTS_RowPostPaint
-        'AddHandler DGStdnts.CellContentClick, AddressOf DGStdnts_CellClick
         AddHandler DGStdnts.CellValueChanged, AddressOf DGStdnts_CellValueChanged
         AddHandler DGStdnts.CurrentCellDirtyStateChanged, AddressOf DGStdnts_CurrentCellDirtyStateChanged
         AddHandler DGStdnts.CellFormatting, AddressOf Dgstdnts_CellFormatting

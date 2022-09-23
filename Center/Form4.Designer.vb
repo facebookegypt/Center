@@ -43,6 +43,8 @@ Partial Class Form4
         Me.Label8 = New System.Windows.Forms.Label()
         Me.DateTimePicker2 = New System.Windows.Forms.DateTimePicker()
         Me.Label6 = New System.Windows.Forms.Label()
+        Me.TxtMrk = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox5.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.ToolStrip2.SuspendLayout()
@@ -51,8 +53,10 @@ Partial Class Form4
         'GroupBox5
         '
         Me.GroupBox5.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox5.BackColor = System.Drawing.Color.Transparent
+        Me.GroupBox5.Controls.Add(Me.TxtMrk)
+        Me.GroupBox5.Controls.Add(Me.Label1)
         Me.GroupBox5.Controls.Add(Me.Button1)
         Me.GroupBox5.Controls.Add(Me.ToolStrip1)
         Me.GroupBox5.Controls.Add(Me.ToolStrip2)
@@ -67,9 +71,9 @@ Partial Class Form4
         Me.GroupBox5.Controls.Add(Me.Label6)
         Me.GroupBox5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.GroupBox5.ForeColor = System.Drawing.Color.DarkGreen
-        Me.GroupBox5.Location = New System.Drawing.Point(169, 12)
+        Me.GroupBox5.Location = New System.Drawing.Point(5, 12)
         Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(645, 455)
+        Me.GroupBox5.Size = New System.Drawing.Size(711, 455)
         Me.GroupBox5.TabIndex = 28
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.UseCompatibleTextRendering = True
@@ -98,7 +102,7 @@ Partial Class Form4
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 398)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.ToolStrip1.Size = New System.Drawing.Size(639, 54)
+        Me.ToolStrip1.Size = New System.Drawing.Size(705, 54)
         Me.ToolStrip1.Stretch = True
         Me.ToolStrip1.TabIndex = 37
         '
@@ -162,7 +166,7 @@ Partial Class Form4
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel1, Me.ToolStripLabel2})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 16)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(639, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(705, 25)
         Me.ToolStrip2.Stretch = True
         Me.ToolStrip2.TabIndex = 36
         '
@@ -180,12 +184,12 @@ Partial Class Form4
         'GroupBox1
         '
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.GroupBox1.Location = New System.Drawing.Point(6, 170)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(639, 225)
+        Me.GroupBox1.Size = New System.Drawing.Size(705, 225)
         Me.GroupBox1.TabIndex = 35
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.UseCompatibleTextRendering = True
@@ -196,7 +200,7 @@ Partial Class Form4
         Me.ComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox2.Font = New System.Drawing.Font("Times New Roman", 11.0!)
         Me.ComboBox2.FormattingEnabled = True
-        Me.ComboBox2.Location = New System.Drawing.Point(308, 44)
+        Me.ComboBox2.Location = New System.Drawing.Point(374, 44)
         Me.ComboBox2.Name = "ComboBox2"
         Me.ComboBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.ComboBox2.Size = New System.Drawing.Size(225, 25)
@@ -209,7 +213,7 @@ Partial Class Form4
         Me.Label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label4.Font = New System.Drawing.Font("Times New Roman", 11.0!)
         Me.Label4.ForeColor = System.Drawing.Color.Beige
-        Me.Label4.Location = New System.Drawing.Point(539, 44)
+        Me.Label4.Location = New System.Drawing.Point(605, 44)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(100, 25)
         Me.Label4.TabIndex = 33
@@ -221,7 +225,7 @@ Partial Class Form4
         '
         Me.DateTimePicker1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DateTimePicker1.Font = New System.Drawing.Font("Times New Roman", 11.0!)
-        Me.DateTimePicker1.Location = New System.Drawing.Point(308, 77)
+        Me.DateTimePicker1.Location = New System.Drawing.Point(374, 77)
         Me.DateTimePicker1.Name = "DateTimePicker1"
         Me.DateTimePicker1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.DateTimePicker1.RightToLeftLayout = True
@@ -235,7 +239,7 @@ Partial Class Form4
         Me.Label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label5.Font = New System.Drawing.Font("Times New Roman", 11.0!)
         Me.Label5.ForeColor = System.Drawing.Color.Beige
-        Me.Label5.Location = New System.Drawing.Point(539, 77)
+        Me.Label5.Location = New System.Drawing.Point(605, 77)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(100, 24)
         Me.Label5.TabIndex = 31
@@ -249,7 +253,7 @@ Partial Class Form4
         Me.ComboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox3.Font = New System.Drawing.Font("Times New Roman", 11.0!)
         Me.ComboBox3.FormattingEnabled = True
-        Me.ComboBox3.Location = New System.Drawing.Point(308, 139)
+        Me.ComboBox3.Location = New System.Drawing.Point(374, 139)
         Me.ComboBox3.Name = "ComboBox3"
         Me.ComboBox3.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.ComboBox3.Size = New System.Drawing.Size(225, 25)
@@ -263,7 +267,7 @@ Partial Class Form4
         Me.Label8.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Label8.Font = New System.Drawing.Font("Times New Roman", 11.0!)
         Me.Label8.ForeColor = System.Drawing.Color.Beige
-        Me.Label8.Location = New System.Drawing.Point(539, 139)
+        Me.Label8.Location = New System.Drawing.Point(605, 139)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(100, 25)
         Me.Label8.TabIndex = 26
@@ -275,7 +279,7 @@ Partial Class Form4
         '
         Me.DateTimePicker2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DateTimePicker2.Font = New System.Drawing.Font("Times New Roman", 10.0!)
-        Me.DateTimePicker2.Location = New System.Drawing.Point(308, 109)
+        Me.DateTimePicker2.Location = New System.Drawing.Point(374, 109)
         Me.DateTimePicker2.Name = "DateTimePicker2"
         Me.DateTimePicker2.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.DateTimePicker2.RightToLeftLayout = True
@@ -289,7 +293,7 @@ Partial Class Form4
         Me.Label6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label6.Font = New System.Drawing.Font("Times New Roman", 11.0!)
         Me.Label6.ForeColor = System.Drawing.Color.Beige
-        Me.Label6.Location = New System.Drawing.Point(539, 108)
+        Me.Label6.Location = New System.Drawing.Point(605, 108)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(100, 24)
         Me.Label6.TabIndex = 24
@@ -297,11 +301,41 @@ Partial Class Form4
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.Label6.UseCompatibleTextRendering = True
         '
+        'TxtMrk
+        '
+        Me.TxtMrk.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TxtMrk.Font = New System.Drawing.Font("Times New Roman", 12.25!)
+        Me.TxtMrk.Location = New System.Drawing.Point(140, 139)
+        Me.TxtMrk.MaxLength = 60
+        Me.TxtMrk.Name = "TxtMrk"
+        Me.TxtMrk.RightToLeft = System.Windows.Forms.RightToLeft.Yes
+        Me.TxtMrk.Size = New System.Drawing.Size(122, 26)
+        Me.TxtMrk.TabIndex = 40
+        Me.TxtMrk.Text = "0"
+        Me.TxtMrk.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.TxtMrk.WordWrap = False
+        '
+        'Label1
+        '
+        Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label1.AutoEllipsis = True
+        Me.Label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Label1.Font = New System.Drawing.Font("Times New Roman", 11.0!)
+        Me.Label1.ForeColor = System.Drawing.Color.Beige
+        Me.Label1.Location = New System.Drawing.Point(268, 139)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(100, 25)
+        Me.Label1.TabIndex = 39
+        Me.Label1.Text = "درجة الأعمال"
+        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Label1.UseCompatibleTextRendering = True
+        '
         'Form4
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(826, 479)
+        Me.ClientSize = New System.Drawing.Size(728, 479)
         Me.Controls.Add(Me.GroupBox5)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -335,4 +369,6 @@ Partial Class Form4
     Friend WithEvents BtnEdit As ToolStripButton
     Friend WithEvents BtnDel As ToolStripButton
     Friend WithEvents ToolStripLabel2 As ToolStripLabel
+    Friend WithEvents TxtMrk As TextBox
+    Friend WithEvents Label1 As Label
 End Class

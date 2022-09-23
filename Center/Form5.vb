@@ -11,7 +11,6 @@ Public Class Form5
         .EnableHeadersVisualStyles = False, .RowHeadersVisible = True, .BackgroundColor = Color.WhiteSmoke,
         .ColumnHeadersHeight = 50, .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing},
         Dt1 As DataTable
-
     Private Sub Form5_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         'Use KeyCode when you don't care about the modifiers, KeyData when you do.
         If e.KeyCode = Keys.S AndAlso e.Modifiers = Keys.Control Then
@@ -99,6 +98,8 @@ Public Class Form5
                 .AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
             End With
             DGStdnts.Columns.Insert(0, AddColumn)
+        Else
+            DGStdnts.Columns("Chk").Visible = True
         End If
     End Sub
     Private Dt2 As DataTable
@@ -144,11 +145,11 @@ Public Class Form5
         AddHandler DGStdnts.CellValueChanged, AddressOf Dgstdnts_CellValueChanged
         AddHandler DGStdnts.EditingControlShowing, AddressOf DGStdnts_EditingControlShowing
     End Sub
-    Private WithEvents m_editingcontrol As Control
+    Private WithEvents Editingcontrol As Control
     Private Sub DGStdnts_EditingControlShowing(ByVal sender As Object, ByVal e As DataGridViewEditingControlShowingEventArgs)
-        m_editingcontrol = e.Control ' ←　Register EventHandler Here
+        Editingcontrol = e.Control ' ←　Register EventHandler Here
     End Sub
-    Private Sub m_editingcontrol_PreviewKeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.PreviewKeyDownEventArgs) Handles m_editingcontrol.PreviewKeyDown
+    Private Sub Editingcontrol_PreviewKeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.PreviewKeyDownEventArgs) Handles Editingcontrol.PreviewKeyDown
         If e.KeyCode = Keys.Return Then
             DGStdnts.EndEdit()
         End If
@@ -158,10 +159,21 @@ Public Class Form5
             If DGStdnts.IsCurrentCellDirty Then
                 DGStdnts.CommitEdit(DataGridViewDataErrorContexts.Commit)
                 Io2 = Convert.ToInt32(DGStdnts(1, DGStdnts.CurrentCell.RowIndex).Value)
-                Dim dr As DataRow = Dt1.NewRow
+                If Dt1.Rows.Count >= 1 Then
+                    For Each Dr2 As DataRow In Dt1.Rows
+                        If Dr2("StID").Equals(Io2) Then
+                            Exit Sub
+                        End If
+                    Next
+                End If
+                Dim dr As DataRow = Dt1.NewRow()
                 dr("StID") = Io2
                 dr("StNm") = Convert.ToString(DGStdnts.CurrentRow.Cells("StNm").Value)
-                Dt1.Rows.Add(dr)
+                If Convert.ToBoolean(DGStdnts.CurrentCell.Value) = True Then
+                    Dt1.Rows.Add(dr)
+                ElseIf Convert.ToBoolean(DGStdnts.CurrentCell.Value) = False AndAlso ToolStripButton1.Enabled = True Then
+                    Dt1.Rows.RemoveAt(DGStdnts.CurrentRow.Index)
+                End If
             End If
             BtnClear.Enabled = True
             BtnSave.Enabled = True
@@ -174,8 +186,8 @@ Public Class Form5
         If e.ColumnIndex = -1 Or e.RowIndex = -1 Then Exit Sub
         If DGStdnts.Columns(e.ColumnIndex).Name = "Chk" Then
             Dim checkCell As DataGridViewCheckBoxCell = CType(DGStdnts.Rows(e.RowIndex).Cells("Chk"), DataGridViewCheckBoxCell)
-            DGStdnts.EndEdit()
-            DGStdnts.Invalidate()
+            DGStdnts.EndEdit(DataGridViewDataErrorContexts.Commit)
+            DGStdnts.Invalidate(True)
         End If
     End Sub
     Private Sub BtnClear_Click(ByVal sender As Object, ByVal e As EventArgs) Handles BtnClear.Click
@@ -185,16 +197,9 @@ Public Class Form5
         Dt1.Rows.Clear()
         ConDGV(<sql>SELECT Stdnts.StID, Stdnts.StNm FROM Stdnts LEFT JOIN (Grps RIGHT JOIN (GrSt LEFT JOIN GrDt ON 
             GrSt.GrID = GrDt.GrID) ON Grps.GrID = GrDt.GrID) ON Stdnts.StID = GrSt.StID WHERE (((GrSt.GrID) Is Null));</sql>.Value)
-        DGStdnts.Columns("StID").HeaderCell.Value = "كود الطالب"
-        DGStdnts.Columns("StID").Visible = True
-        DGStdnts.Columns("StID").ReadOnly = True
-        DGStdnts.Columns("StID").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
-        DGStdnts.Columns("StNm").HeaderCell.Value = "اسم الطالب"
-        DGStdnts.Columns("StNm").ReadOnly = True
-        DGStdnts.Columns("StNm").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        DGStdnts.Columns("Chk").Visible = True
-        DGStdnts.Columns("Chk").ReadOnly = False
-        DGStdnts.Columns("Chk").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+        AddCol()
+        SetCols()
+
         ToolStripButton1.Enabled = False
         BtnSave.Enabled = False
         GroupBox2.Text = "طلبة غير مسجلين بأي مجموعة"
@@ -212,7 +217,8 @@ Public Class Form5
     End Sub
     Private Sub BtnSave_Click(ByVal sender As Object, ByVal e As EventArgs) Handles BtnSave.Click
         If Dt1.Rows.Count <= 0 Then
-            MsgBox("يجب اختيار طالب واحد علي الأقل", MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
+            MsgBox("يجب اختيار طالب واحد علي الأقل",
+                   MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
             Exit Sub
         End If
         Dim sqlstr As String =
@@ -236,7 +242,18 @@ Public Class Form5
         SetCols()
         ToolStripButton1.Enabled = False
     End Sub
-    Private Sub ToolStripButton1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton1.Click
+    Private Sub ToolStripButton1_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ToolStripButton1.Click
+        If Dt1.Columns.Contains("تعديل") Then
+            Dt1.Columns.Remove("تعديل")
+        End If
+        DGStdnts.Columns(0).Visible = False
+        Dim DC1 As DataColumn = New DataColumn("Chk") With {.DataType = GetType(Boolean), .DefaultValue = True}
+        With DC1
+            .AllowDBNull = False
+            .ReadOnly = False
+            .ColumnName = "تعديل"
+        End With
+        Dt1.Columns.Add(DC1)
         DGStdnts.DataSource = New BindingSource(Dt1, Nothing)
         SetCols()
     End Sub
@@ -272,6 +289,6 @@ Public Class Form5
         DGStdnts.Columns("StNm").HeaderCell.Value = "اسم الطالب"
         DGStdnts.Columns("StNm").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
 
-        DGStdnts.Columns("Chk").Visible = False
+        'DGStdnts.Columns("Chk").Visible = False
     End Sub
 End Class

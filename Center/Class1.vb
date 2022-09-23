@@ -1,5 +1,6 @@
 ﻿Imports System.Data.OleDb
 Imports Microsoft.Office.Interop.Access
+Imports Microsoft.Win32
 Imports Tulpep.NotificationWindow
 
 Public Class Class1
@@ -21,7 +22,7 @@ Public Class Class1
         .GradientPower = 10
     }
     Private Function DbFound() As Boolean
-        If IO.File.Exists(Application.StartupPath & "\Center.accdb") Then
+        If IO.File.Exists(Application.StartupPath & "\Centerq.accdb") Then
             Return True
         Else
             MsgBox("ملف قاعدة البيانات غير موجود" & vbCrLf & "برجاء الاتصال بـ " & vbCrLf & "9977 1220 010",
@@ -132,8 +133,8 @@ Public Class Class1
     Public Function CompRepair(Optional Compactedfil As String = "") As Boolean
         'expression .CompactDatabase(SrcName, DstName, DstLocale, Options, password)
         'This will Compact & Repair MSAccess2007 Database to the same location with the same name.
-        'CloseCN()
-        'If CN.State = ConnectionState.Open Then CN.Close()
+        InstalledAccessEngine.Add(DBEngineVer())
+        InstalledAccess = GetAccessVersionNiceName()
         Dim Result As Boolean = False
         Cursor.Current = Cursors.WaitCursor
         'Compact & Repair needs the Database File (*.accdb) to be closed.
@@ -148,7 +149,7 @@ Public Class Class1
             MyAccDB.CompactDatabase(IO.Path.Combine(Application.StartupPath, My.Settings.dbNm),
                                     Compactedfil,
                                     Dao.LanguageConstants.dbLangGeneral,
-                                    Dao.DatabaseTypeEnum.dbVersion120, ";pwd=" & My.Settings.dbPass)
+                                    Dao.DatabaseTypeEnum.dbVersion150, ";pwd=" & My.Settings.dbPass)
         Catch ex As Exception
             MsgBox("Error 1: " & ex.Message, MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Critical)
             End
@@ -174,24 +175,6 @@ Public Class Class1
         Application.DoEvents()
         Return Result
         Cursor.Current = Cursors.Default
-    End Function
-    Public Function GetIDFrmTbl(ByVal TblNm As String, ByVal Fld As String, ByVal Fld1 As String, ByVal Fld1Val As String) As List(Of Integer)
-        Dim Lst As List(Of Integer) = New List(Of Integer)
-        Dim SqlStr As String =
-            <sql>SELECT( <%= Fld %> ) FROM <%= TblNm %> WHERE <%= Fld1 %>=?;</sql>.Value
-        Using cn As OleDbConnection = New OleDbConnection With {.ConnectionString = ConStr()},
-                CMD As OleDbCommand = New OleDbCommand(SqlStr, cn) With {.CommandType = CommandType.Text}
-            CMD.Parameters.AddWithValue("?", Fld1Val)
-            cn.Open()
-            Using Rdr As OleDbDataReader = CMD.ExecuteReader
-                If Rdr.HasRows Then
-                    While Rdr.Read
-                        Lst.Add(Rdr.GetInt32(0))
-                    End While
-                End If
-            End Using
-        End Using
-        Return Lst
     End Function
     Public Function GetData(ByVal SqlStr As String) As DataTable
         Dim Dt1 As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.CurrentCulture}
@@ -239,5 +222,72 @@ Public Class Class1
             Obj = CMD.ExecuteScalar
             Return Obj
         End Using
+    End Function
+    Private Property InstalledAccessEngine As New List(Of String)
+    Private Property InstalledAccess As String
+    Public Function GetAccessVersionNiceName() As String
+        Try
+            Dim ClassName As String = GetAccessClassName()
+            Select Case GetAccessVersionNumber(ClassName)
+                Case 8
+                    Return "MS Access 97"
+                Case 9
+                    Return "MS Access 2000"
+                Case 10
+                    Return "MS Access XP"
+                Case 11
+                    Return "MS Access 2003"
+                Case 12
+                    Return "MS Access 2007"
+                Case 14
+                    Return "MS Access 2010"
+                Case 15
+                    Return "MS Access 2013"
+                Case 16
+                    Return "MS Access 2016 & 2019"
+                Case Else
+                    Return "unknown"
+            End Select
+        Catch ex As Exception
+            Return "unknown"
+        End Try
+    End Function
+    Private Function GetAccessClassName() As String
+        Dim RegKey As RegistryKey = Registry.ClassesRoot.OpenSubKey("Access.Application\CurVer")
+        If RegKey Is Nothing Then
+            Throw New ApplicationException("Can not find MS Access version number in registry")
+        Else
+            Return RegKey.GetValue("")
+        End If
+    End Function
+    Private Function GetAccessVersionNumber(ByVal ClassName As String) As Integer
+        Dim VersionNumber As String = ClassName
+        While VersionNumber.IndexOf(".") > -1
+            VersionNumber = VersionNumber.Substring(VersionNumber.IndexOf(".") + 1)
+        End While
+        Return VersionNumber.Trim
+    End Function
+    Private Function DBEngineVer() As String
+        Dim result As String = String.Empty
+        Dim AccessDBAsValue As String = String.Empty
+        Dim rkACDBKey As RegistryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\Classes\Installer\Products")
+        If Not IsNothing(rkACDBKey) Then
+            'int lnSubKeyCount = 0;
+            'lnSubKeyCount =rkACDBKey.SubKeyCount; 
+            For Each subKeyName As String In rkACDBKey.GetSubKeyNames()
+                Using RegSubKey As RegistryKey = rkACDBKey.OpenSubKey(subKeyName)
+                    For Each valueName As String In RegSubKey.GetValueNames()
+                        If valueName.ToUpper() = ("PRODUCTNAME") Then
+                            AccessDBAsValue = RegSubKey.GetValue(valueName.ToUpper())
+                            If AccessDBAsValue.Contains("Access database engine") Then
+                                result &= (AccessDBAsValue)
+                                'Debug.WriteLine(result)
+                            End If
+                        End If
+                    Next
+                End Using
+            Next
+        End If
+        Return result
     End Function
 End Class
