@@ -1,7 +1,8 @@
-﻿Imports System.ComponentModel
-Imports Tulpep.NotificationWindow
-Public NotInheritable Class SplashScreen1
+﻿Imports System.Data.OleDb
 
+Public NotInheritable Class SplashScreen1
+    Private Property Ii As New Class1
+    Private Property Constr As String = Ii.ConStr
     'TODO: This form can easily be set as the splash screen for the application by going to the "Application" tab
     '  of the Project Designer ("Properties" under the "Project" menu).
     Private Sub SplashScreen1_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
@@ -32,9 +33,7 @@ Public NotInheritable Class SplashScreen1
 
         'description
         Label1.Text = My.Application.Info.Description
-    End Sub
-
-    Private Sub MainLayoutPanel_Paint(sender As Object, e As PaintEventArgs)
 
     End Sub
+
 End Class

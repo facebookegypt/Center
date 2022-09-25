@@ -26,7 +26,7 @@ Public Class Form7
     Private Dtable As DataTable, Dtable1 As DataTable
     Private Function GetMainTree(ByVal DT As DataTable) As TreeView
         DT = IC.GetData(<SQL>SELECT Grps.GrID, Grps.GrNm FROM Grps INNER JOIN GrDt ON Grps.GrID = GrDt.GrID GROUP BY Grps.GrID, 
-            Grps.GrNm ORDER BY GrNm;</SQL>.Value)
+            Grps.GrNm ORDER BY Grps.GrID, Grps.GrNm ASC;</SQL>.Value)
         If DT.Rows.Count > 0 Then
             TRV.Nodes.Clear()
             TRV.BeginUpdate()
@@ -84,7 +84,7 @@ Public Class Form7
 
         ConDGV("SELECT Stdnts.StID, Stdnts.StNm, Rslts.Mrk FROM (Stdnts INNER JOIN (Grps INNER JOIN GrSt ON Grps.GrID = GrSt.GrID) " &
                "ON Stdnts.StID = GrSt.StID) INNER JOIN Rslts ON Stdnts.StID = Rslts.StID " &
-               "WHERE (((GrSt.GrID)=" & GrID1 & ") And ((Rslts.GrDtID)=" & GrDtID1 & ")) ORDER BY Stdnts.StID;")
+               "WHERE (((GrSt.GrID)=" & GrID1 & ") And ((Rslts.GrDtID)=" & GrDtID1 & ")) ORDER BY Stdnts.StID ASC;")
     End Sub
     Private Sub AddCol()
         Using CN As New OleDbConnection(Constr1),
@@ -126,7 +126,6 @@ Public Class Form7
                 e.Cancel = True
             End If
         End If
-
     End Sub
     Private Sub ConDGV(ByVal SqlStr As String)
         'SqlStr = <sql>SELECT * From Stdnts;</sql>.Value
@@ -274,8 +273,15 @@ Public Class Form7
         DGStdnts.Columns("StNm").ReadOnly = True
         DGStdnts.Columns("StNm").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
         AddCol()
-        BtnSave.Enabled = True
-        BtnDel.Enabled = False
+        If DGStdnts.Rows.Count >= 1 Then
+            BtnSave.Enabled = True
+            BtnDel.Enabled = False
+        ElseIf DGStdnts.Rows.Count <= 0 Then
+            BtnSave.Enabled = False
+            BtnDel.Enabled = False
+
+        End If
+
     End Sub
     Private Sub BtnSave_Click(sender As Object, e As EventArgs) Handles BtnSave.Click
         'Dim CNTra As OleDbTransaction = Nothing
@@ -316,7 +322,7 @@ Public Class Form7
                MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
         ConDGV("SELECT Stdnts.StID, Stdnts.StNm, Rslts.Mrk FROM (Stdnts INNER JOIN (Grps INNER JOIN GrSt ON Grps.GrID = GrSt.GrID) " &
                "ON Stdnts.StID = GrSt.StID) INNER JOIN Rslts ON Stdnts.StID = Rslts.StID " &
-               "WHERE (((GrSt.GrID)=" & GrID1 & ") And ((Rslts.GrDtID)=" & GrDtID1 & ")) ORDER BY Stdnts.StID;")
+               "WHERE (((GrSt.GrID)=" & GrID1 & ") And ((Rslts.GrDtID)=" & GrDtID1 & ")) ORDER BY Stdnts.StID ASC;")
     End Sub
     Private Sub Form7_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         KeyPreview = True

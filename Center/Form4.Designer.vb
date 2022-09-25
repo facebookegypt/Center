@@ -24,6 +24,7 @@ Partial Class Form4
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form4))
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.TxtMrk = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Button1 = New System.Windows.Forms.Button()
@@ -45,7 +46,6 @@ Partial Class Form4
         Me.Label8 = New System.Windows.Forms.Label()
         Me.DateTimePicker2 = New System.Windows.Forms.DateTimePicker()
         Me.Label6 = New System.Windows.Forms.Label()
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.GroupBox5.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.ToolStrip2.SuspendLayout()
@@ -79,6 +79,26 @@ Partial Class Form4
         Me.GroupBox5.TabIndex = 28
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.UseCompatibleTextRendering = True
+        '
+        'CheckBox1
+        '
+        Me.CheckBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.CheckBox1.AutoEllipsis = True
+        Me.CheckBox1.FlatAppearance.CheckedBackColor = System.Drawing.Color.Silver
+        Me.CheckBox1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+        Me.CheckBox1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.CheckBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.CheckBox1.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Bold)
+        Me.CheckBox1.ForeColor = System.Drawing.Color.LightGreen
+        Me.CheckBox1.Location = New System.Drawing.Point(140, 108)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Padding = New System.Windows.Forms.Padding(2)
+        Me.CheckBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
+        Me.CheckBox1.Size = New System.Drawing.Size(228, 24)
+        Me.CheckBox1.TabIndex = 41
+        Me.CheckBox1.Text = "ميعاد ثابت طول الشهر"
+        Me.CheckBox1.UseCompatibleTextRendering = True
+        Me.CheckBox1.UseVisualStyleBackColor = True
         '
         'TxtMrk
         '
@@ -219,9 +239,9 @@ Partial Class Form4
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.GroupBox1.Location = New System.Drawing.Point(6, 170)
+        Me.GroupBox1.Location = New System.Drawing.Point(0, 170)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(705, 225)
+        Me.GroupBox1.Size = New System.Drawing.Size(711, 225)
         Me.GroupBox1.TabIndex = 35
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.UseCompatibleTextRendering = True
@@ -332,26 +352,6 @@ Partial Class Form4
         Me.Label6.Text = "اليوم/الساعه"
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.Label6.UseCompatibleTextRendering = True
-        '
-        'CheckBox1
-        '
-        Me.CheckBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.CheckBox1.AutoEllipsis = True
-        Me.CheckBox1.FlatAppearance.CheckedBackColor = System.Drawing.Color.Silver
-        Me.CheckBox1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
-        Me.CheckBox1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.CheckBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.CheckBox1.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Bold)
-        Me.CheckBox1.ForeColor = System.Drawing.Color.LightGreen
-        Me.CheckBox1.Location = New System.Drawing.Point(140, 108)
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Padding = New System.Windows.Forms.Padding(2)
-        Me.CheckBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.CheckBox1.Size = New System.Drawing.Size(228, 24)
-        Me.CheckBox1.TabIndex = 41
-        Me.CheckBox1.Text = "ميعاد ثابت طول الشهر"
-        Me.CheckBox1.UseCompatibleTextRendering = True
-        Me.CheckBox1.UseVisualStyleBackColor = True
         '
         'Form4
         '

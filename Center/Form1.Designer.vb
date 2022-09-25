@@ -76,8 +76,10 @@ Partial Class Form1
         Me.FileToolStripMenuItem.Image = Global.WindowsApp1.My.Resources.Resources.Icon1
         Me.FileToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
-        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(109, 57)
+        Me.FileToolStripMenuItem.Padding = New System.Windows.Forms.Padding(6)
+        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(109, 69)
         Me.FileToolStripMenuItem.Text = "ملف"
+        Me.FileToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.FileToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'QToolStripMenuItem
@@ -86,9 +88,11 @@ Partial Class Form1
         Me.QToolStripMenuItem.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.QToolStripMenuItem.ForeColor = System.Drawing.Color.SeaGreen
         Me.QToolStripMenuItem.Image = Global.WindowsApp1.My.Resources.Resources.account_menu
+        Me.QToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.QToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.QToolStripMenuItem.Name = "QToolStripMenuItem"
-        Me.QToolStripMenuItem.Size = New System.Drawing.Size(239, 22)
+        Me.QToolStripMenuItem.Padding = New System.Windows.Forms.Padding(0, 4, 0, 4)
+        Me.QToolStripMenuItem.Size = New System.Drawing.Size(239, 28)
         Me.QToolStripMenuItem.Text = "إعدادات النسخة الإحتياطية"
         Me.QToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -98,14 +102,16 @@ Partial Class Form1
         Me.MnuFilSav.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.MnuFilSav.ForeColor = System.Drawing.Color.SeaGreen
         Me.MnuFilSav.Image = Global.WindowsApp1.My.Resources.Resources.folder_add
+        Me.MnuFilSav.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.MnuFilSav.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.MnuFilSav.Name = "MnuFilSav"
+        Me.MnuFilSav.Padding = New System.Windows.Forms.Padding(0, 4, 0, 4)
         Me.MnuFilSav.ShortcutKeyDisplayString = "Ctrl+Shift+S"
         Me.MnuFilSav.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.MnuFilSav.Size = New System.Drawing.Size(239, 22)
+        Me.MnuFilSav.Size = New System.Drawing.Size(239, 28)
         Me.MnuFilSav.Text = "حفظ في مجلد"
-        Me.MnuFilSav.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.MnuFilSav.TextAlign = System.Drawing.ContentAlignment.BottomLeft
         '
         'ToolStripMenuItem5
         '
@@ -118,12 +124,14 @@ Partial Class Form1
         Me.MnuFilExi.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.MnuFilExi.ForeColor = System.Drawing.Color.SeaGreen
         Me.MnuFilExi.Image = Global.WindowsApp1.My.Resources.Resources.door_out
+        Me.MnuFilExi.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.MnuFilExi.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.MnuFilExi.Name = "MnuFilExi"
+        Me.MnuFilExi.Padding = New System.Windows.Forms.Padding(0, 4, 0, 4)
         Me.MnuFilExi.ShortcutKeyDisplayString = "Esc"
-        Me.MnuFilExi.Size = New System.Drawing.Size(239, 22)
+        Me.MnuFilExi.Size = New System.Drawing.Size(239, 28)
         Me.MnuFilExi.Text = "خروج"
-        Me.MnuFilExi.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.MnuFilExi.TextAlign = System.Drawing.ContentAlignment.BottomLeft
         '
         'StudentsToolStripMenuItem
         '
@@ -133,8 +141,10 @@ Partial Class Form1
         Me.StudentsToolStripMenuItem.Image = Global.WindowsApp1.My.Resources.Resources.Stdnts
         Me.StudentsToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.StudentsToolStripMenuItem.Name = "StudentsToolStripMenuItem"
-        Me.StudentsToolStripMenuItem.Size = New System.Drawing.Size(109, 57)
+        Me.StudentsToolStripMenuItem.Padding = New System.Windows.Forms.Padding(6)
+        Me.StudentsToolStripMenuItem.Size = New System.Drawing.Size(109, 69)
         Me.StudentsToolStripMenuItem.Text = "الطلاب"
+        Me.StudentsToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.StudentsToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'SToolStripMenuItem
@@ -145,14 +155,14 @@ Partial Class Form1
         Me.SToolStripMenuItem.Image = Global.WindowsApp1.My.Resources.Resources.group_gear
         Me.SToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.SToolStripMenuItem.Name = "SToolStripMenuItem"
-        Me.SToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
+        Me.SToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.SToolStripMenuItem.Text = "اعدادات الطلاب"
         Me.SToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(153, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(177, 6)
         '
         'تقاريرالطلابToolStripMenuItem
         '
@@ -161,7 +171,7 @@ Partial Class Form1
         Me.تقاريرالطلابToolStripMenuItem.ForeColor = System.Drawing.Color.SeaGreen
         Me.تقاريرالطلابToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.تقاريرالطلابToolStripMenuItem.Name = "تقاريرالطلابToolStripMenuItem"
-        Me.تقاريرالطلابToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
+        Me.تقاريرالطلابToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.تقاريرالطلابToolStripMenuItem.Text = "تقارير الطلاب"
         '
         'GroupsToolStripMenuItem
@@ -172,8 +182,10 @@ Partial Class Form1
         Me.GroupsToolStripMenuItem.Image = Global.WindowsApp1.My.Resources.Resources.Icon3
         Me.GroupsToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.GroupsToolStripMenuItem.Name = "GroupsToolStripMenuItem"
-        Me.GroupsToolStripMenuItem.Size = New System.Drawing.Size(109, 57)
+        Me.GroupsToolStripMenuItem.Padding = New System.Windows.Forms.Padding(6)
+        Me.GroupsToolStripMenuItem.Size = New System.Drawing.Size(109, 69)
         Me.GroupsToolStripMenuItem.Text = "المجموعات"
+        Me.GroupsToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.GroupsToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'MnuGr
@@ -208,8 +220,10 @@ Partial Class Form1
         Me.TimesToolStripMenuItem.ForeColor = System.Drawing.Color.Green
         Me.TimesToolStripMenuItem.Image = Global.WindowsApp1.My.Resources.Resources.Time
         Me.TimesToolStripMenuItem.Name = "TimesToolStripMenuItem"
-        Me.TimesToolStripMenuItem.Size = New System.Drawing.Size(109, 57)
+        Me.TimesToolStripMenuItem.Padding = New System.Windows.Forms.Padding(6)
+        Me.TimesToolStripMenuItem.Size = New System.Drawing.Size(109, 69)
         Me.TimesToolStripMenuItem.Text = "الغياب"
+        Me.TimesToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.TimesToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'SToolStripMenuItem1
@@ -245,8 +259,10 @@ Partial Class Form1
         Me.تسجيلالدرحاتToolStripMenuItem.ForeColor = System.Drawing.Color.Green
         Me.تسجيلالدرحاتToolStripMenuItem.Image = Global.WindowsApp1.My.Resources.Resources.accept_button
         Me.تسجيلالدرحاتToolStripMenuItem.Name = "تسجيلالدرحاتToolStripMenuItem"
-        Me.تسجيلالدرحاتToolStripMenuItem.Size = New System.Drawing.Size(109, 57)
+        Me.تسجيلالدرحاتToolStripMenuItem.Padding = New System.Windows.Forms.Padding(6)
+        Me.تسجيلالدرحاتToolStripMenuItem.Size = New System.Drawing.Size(109, 69)
         Me.تسجيلالدرحاتToolStripMenuItem.Text = "الدرجات"
+        Me.تسجيلالدرحاتToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.تسجيلالدرحاتToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'MnuMarks
@@ -257,13 +273,13 @@ Partial Class Form1
         Me.MnuMarks.Image = Global.WindowsApp1.My.Resources.Resources.script_gear
         Me.MnuMarks.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.MnuMarks.Name = "MnuMarks"
-        Me.MnuMarks.Size = New System.Drawing.Size(180, 22)
+        Me.MnuMarks.Size = New System.Drawing.Size(163, 22)
         Me.MnuMarks.Text = "اعدادات الدرجات"
         '
         'ToolStripMenuItem4
         '
         Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
-        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(177, 6)
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(160, 6)
         '
         'تقاريرالدرجاتToolStripMenuItem
         '
@@ -271,7 +287,7 @@ Partial Class Form1
         Me.تقاريرالدرجاتToolStripMenuItem.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.تقاريرالدرجاتToolStripMenuItem.ForeColor = System.Drawing.Color.SeaGreen
         Me.تقاريرالدرجاتToolStripMenuItem.Name = "تقاريرالدرجاتToolStripMenuItem"
-        Me.تقاريرالدرجاتToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.تقاريرالدرجاتToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
         Me.تقاريرالدرجاتToolStripMenuItem.Text = "تقارير الدرجات"
         '
         'تقاريرمجمعةToolStripMenuItem

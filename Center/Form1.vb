@@ -40,6 +40,10 @@ Public Class Form1
                 End If
             End If
         End If
+        With Ii.PopupNotifier1
+            .ContentText = "السلام عليكم و رحمة الله و بركاته. لديك  " & GrDtToday() & " مجموعات اليوم."
+            .Popup()
+        End With
     End Sub
     Private Sub Form1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
         If e.KeyChar = ChrW(Keys.Escape) Then Close()
@@ -174,12 +178,6 @@ Public Class Form1
             '.WindowState = FormWindowState.Normal
             .ShowIcon = True
             .Show()
-        End With
-    End Sub
-    Private Sub Form1_Shown(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Shown
-        With Ii.PopupNotifier1
-            .ContentText = "السلام عليكم و رحمة الله و بركاته. لديك  " & GrDtToday() & " مجموعات اليوم."
-            .Popup()
         End With
     End Sub
 End Class

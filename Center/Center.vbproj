@@ -116,11 +116,10 @@
     <Compile Include="Class3.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Form1.Designer.vb">
       <DependentUpon>Form1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form2.Designer.vb">
@@ -222,9 +221,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="SplashScreen1.resx">
       <DependentUpon>SplashScreen1.vb</DependentUpon>
@@ -244,6 +243,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Text-Edit-icon_2.png" />
     <None Include="Resources\report_user.png" />
     <None Include="Resources\R.png" />
     <None Include="packages.config" />
@@ -254,22 +254,19 @@
     <None Include="bin\Debug\Time.ico" />
     <None Include="bin\Debug\ShowAll.png" />
     <None Include="bin\Debug\Main3.jpg" />
-    <None Include="bin\Debug\Main4.jpg" />
     <None Include="bin\Debug\getty_1146511178_ppbdmz.jpg" />
-    <None Include="bin\Debug\wp2805307.jpg" />
-    <None Include="bin\Debug\ad-copy-3.jpg" />
-    <None Include="bin\Debug\accept_button.png" />
     <None Include="bin\Debug\Del.png" />
     <None Include="bin\Debug\qwe.png" />
-    <None Include="bin\Debug\Main1.jpg" />
     <None Include="bin\Debug\Main1.png" />
-    <None Include="bin\Debug\account_menu.png" />
     <None Include="bin\Debug\folder_add.png" />
     <None Include="bin\Debug\door_out.png" />
     <None Include="bin\Debug\group_gear.png" />
     <None Include="bin\Debug\table_gear.png" />
     <None Include="bin\Debug\page_gear.png" />
     <None Include="bin\Debug\script_gear.png" />
+    <None Include="bin\Debug\Add.png" />
+    <None Include="bin\Debug\account_functions.png" />
+    <None Include="bin\Debug\account_menu.png" />
     <Content Include="Icon1.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

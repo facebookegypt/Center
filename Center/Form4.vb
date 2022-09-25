@@ -125,7 +125,6 @@ Public Class Form4
     End Sub
     Private Sub ComboBox2_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles ComboBox2.SelectionChangeCommitted
         GrID = Convert.ToInt32(ComboBox2.SelectedValue)
-        BtnSave.Enabled = True
     End Sub
     Private Sub GetGrpsDts(ByVal SqlStr As String)
         Dim Dt2 As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
@@ -183,12 +182,12 @@ Public Class Form4
         DateTimePicker2.Value = DT0 + DT
         ComboBox3.SelectedValue = TaskID
         TxtMrk.Text = Convert.ToInt32(DG1.CurrentRow.Cells("TskFlMrk").Value)
-        BtnEdit.Enabled = True
-        BtnDel.Enabled = True
-        BtnSave.Enabled = False
         Dim SqlStr As String = <sql>SELECT Count([GrSt].[StID]) AS Expr1 FROM Stdnts INNER JOIN (GrSt INNER JOIN Grps ON 
             GrSt.GrID = Grps.GrID) ON Stdnts.StID = GrSt.StID WHERE (((GrSt.GrID)=<%= GrID %>));</sql>.Value
         ToolStripLabel1.Text = GetCount(SqlStr)
+        BtnEdit.Enabled = True
+        BtnDel.Enabled = True
+        BtnSave.Enabled = False
     End Sub
     Private Sub DG1_RowPostPaint(sender As Object, e As DataGridViewRowPostPaintEventArgs)
         Dim grid = TryCast(sender, DataGridView)
@@ -206,7 +205,8 @@ Public Class Form4
     Private Sub ToolStripButton10_Click(sender As Object, e As EventArgs) Handles ToolStripButton10.Click
         Dim SqlStr As String =
             "SELECT GrDt.GrDtID, GrDt.GrID, Grps.GrNm, Grps.Lnm, Grps.SubNm, GrDt.Mnm, GrDt.GrDt1, GrDt.GrDt2, Tsks.TaskID, Tsks.TaskNm, " &
-            "GrDt.TskFlMrk FROM Tsks INNER JOIN (GrDt INNER JOIN Grps ON GrDt.GrID = Grps.GrID) ON Tsks.TaskID = GrDt.TaskID ORDER BY GrDt.GrID;"
+            "GrDt.TskFlMrk FROM Tsks INNER JOIN (GrDt INNER JOIN Grps ON GrDt.GrID = Grps.GrID) ON Tsks.TaskID = GrDt.TaskID " &
+            "ORDER BY GrDt.GrID, GrDt.GrDt1;"
         GetGrpsDts(SqlStr)
         Dim DIg1 As New DataGridViewTextBoxColumn With
             {.Name = "GrNm", .ValueType = GetType(String), .DataPropertyName = "GrNm", .HeaderText = "المجموعة",
@@ -257,6 +257,10 @@ Public Class Form4
             DG1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
             DG1.RowsDefaultCellStyle.WrapMode = DataGridViewTriState.True
         End If
+        BtnClear.Enabled = True
+        BtnDel.Enabled = False
+        BtnEdit.Enabled = False
+        BtnSave.Enabled = False
     End Sub
     Private Sub BtnClear_Click(sender As Object, e As EventArgs) Handles BtnClear.Click
         BtnEdit.Enabled = False
@@ -377,8 +381,5 @@ Public Class Form4
         'Copy & Paste
         Dim digitsOnly As Regex = New Regex("[^\d]")
         TxtMrk.Text = digitsOnly.Replace(TxtMrk.Text, "")
-    End Sub
-    Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
-
     End Sub
 End Class

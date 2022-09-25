@@ -35,7 +35,7 @@ Public Class Form8
     Private Dtable As DataTable, Dtable1 As DataTable
     Private Function GetMainTree(ByVal DT As DataTable) As TreeView
         DT = IC.GetData(<SQL>SELECT Grps.GrID, Grps.GrNm FROM Grps INNER JOIN GrDt ON Grps.GrID = GrDt.GrID GROUP BY Grps.GrID, 
-            Grps.GrNm ORDER BY GrNm;</SQL>.Value)
+            Grps.GrNm ORDER BY Grps.GrID ASC;</SQL>.Value)
         If DT.Rows.Count > 0 Then
             TRV.Nodes.Clear()
             TRV.BeginUpdate()
@@ -79,10 +79,12 @@ Public Class Form8
         Dtable.Columns.Add(New DataColumn("GrID") With {.DataType = GetType(Integer), .Caption = "كود المجموعه"})
     End Sub
     Private Sub TRV_AfterSelect(ByVal sender As Object, ByVal e As TreeViewEventArgs)
+        Dim SqlStr As String =
+            "SELECT GrDt.GrDtID, GrDt.GrID, Tsks.TaskID, Grps.GrNm, GrDt.Mnm, GrDt.GrDt1, GrDt.GrDt2, Tsks.TaskNm FROM Tsks " &
+            "INNER JOIN (Grps INNER JOIN GrDt ON Grps.GrID = GrDt.GrID) ON Tsks.TaskID = GrDt.TaskID WHERE " &
+            "(((GrDt.GrID)=" & Integer.Parse(e.Node.Name) & ")) ORDER BY GrDt.GrDt1 ASC;"
         Dim DT As DataTable =
-            IC.GetData(<SQL>SELECT GrDt.GrDtID, GrDt.GrID, Tsks.TaskID, Grps.GrNm, GrDt.Mnm, GrDt.GrDt1, GrDt.GrDt2, Tsks.TaskNm 
-            FROM Tsks INNER JOIN (Grps INNER JOIN GrDt ON Grps.GrID = GrDt.GrID) ON  
-            Tsks.TaskID = GrDt.TaskID WHERE (((GrDt.GrID)=<%= Integer.Parse(e.Node.Name) %>));</SQL>.Value)
+            IC.GetData(SqlStr)
         e.Node.Nodes.Clear()
         If DT.Rows.Count > 0 Then
             For Each dr As DataRow In DT.Rows
@@ -96,21 +98,17 @@ Public Class Form8
         End If
         If e.Node.Level = 0 Then
             GrID1 = Integer.Parse(e.Node.Name)
-            Label4.Text = String.Empty
-            DGStdnts.Visible = False
-            BtnSave.Enabled = False
         Else
             GrDtID1 = Integer.Parse(e.Node.Name)
             GrID1 = Integer.Parse(e.Node.Parent.Name)
             Label4.Text = e.Node.Text
-            DGStdnts.Visible = True
+            BtnClear.Enabled = True
         End If
         ConDGV("SELECT Stdnts.StID, Stdnts.StNm, Attnd.PStat FROM (Stdnts INNER JOIN Attnd ON Stdnts.StID = Attnd.StID) INNER JOIN " &
                "(GrSt INNER JOIN Grps ON GrSt.GrID = Grps.GrID) ON Stdnts.StID = GrSt.StID WHERE (((GrSt.GrID)=" & GrID1 & ") AND " &
                "((Attnd.GrDtID)=" & GrDtID1 & ")) ORDER BY Stdnts.StID;")
     End Sub
     Private Sub ConDGV(ByVal SqlStr As String)
-        'SqlStr = <sql>SELECT * From Stdnts;</sql>.Value
         Dim Dt2 As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
         Using CN = New OleDbConnection With {.ConnectionString = Constr1()},
             CMD = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text},
@@ -239,42 +237,41 @@ Public Class Form8
         'If CType(IRow.Cells("PStat").Value, Boolean) = True Then
         'اليوم الواحد ممكن يكون فيه أكتر من مجموعه
         Using cn As New OleDbConnection(Constr1)
-                '           CNTra = cn.BeginTransaction(IsolationLevel.ReadCommitted)
-                Dim cmd = New OleDbCommand(SqlStr1, cn) With {.CommandType = CommandType.Text}
-                With cmd.Parameters
-                    .AddWithValue("?", GrDtID1)
-                End With
-                cn.Open()
-                'Irow in the database "True" then do nothing
-                N = cmd.ExecuteNonQuery()
-                cmd.Parameters.Clear()
-            End Using
+            '           CNTra = cn.BeginTransaction(IsolationLevel.ReadCommitted)
+            Dim cmd = New OleDbCommand(SqlStr1, cn) With {.CommandType = CommandType.Text}
+            With cmd.Parameters
+                .AddWithValue("?", GrDtID1)
+            End With
+            cn.Open()
+            'Irow in the database "True" then do nothing
+            N = cmd.ExecuteNonQuery()
+            cmd.Parameters.Clear()
+        End Using
 
         Dim sqlstr As String = "INSERT INTO Attnd(GrDtID,StID,Pstat,DtCrtd,DtMdfd) VALUES(?,?,?,?,?);"
-            For Each IRow As DataGridViewRow In DGStdnts.Rows
-                'INSERT
-                Using cn As New OleDbConnection(Constr1)
-                    Dim cmd = New OleDbCommand(sqlstr, cn) With {.CommandType = CommandType.Text}
-                    With cmd.Parameters
-                        .AddWithValue("?", GrDtID1)
-                        .AddWithValue("?", CType(IRow.Cells("StID").Value, Integer))
-                        .AddWithValue("?", CType(IRow.Cells("PStat").Value, Boolean))
-                        .AddWithValue("?", Now.Date)
-                        .AddWithValue("?", Now.Date)
-                    End With
-                    cn.Open()
-                    cmd.ExecuteNonQuery()
-                    cmd.Parameters.Clear()
-                End Using
-            Next
-            MsgBox("تم تسجيل غياب المجموعة اليوم بنجاح",
+        For Each IRow As DataGridViewRow In DGStdnts.Rows
+            'INSERT
+            Using cn As New OleDbConnection(Constr1)
+                Dim cmd = New OleDbCommand(sqlstr, cn) With {.CommandType = CommandType.Text}
+                With cmd.Parameters
+                    .AddWithValue("?", GrDtID1)
+                    .AddWithValue("?", CType(IRow.Cells("StID").Value, Integer))
+                    .AddWithValue("?", CType(IRow.Cells("PStat").Value, Boolean))
+                    .AddWithValue("?", Now.Date)
+                    .AddWithValue("?", Now.Date)
+                End With
+                cn.Open()
+                cmd.ExecuteNonQuery()
+                cmd.Parameters.Clear()
+            End Using
+        Next
+        MsgBox("تم تسجيل غياب المجموعة اليوم بنجاح",
                    MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
-            ConDGV("SELECT Stdnts.StID, Stdnts.StNm, Attnd.PStat FROM (Stdnts INNER JOIN Attnd ON Stdnts.StID = Attnd.StID) INNER JOIN " &
+        ConDGV("SELECT Stdnts.StID, Stdnts.StNm, Attnd.PStat FROM (Stdnts INNER JOIN Attnd ON Stdnts.StID = Attnd.StID) INNER JOIN " &
                    "(GrSt INNER JOIN Grps ON GrSt.GrID = Grps.GrID) ON Stdnts.StID = GrSt.StID WHERE (((GrSt.GrID)=" & GrID1 & ") AND " &
                    "((Attnd.GrDtID)=" & GrDtID1 & ")) ORDER BY Stdnts.StID;")
 
     End Sub
-
     Private Sub BtnClear_Click(sender As Object, e As EventArgs) Handles BtnClear.Click
         Dim SqlStr As String =
             "SELECT Stdnts.StID, Stdnts.StNm FROM Stdnts INNER JOIN GrSt ON Stdnts.StID = GrSt.StID WHERE " &
@@ -285,7 +282,13 @@ Public Class Form8
             DataAdapter1 = New OleDbDataAdapter(CMD)
             DataAdapter1.Fill(Dt2)
         End Using
-        DGStdnts.DataSource = Dt2
+        If Dt2.Rows.Count >= 1 Then
+            DGStdnts.Visible = True
+        Else
+            Label4.Text = String.Empty
+            BtnClear.Visible = False
+        End If
+        DGStdnts.DataSource = New BindingSource(Dt2, Nothing)
         DGStdnts.Columns("StID").HeaderCell.Value = "كود الطالب"
         DGStdnts.Columns("StID").ReadOnly = True
         DGStdnts.Columns("StID").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader

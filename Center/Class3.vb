@@ -66,13 +66,15 @@ Public Class Class3
                             CMD.Parameters.Clear()
                         End Using
                     Next
-
                 End If
                 MsgBox("تم تعديل المجموعة.")
+                Application.DoEvents()
+                Close()
             Else
                 MsgBox("لم يكتمل النقل")
+                Application.DoEvents()
+                Close()
             End If
-            Close()
         End If
     End Sub
     Private Sub CboGrps_SelectionChangeCommitted(sender As Object, e As EventArgs)
