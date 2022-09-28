@@ -42,11 +42,11 @@ Partial Class Form1
         Me.TimesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator()
-        Me.تقاريرالغيابToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripComboBox3 = New System.Windows.Forms.ToolStripComboBox()
         Me.تسجيلالدرحاتToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuMarks = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator()
-        Me.تقاريرالدرجاتToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MnuMrkRpts = New System.Windows.Forms.ToolStripMenuItem()
         Me.تقاريرمجمعةToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip2.SuspendLayout()
         Me.SuspendLayout()
@@ -59,14 +59,12 @@ Partial Class Form1
         Me.MenuStrip2.BackColor = System.Drawing.Color.WhiteSmoke
         Me.MenuStrip2.Dock = System.Windows.Forms.DockStyle.Right
         Me.MenuStrip2.ImageScalingSize = New System.Drawing.Size(32, 32)
-        Me.MenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.StudentsToolStripMenuItem, Me.GroupsToolStripMenuItem, Me.TimesToolStripMenuItem, Me.تسجيلالدرحاتToolStripMenuItem, Me.تقاريرمجمعةToolStripMenuItem})
-        Me.MenuStrip2.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow
+        Me.MenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.StudentsToolStripMenuItem, Me.GroupsToolStripMenuItem, Me.TimesToolStripMenuItem, Me.ToolStripComboBox3, Me.تسجيلالدرحاتToolStripMenuItem, Me.تقاريرمجمعةToolStripMenuItem})
         Me.MenuStrip2.Location = New System.Drawing.Point(678, 0)
         Me.MenuStrip2.Name = "MenuStrip2"
         Me.MenuStrip2.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.MenuStrip2.Size = New System.Drawing.Size(122, 450)
         Me.MenuStrip2.TabIndex = 1
-        Me.MenuStrip2.Text = "MenuStrip2"
         '
         'FileToolStripMenuItem
         '
@@ -155,14 +153,14 @@ Partial Class Form1
         Me.SToolStripMenuItem.Image = Global.WindowsApp1.My.Resources.Resources.group_gear
         Me.SToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.SToolStripMenuItem.Name = "SToolStripMenuItem"
-        Me.SToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
         Me.SToolStripMenuItem.Text = "اعدادات الطلاب"
         Me.SToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(177, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(153, 6)
         '
         'تقاريرالطلابToolStripMenuItem
         '
@@ -171,7 +169,7 @@ Partial Class Form1
         Me.تقاريرالطلابToolStripMenuItem.ForeColor = System.Drawing.Color.SeaGreen
         Me.تقاريرالطلابToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.تقاريرالطلابToolStripMenuItem.Name = "تقاريرالطلابToolStripMenuItem"
-        Me.تقاريرالطلابToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.تقاريرالطلابToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
         Me.تقاريرالطلابToolStripMenuItem.Text = "تقارير الطلاب"
         '
         'GroupsToolStripMenuItem
@@ -215,7 +213,7 @@ Partial Class Form1
         '
         'TimesToolStripMenuItem
         '
-        Me.TimesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SToolStripMenuItem1, Me.ToolStripMenuItem3, Me.تقاريرالغيابToolStripMenuItem})
+        Me.TimesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SToolStripMenuItem1, Me.ToolStripMenuItem3})
         Me.TimesToolStripMenuItem.Font = New System.Drawing.Font("Arial", 13.0!, System.Drawing.FontStyle.Bold)
         Me.TimesToolStripMenuItem.ForeColor = System.Drawing.Color.Green
         Me.TimesToolStripMenuItem.Image = Global.WindowsApp1.My.Resources.Resources.Time
@@ -234,27 +232,31 @@ Partial Class Form1
         Me.SToolStripMenuItem1.Image = Global.WindowsApp1.My.Resources.Resources.page_gear
         Me.SToolStripMenuItem1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.SToolStripMenuItem1.Name = "SToolStripMenuItem1"
-        Me.SToolStripMenuItem1.Size = New System.Drawing.Size(165, 22)
-        Me.SToolStripMenuItem1.Text = "الحضور و الغياب"
+        Me.SToolStripMenuItem1.Size = New System.Drawing.Size(145, 22)
+        Me.SToolStripMenuItem1.Text = "تسجيل الغياب"
         Me.SToolStripMenuItem1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'ToolStripMenuItem3
         '
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(162, 6)
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(142, 6)
         '
-        'تقاريرالغيابToolStripMenuItem
+        'ToolStripComboBox3
         '
-        Me.تقاريرالغيابToolStripMenuItem.BackColor = System.Drawing.Color.Transparent
-        Me.تقاريرالغيابToolStripMenuItem.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.تقاريرالغيابToolStripMenuItem.ForeColor = System.Drawing.Color.SeaGreen
-        Me.تقاريرالغيابToolStripMenuItem.Name = "تقاريرالغيابToolStripMenuItem"
-        Me.تقاريرالغيابToolStripMenuItem.Size = New System.Drawing.Size(165, 22)
-        Me.تقاريرالغيابToolStripMenuItem.Text = "تقارير الغياب"
+        Me.ToolStripComboBox3.BackColor = System.Drawing.SystemColors.Control
+        Me.ToolStripComboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ToolStripComboBox3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ToolStripComboBox3.ForeColor = System.Drawing.Color.ForestGreen
+        Me.ToolStripComboBox3.MaxDropDownItems = 3
+        Me.ToolStripComboBox3.MergeAction = System.Windows.Forms.MergeAction.Insert
+        Me.ToolStripComboBox3.Name = "ToolStripComboBox3"
+        Me.ToolStripComboBox3.Padding = New System.Windows.Forms.Padding(2)
+        Me.ToolStripComboBox3.Size = New System.Drawing.Size(107, 27)
+        Me.ToolStripComboBox3.Sorted = True
         '
         'تسجيلالدرحاتToolStripMenuItem
         '
-        Me.تسجيلالدرحاتToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuMarks, Me.ToolStripMenuItem4, Me.تقاريرالدرجاتToolStripMenuItem})
+        Me.تسجيلالدرحاتToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuMarks, Me.ToolStripMenuItem4, Me.MnuMrkRpts})
         Me.تسجيلالدرحاتToolStripMenuItem.Font = New System.Drawing.Font("Arial", 13.0!, System.Drawing.FontStyle.Bold)
         Me.تسجيلالدرحاتToolStripMenuItem.ForeColor = System.Drawing.Color.Green
         Me.تسجيلالدرحاتToolStripMenuItem.Image = Global.WindowsApp1.My.Resources.Resources.accept_button
@@ -281,14 +283,14 @@ Partial Class Form1
         Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
         Me.ToolStripMenuItem4.Size = New System.Drawing.Size(160, 6)
         '
-        'تقاريرالدرجاتToolStripMenuItem
+        'MnuMrkRpts
         '
-        Me.تقاريرالدرجاتToolStripMenuItem.BackColor = System.Drawing.Color.Transparent
-        Me.تقاريرالدرجاتToolStripMenuItem.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.تقاريرالدرجاتToolStripMenuItem.ForeColor = System.Drawing.Color.SeaGreen
-        Me.تقاريرالدرجاتToolStripMenuItem.Name = "تقاريرالدرجاتToolStripMenuItem"
-        Me.تقاريرالدرجاتToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
-        Me.تقاريرالدرجاتToolStripMenuItem.Text = "تقارير الدرجات"
+        Me.MnuMrkRpts.BackColor = System.Drawing.Color.Transparent
+        Me.MnuMrkRpts.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.MnuMrkRpts.ForeColor = System.Drawing.Color.SeaGreen
+        Me.MnuMrkRpts.Name = "MnuMrkRpts"
+        Me.MnuMrkRpts.Size = New System.Drawing.Size(163, 22)
+        Me.MnuMrkRpts.Text = "تقارير الدرجات"
         '
         'تقاريرمجمعةToolStripMenuItem
         '
@@ -335,9 +337,9 @@ Partial Class Form1
     Friend WithEvents ToolStripMenuItem2 As ToolStripSeparator
     Friend WithEvents تقاريرالمجموعاتToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem3 As ToolStripSeparator
-    Friend WithEvents تقاريرالغيابToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem4 As ToolStripSeparator
-    Friend WithEvents تقاريرالدرجاتToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents MnuMrkRpts As ToolStripMenuItem
     Friend WithEvents تقاريرمجمعةToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem5 As ToolStripSeparator
+    Friend WithEvents ToolStripComboBox3 As ToolStripComboBox
 End Class

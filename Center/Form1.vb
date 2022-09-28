@@ -3,6 +3,8 @@
 Public Class Form1
     Private Property Ii As New Class1
     Private Property Constr As String = Ii.ConStr
+    Public Property CurrentAttndMonth As Integer
+    Public Property CurrentAttndMonthNm As String
     Private Function GrDtToday() As Integer
         Dim SqlStr As String = "SELECT COUNT(GrDtID) FROM GrDt WHERE Month(GrDt.Mnm)=? AND GrDt.GrDt1=?;"
         Using CN = New OleDbConnection With {.ConnectionString = Constr},
@@ -43,6 +45,48 @@ Public Class Form1
         With Ii.PopupNotifier1
             .ContentText = "السلام عليكم و رحمة الله و بركاته. لديك  " & GrDtToday() & " مجموعات اليوم."
             .Popup()
+        End With
+        ComboItems = New Dictionary(Of Integer, String)
+        Dim Dis As New DataTable
+        Dim SqlStr As String = "SELECT DISTINCT ([GrDt].[Mnm]) AS Expr1, Min(GrDt.GrDtID) AS MinOfGrDtID FROM GrDt GROUP BY " &
+            "([GrDt].[Mnm]) ORDER BY ([GrDt].[Mnm]);"
+        Dis = Ii.GetData(SqlStr)
+        ComboItems.Clear()
+        For Each DtR As DataRow In Dis.Rows
+            ComboItems.Add(DtR("MinOfGrDtID"), Format(DtR("Expr1"), "MMMMyyyy"))
+        Next
+        AddHandler ToolStripComboBox3.ComboBox.SelectionChangeCommitted, AddressOf Tlstrp_Slctioncom
+        ComboItems.Add(0, "اختر الشهر")
+        ToolStripComboBox3.ComboBox.BeginUpdate()
+        With ToolStripComboBox3
+            .ComboBox.DataSource = New BindingSource(ComboItems, Nothing)
+            .ComboBox.DisplayMember = "Value"
+            .ComboBox.ValueMember = "Key"
+            .SelectedIndex = 0
+            .ComboBox.EndUpdate()
+        End With
+
+    End Sub
+    Private Sub Tlstrp_Slctioncom(sender As Object, e As EventArgs)
+        Dim Cbo As ComboBox = CType(sender, ComboBox)
+        If DirectCast(Cbo.SelectedItem, KeyValuePair(Of Integer, String)).Key = 0 Then Exit Sub
+        CurrentAttndMonthNm = DirectCast(Cbo.SelectedItem, KeyValuePair(Of Integer, String)).Value.ToString
+        CurrentAttndMonth = DirectCast(Cbo.SelectedItem, KeyValuePair(Of Integer, String)).Key
+
+        Dim Frm9 As New Form9
+        IsMdiContainer = True
+        For Each Frm As Form In Application.OpenForms
+            If Frm.Text.Contains(CurrentAttndMonthNm) Then
+                Frm.Visible = True
+                Frm.BringToFront()
+                Exit Sub
+            End If
+        Next
+        With Frm9
+            .MdiParent = Me
+            '.WindowState = FormWindowState.Normal
+            .ShowIcon = True
+            .Show()
         End With
     End Sub
     Private Sub Form1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
@@ -179,5 +223,15 @@ Public Class Form1
             .ShowIcon = True
             .Show()
         End With
+    End Sub
+    Private ComboItems As Dictionary(Of Integer, String)
+    Private Sub ToolStripComboBox3_DropDown(sender As Object, e As EventArgs) Handles ToolStripComboBox3.DropDown
+
+    End Sub
+
+    Private Sub ToolStripComboBox3_DropDownClosed(sender As Object, e As EventArgs) Handles ToolStripComboBox3.DropDownClosed
+        ActiveControl = Nothing
+        Enabled = True
+        Activate()
     End Sub
 End Class
