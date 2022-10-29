@@ -140,8 +140,8 @@ Public Class Form8
             Using CN As New OleDbConnection(Constr1),
                     CMDDel As New OleDbCommand(SqlDel, CN) With {.CommandType = CommandType.Text},
                     CMDCREATE As New OleDbCommand(SqlCreate, CN) With {.CommandType = CommandType.Text}
-                CN.Open()
                 Try
+                    CN.Open()
                     CMDDel.ExecuteNonQuery()
                     CMDCREATE.ExecuteNonQuery()
                 Catch ex As OleDbException

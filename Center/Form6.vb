@@ -107,10 +107,13 @@ Public Class Form6
         BtnSave.Enabled = False
     End Sub
     Private Sub DG1_RowPostPaint(sender As Object, e As DataGridViewRowPostPaintEventArgs)
-        Dim dgv = DirectCast(sender, DataGridView)
-        Dim rowHeader As String = Convert.ToString(e.RowIndex + 1)
-        Using b As SolidBrush = New SolidBrush(Color.Black)
-            e.Graphics.DrawString(rowHeader, dgv.DefaultCellStyle.Font, b, e.ClipBounds.Width - 30, e.RowBounds.Location.Y + 4)
+        Dim grid = TryCast(sender, DataGridView)
+        Dim rowIdx As String = Convert.ToString(e.RowIndex + 1)
+        Using centerFormat As StringFormat = New StringFormat() With
+            {.Alignment = StringAlignment.Center, .LineAlignment = StringAlignment.Center}
+            Dim headerBounds =
+                New Rectangle(e.RowBounds.Right - 42, e.RowBounds.Top, grid.RowHeadersWidth, e.RowBounds.Height)
+            e.Graphics.DrawString(rowIdx, Font, Brushes.Blue, headerBounds, centerFormat)
         End Using
     End Sub
     Private Sub ToolStripButton6_Click(sender As Object, e As EventArgs) Handles ToolStripButton6.Click

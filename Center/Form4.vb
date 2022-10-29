@@ -469,6 +469,6 @@ Public Class Form4
         If GrID = 0 OrElse GrDtID = 0 OrElse DG1.Rows.Count <= 0 Then
             Exit Sub
         End If
-        Form7.ShowDialog()
+
     End Sub
 End Class

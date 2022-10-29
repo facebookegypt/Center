@@ -179,7 +179,6 @@ Public Class Form1
         Update()
         Refresh()
     End Sub
-
     Private Sub MnuGr_Click(sender As Object, e As EventArgs) Handles MnuGr.Click
         If Form4.Visible = True Then
             Form4.BringToFront()
@@ -193,7 +192,6 @@ Public Class Form1
             .Show()
         End With
     End Sub
-
     Private Sub SToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SToolStripMenuItem1.Click
         If Form8.Visible = True Then
             Form8.BringToFront()
@@ -208,7 +206,6 @@ Public Class Form1
             .Show()
         End With
     End Sub
-
     Private Sub MnuMarks_Click(sender As Object, e As EventArgs) Handles MnuMarks.Click
         If Form7.Visible Then
             Form7.BringToFront()
@@ -224,17 +221,31 @@ Public Class Form1
         End With
     End Sub
     Private ComboItems As Dictionary(Of Integer, String)
-    Private Sub ToolStripComboBox3_DropDown(sender As Object, e As EventArgs) Handles ToolStripComboBox3.DropDown
-
-    End Sub
-
     Private Sub ToolStripComboBox3_DropDownClosed(sender As Object, e As EventArgs) Handles ToolStripComboBox3.DropDownClosed
         ActiveControl = Nothing
         Enabled = True
         Activate()
     End Sub
+    Private Sub MnuRpt1_Click(sender As Object, e As EventArgs) Handles MnuRpt1.Click
+        Dim SqlStrDel As String =
+            "DROP VIEW GrpsDtsRpt;"
+        Dim SqlStrCreate As String =
+            "CREATE VIEW GrpsDtsRpt AS SELECT Grps.GrID, Grps.GrNm, Grps.Lnm, Grps.SubNm, GrDt.Mnm, GrDt.GrDt1, GrDt.GrDt2 FROM " &
+            "Grps INNER JOIN (GrSt INNER JOIN GrDt ON GrSt.GrID = GrDt.GrID) ON Grps.GrID = GrSt.GrID GROUP BY Grps.GrID, Grps.GrNm, " &
+            "Grps.Lnm, Grps.SubNm, GrDt.Mnm, GrDt.GrDt1, GrDt.GrDt2;"
+        Using CN As New OleDbConnection(Constr),
+                    CMDDel As New OleDbCommand(SqlStrDel, CN) With {.CommandType = CommandType.Text},
+                    CMDCREATE As New OleDbCommand(SqlStrCreate, CN) With {.CommandType = CommandType.Text}
+            Try
+                CN.Open()
+                CMDDel.ExecuteNonQuery()
+                CMDCREATE.ExecuteNonQuery()
+            Catch ex As OleDbException
+                CMDCREATE.ExecuteNonQuery()
+            End Try
+        End Using
 
-    Private Sub ToolStripComboBox3_Click(sender As Object, e As EventArgs) Handles ToolStripComboBox3.Click
-
+        Form10.SrcFrm = "GrpsDtsRpt"
+        Form10.ShowDialog()
     End Sub
 End Class
