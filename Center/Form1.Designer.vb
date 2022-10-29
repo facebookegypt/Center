@@ -232,14 +232,14 @@ Partial Class Form1
         Me.SToolStripMenuItem1.Image = Global.WindowsApp1.My.Resources.Resources.page_gear
         Me.SToolStripMenuItem1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.SToolStripMenuItem1.Name = "SToolStripMenuItem1"
-        Me.SToolStripMenuItem1.Size = New System.Drawing.Size(145, 22)
+        Me.SToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
         Me.SToolStripMenuItem1.Text = "تسجيل الغياب"
         Me.SToolStripMenuItem1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'ToolStripMenuItem3
         '
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(142, 6)
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(177, 6)
         '
         'ToolStripComboBox3
         '

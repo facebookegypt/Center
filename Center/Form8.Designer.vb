@@ -31,6 +31,8 @@ Partial Class Form8
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.BtnClear = New System.Windows.Forms.ToolStripButton()
         Me.BtnSave = New System.Windows.Forms.ToolStripButton()
+        Me.BtnDel = New System.Windows.Forms.ToolStripButton()
+        Me.BtnPrint = New System.Windows.Forms.ToolStripButton()
         Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
         Me.GroupBox2.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
@@ -99,7 +101,7 @@ Partial Class Form8
         Me.ToolStrip1.AllowMerge = False
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.ToolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BtnClear, Me.BtnSave})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BtnClear, Me.BtnSave, Me.BtnDel, Me.BtnPrint})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 411)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
@@ -127,6 +129,29 @@ Partial Class Form8
         Me.BtnSave.Size = New System.Drawing.Size(36, 51)
         Me.BtnSave.Text = "حفظ"
         Me.BtnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'BtnDel
+        '
+        Me.BtnDel.Enabled = False
+        Me.BtnDel.Image = CType(resources.GetObject("BtnDel.Image"), System.Drawing.Image)
+        Me.BtnDel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BtnDel.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.BtnDel.Name = "BtnDel"
+        Me.BtnDel.Size = New System.Drawing.Size(36, 51)
+        Me.BtnDel.Text = "حذف"
+        Me.BtnDel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'BtnPrint
+        '
+        Me.BtnPrint.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
+        Me.BtnPrint.Enabled = False
+        Me.BtnPrint.Image = CType(resources.GetObject("BtnPrint.Image"), System.Drawing.Image)
+        Me.BtnPrint.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.BtnPrint.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.BtnPrint.Name = "BtnPrint"
+        Me.BtnPrint.Size = New System.Drawing.Size(41, 51)
+        Me.BtnPrint.Text = "طباعة"
+        Me.BtnPrint.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'ImageList1
         '
@@ -163,4 +188,6 @@ Partial Class Form8
     Friend WithEvents GroupBox3 As GroupBox
     Friend WithEvents Label4 As Label
     Friend WithEvents ImageList1 As ImageList
+    Friend WithEvents BtnDel As System.Windows.Forms.ToolStripButton
+    Friend WithEvents BtnPrint As ToolStripButton
 End Class

@@ -71,7 +71,7 @@
                                                MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight +
                                                MsgBoxStyle.Critical + MsgBoxStyle.YesNoCancel)
             If AreUSure = MsgBoxResult.Yes Then
-                ToolStripStatusLabel2.Text = Format(Iu.LstUpdt(TxtNm.Text), "dddd, dd/MMMM/yyyy hh:mm tt")
+                ToolStripStatusLabel2.Text = Format(Iu.LstUpdt(TxtNm.Text), "dddd, dd/MMMM/yyyy")
             End If
         End If
     End Sub
@@ -89,5 +89,9 @@
                 ToolStripStatusLabel2.Text = Format(Iu.LstUpdt(TxtNm.Text), "dddd, dd/MMMM/yyyy hh:mm tt")
             End If
         End If
+    End Sub
+
+    Private Sub RadioButton1_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton1.CheckedChanged
+
     End Sub
 End Class

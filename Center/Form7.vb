@@ -24,6 +24,7 @@ Public Class Form7
         .RowHeadersVisible = True, .BackgroundColor = Color.WhiteSmoke, .ColumnHeadersHeight = 50,
          .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing}
     Private Dtable As DataTable, Dtable1 As DataTable
+    Private RptSrc As String
     Private Function GetMainTree(ByVal DT As DataTable) As TreeView
         DT = IC.GetData(<SQL>SELECT Grps.GrID, Grps.GrNm FROM Grps INNER JOIN GrDt ON Grps.GrID = GrDt.GrID GROUP BY Grps.GrID, 
             Grps.GrNm ORDER BY Grps.GrID, Grps.GrNm ASC;</SQL>.Value)
@@ -47,7 +48,7 @@ Public Class Form7
         Dim SqlStr1 As String =
             "SELECT GrDt.GrDtID, GrDt.GrID, Tsks.TaskID, Grps.GrNm, GrDt.Mnm, GrDt.GrDt1, GrDt.GrDt2, Tsks.TaskNm, GrDt.TskFlMrk " &
             "FROM Tsks INNER JOIN (Grps INNER JOIN GrDt ON Grps.GrID = GrDt.GrID) ON Tsks.TaskID = GrDt.TaskID " &
-            "WHERE (((GrDt.GrID)=" & Integer.Parse(e.Node.Name) & "));"
+            "WHERE (((GrDt.GrID)=" & Integer.Parse(e.Node.Name) & ")) ORDER BY GrDt.GrDt1, GrDt.GrDt2 ASC;"
         Dim DT As DataTable =
             IC.GetData(SqlStr1)
         e.Node.Nodes.Clear()
@@ -67,6 +68,7 @@ Public Class Form7
             DGStdnts.Visible = False
             BtnSave.Enabled = False
             BtnDel.Enabled = True
+            ToolStripButton1.Enabled = False
         Else
             GrDtID1 = Integer.Parse(e.Node.Name)
             GrID1 = Integer.Parse(e.Node.Parent.Name)
@@ -80,6 +82,27 @@ Public Class Form7
             DGStdnts.Visible = True
             BtnSave.Enabled = False
             BtnDel.Enabled = True
+            ToolStripButton1.Enabled = True
+            AddCol()
+            Dim SqlDel As String =
+                "DROP VIEW MarksRpt;"
+            Dim SqlCreate As String =
+                "CREATE VIEW MarksRpt AS SELECT GrDt.GrDtID, GrDt.GrID, Rslts.StID, Stdnts.StNm, GrDt.Mnm, GrDt.GrDt1, GrDt.GrDt2, Grps.GrNm, " &
+                "Grps.Lnm, Grps.SubNm, Tsks.TaskID, Tsks.TaskNm, Rslts.Mrk, GrDt.TskFlMrk FROM Tsks INNER JOIN (Stdnts INNER JOIN " &
+                "((GrDt INNER JOIN Grps ON GrDt.GrID = Grps.GrID) INNER JOIN Rslts ON GrDt.GrDtID = Rslts.GrDtID) ON " &
+                "Stdnts.StID = Rslts.StID) ON Tsks.TaskID = GrDt.TaskID WHERE (((GrDt.GrDtID)=" & GrDtID1 & ") And ((GrDt.GrID)=" & GrID1 & "));"
+            Using CN As New OleDbConnection(Constr1),
+                    CMDDel As New OleDbCommand(SqlDel, CN) With {.CommandType = CommandType.Text},
+                    CMDCREATE As New OleDbCommand(SqlCreate, CN) With {.CommandType = CommandType.Text}
+                CN.Open()
+                Try
+                    CMDDel.ExecuteNonQuery()
+                    CMDCREATE.ExecuteNonQuery()
+                Catch ex As OleDbException
+                    CMDCREATE.ExecuteNonQuery()
+                End Try
+            End Using
+            RptSrc = "MarksRpt"
         End If
 
         ConDGV("SELECT Stdnts.StID, Stdnts.StNm, Rslts.Mrk FROM (Stdnts INNER JOIN (Grps INNER JOIN GrSt ON Grps.GrID = GrSt.GrID) " &
@@ -87,6 +110,7 @@ Public Class Form7
                "WHERE (((GrSt.GrID)=" & GrID1 & ") And ((Rslts.GrDtID)=" & GrDtID1 & ")) ORDER BY Stdnts.StID ASC;")
     End Sub
     Private Sub AddCol()
+        If GrDtID1 <= 0 Then Exit Sub
         Using CN As New OleDbConnection(Constr1),
                 CMD As New OleDbCommand("SELECT GrDt.TskFlMrk FROM GrDt WHERE GrDtID=?;", CN) With {.CommandType = CommandType.Text}
             CMD.Parameters.AddWithValue("?", GrDtID1)
@@ -104,7 +128,7 @@ Public Class Form7
         If Not DGStdnts.Columns.Contains("Pscore") Then
             Dim AddColumn As New DataGridViewTextBoxColumn
             With AddColumn
-                .HeaderText = "درجة الطالب / " & FlMrk.ToString
+                .HeaderText = " / درجة الطالب" & FlMrk.ToString
                 .Name = "Pscore"
                 .CellTemplate = New DataGridViewTextBoxCell()
                 .CellTemplate.Style.BackColor = Color.Beige
@@ -115,6 +139,11 @@ Public Class Form7
                 .DataPropertyName = "Mrk"
             End With
             DGStdnts.Columns.Insert(2, AddColumn)
+        Else
+            With DGStdnts.Columns(2)
+                .HeaderText = "درجة الطالب / " & FlMrk.ToString
+                .DataPropertyName = "Mrk"
+            End With
         End If
     End Sub
     Private Sub DGStdnts_DataError(ByVal sender As Object, ByVal e As DataGridViewDataErrorEventArgs)
@@ -166,7 +195,6 @@ Public Class Form7
             DGStdnts.Columns.Remove("Mrk")
         End If
 
-        AddCol()
         DGStdnts.Columns("StID").HeaderCell.Value = "كود الطالب"
         DGStdnts.Columns("StID").ReadOnly = True
         DGStdnts.Columns("StID").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
@@ -230,14 +258,14 @@ Public Class Form7
         DGStdnts.Rows(e.RowIndex).ErrorText = Nothing
     End Sub
     Private Sub DGStdnts_CellValidating(sender As Object, e As DataGridViewCellValidatingEventArgs)
-        DGStdnts.Rows(e.RowIndex).ErrorText = ""
+        DGStdnts.Rows(e.RowIndex).ErrorText = String.Empty
         ' Don't try to validate the 'new row' until finished 
         ' editing since there Is Not any point in validating its initial value.
         If DGStdnts.Columns(e.ColumnIndex).Name = "Pscore" Then
             If e.FormattedValue.ToString.Length >= 1 Then
-                If Not IsNumeric(e.FormattedValue) OrElse Convert.ToInt32(e.FormattedValue) > 30 Then
+                If Not IsNumeric(e.FormattedValue) OrElse Convert.ToInt32(e.FormattedValue) > FlMrk Then
                     e.Cancel = True
-                    DGStdnts.Rows(e.RowIndex).ErrorText = "اقصي درجة 30"
+                    DGStdnts.Rows(e.RowIndex).ErrorText = "اقصي درجة " & FlMrk.ToString
                 End If
             End If
         End If
@@ -249,7 +277,7 @@ Public Class Form7
             {.Alignment = StringAlignment.Center, .LineAlignment = StringAlignment.Center}
             Dim headerBounds =
                 New Rectangle(e.RowBounds.Right - 42, e.RowBounds.Top, grid.RowHeadersWidth, e.RowBounds.Height)
-            e.Graphics.DrawString(rowIdx, Font, SystemBrushes.ActiveCaptionText, headerBounds, centerFormat)
+            e.Graphics.DrawString(rowIdx, Font, Brushes.Blue, headerBounds, centerFormat)
         End Using
     End Sub
     Private Sub Form7_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles MyBase.KeyPress
@@ -288,7 +316,6 @@ Public Class Form7
         Dim N As Integer
         Dim SqlStr1 As String =
                 "DELETE * FROM Rslts WHERE GrDtID=?;"
-        'If CType(IRow.Cells("PStat").Value, Boolean) = True Then
         'اليوم الواحد ممكن يكون فيه أكتر من مجموعه
         Using cn As New OleDbConnection(Constr1)
             '           CNTra = cn.BeginTransaction(IsolationLevel.ReadCommitted)
@@ -337,8 +364,8 @@ Public Class Form7
             .SelectedImageIndex = 1
         End With
         Dim dt3 As DataTable = New DataTable
-        GroupBox1.Controls.Add(TRV)
         AddHandler TRV.AfterSelect, AddressOf TRV_AfterSelect
+        GroupBox1.Controls.Add(TRV)
         GetMainTree(dt3)
     End Sub
     Private Sub Form7_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
@@ -359,6 +386,17 @@ Public Class Form7
             End If
         End If
     End Sub
+
+    Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
+        If DGStdnts.Rows.Count <= 0 AndAlso Not TRV.SelectedNode.Parent Is Nothing Then
+            MsgBox("يجب تسجيل الدرجات أولا.",
+                   MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
+            Exit Sub
+        End If
+        Form10.SrcFrm = RptSrc
+        Form10.ShowDialog()
+    End Sub
+
     Private Sub BtnDel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnDel.Click
         'Delete
         'Attend and Results Tables are linked with Students
@@ -369,7 +407,7 @@ Public Class Form7
             Exit Sub
         End If
         Dim SqlStr1 As String =
-            <sql>SELECT COUNT(GrDtID) FROM Rslts Where GrDtID=<%= GrDtID1 %>;</sql>.Value
+            <sql>SELECT COUNT(Rslts.GrDtID) FROM Rslts WHERE Rslts.GrDtID=<%= GrDtID1 %>;</sql>.Value
         Dim AreUsURE As MsgBoxResult =
             MsgBox("يجب حذف درجات طلاب المجوعه فى هذا اليوم أولا.",
          MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical + MsgBoxStyle.YesNoCancel)
@@ -381,7 +419,7 @@ Public Class Form7
             If RUSre = MsgBoxResult.Yes Then
                 Dim N As Integer
                 Dim SqlStr As String =
-                    <SQL>DELETE * From Attnd WHERE Attnd.GrDtID=?;</SQL>.Value
+                    <SQL>DELETE * FROM Attnd WHERE Attnd.GrDtID=?;</SQL>.Value
                 Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
                         CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
                     With CMD.Parameters

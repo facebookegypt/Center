@@ -11,7 +11,7 @@ Public Class Form4
     Private WithEvents DG1 As DataGridView = New DataGridView With
         {.Name = "DGV1", .BorderStyle = BorderStyle.None, .RightToLeft = RightToLeft.Yes,
         .AllowUserToAddRows = False, .Dock = DockStyle.Fill, .EnableHeadersVisualStyles = False, .RowHeadersVisible = True,
-        .BackgroundColor = Color.WhiteSmoke, .ColumnHeadersHeight = 50, .RowHeadersWidth = 35,
+        .BackgroundColor = Color.WhiteSmoke, .ColumnHeadersHeight = 50, .RowHeadersWidth = 40,
         .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing}
     Private Sub GetGrps(ByVal SqlStr As String,
                         ByVal combobox As ComboBox,
@@ -62,6 +62,11 @@ Public Class Form4
         'WindowState = FormWindowState.Maximized
         BackgroundImageLayout = ImageLayout.Stretch
         BackgroundImage = My.Resources.getty_1146511178_ppbdmz
+        ComboBox1.ComboBox.SelectedIndex = 0
+        AddHandler ComboBox1.ComboBox.SelectionChangeCommitted, AddressOf ComboBox1_OnSelectionChangedCommitted
+    End Sub
+    Private Sub ComboBox1_OnSelectionChangedCommitted(sender As Object, e As EventArgs)
+        TextBox1.SelectAll()
     End Sub
     Private Sub Form4_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
         If e.KeyChar = ChrW(Keys.Escape) Then Close()
@@ -135,6 +140,7 @@ Public Class Form4
         End Using
         With DG1
             .EnableHeadersVisualStyles = False  'Will display the custom formats of mine.
+            .AlternatingRowsDefaultCellStyle.BackColor = Color.LightYellow
             .EditMode = DataGridViewEditMode.EditOnEnter
             .GridColor = SystemColors.Control
             .SelectionMode = DataGridViewSelectionMode.FullRowSelect
@@ -143,18 +149,18 @@ Public Class Form4
             .DefaultCellStyle.WrapMode = DataGridViewTriState.True
             .AutoGenerateColumns = False
             .DataSource = Nothing
-            .DataSource = New BindingSource(Dt2.DefaultView, Nothing)
+            .DataSource = Dt2.DefaultView.Table
         End With
         GroupBox1.Controls.Add(DG1)
         With DG1.ColumnHeadersDefaultCellStyle
-            .BackColor = Color.DarkCyan
-            .ForeColor = Color.White
+            .BackColor = Color.LightCyan
+            .ForeColor = Color.DarkGreen
             .Font = New Font("Arial", 13, FontStyle.Bold)
             .Alignment = DataGridViewContentAlignment.MiddleCenter
         End With
         With DG1.RowHeadersDefaultCellStyle
-            .BackColor = Color.DarkCyan
-            .ForeColor = Color.White
+            .BackColor = Color.LightCyan
+            .ForeColor = Color.DarkGreen
             .Font = New Font("Arial", 11, FontStyle.Regular)
             .Alignment = DataGridViewContentAlignment.MiddleCenter
         End With
@@ -188,6 +194,8 @@ Public Class Form4
         BtnEdit.Enabled = True
         BtnDel.Enabled = True
         BtnSave.Enabled = False
+        ToolStripButton1.Enabled = True
+        ToolStripButton2.Enabled = True
     End Sub
     Private Sub DG1_RowPostPaint(sender As Object, e As DataGridViewRowPostPaintEventArgs)
         Dim grid = TryCast(sender, DataGridView)
@@ -202,39 +210,35 @@ Public Class Form4
     Private Sub ComboBox3_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles ComboBox3.SelectionChangeCommitted
         TaskID = Convert.ToInt32(ComboBox3.SelectedValue)
     End Sub
-    Private Sub ToolStripButton10_Click(sender As Object, e As EventArgs) Handles ToolStripButton10.Click
-        Dim SqlStr As String =
-            "SELECT GrDt.GrDtID, GrDt.GrID, Grps.GrNm, Grps.Lnm, Grps.SubNm, GrDt.Mnm, GrDt.GrDt1, GrDt.GrDt2, Tsks.TaskID, Tsks.TaskNm, " &
-            "GrDt.TskFlMrk FROM Tsks INNER JOIN (GrDt INNER JOIN Grps ON GrDt.GrID = Grps.GrID) ON Tsks.TaskID = GrDt.TaskID " &
-            "ORDER BY GrDt.GrID, GrDt.GrDt1;"
+    Private Sub CONDgv(SqlStr As String)
         GetGrpsDts(SqlStr)
         Dim DIg1 As New DataGridViewTextBoxColumn With
             {.Name = "GrNm", .ValueType = GetType(String), .DataPropertyName = "GrNm", .HeaderText = "المجموعة",
-            .AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader}
+            .AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader}
         Dim DIg2 As New DataGridViewTextBoxColumn With
             {.Name = "Lnm", .ValueType = GetType(String), .DataPropertyName = "Lnm", .HeaderText = "الصف الدراسي",
-            .AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader}
+            .AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader}
         Dim DIg3 As New DataGridViewTextBoxColumn With
-            {.Name = "SubNm", .ValueType = GetType(String), .DataPropertyName = "SubNm", .HeaderText = "المادة الدراسية",
-            .AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill}
+            {.Name = "SubNm", .ValueType = GetType(String), .DataPropertyName = "SubNm", .HeaderText = "المادة",
+            .AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader}
         Dim DIg4 As New DataGridViewTextBoxColumn With
             {.Name = "Mnm", .ValueType = GetType(Date), .DataPropertyName = "Mnm", .HeaderText = "الشهر",
-            .AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader}
+            .AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader}
         DIg4.DefaultCellStyle.Format = "MMMMyyyy"
         Dim DIg5 As New DataGridViewTextBoxColumn With
             {.Name = "GrDt1", .ValueType = GetType(Date), .DataPropertyName = "GrDt1", .HeaderText = "اليوم",
-            .AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells}
+            .AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader}
         DIg5.DefaultCellStyle.Format = "dddd dd/MMMM"
         Dim DIg6 As New DataGridViewTextBoxColumn With
             {.Name = "GrDt2", .ValueType = GetType(Date), .DataPropertyName = "GrDt2", .HeaderText = "الساعة",
-            .AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells}
+            .AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader}
         DIg6.DefaultCellStyle.Format = "hh:mm tt"
         Dim DIg7 As New DataGridViewTextBoxColumn With
             {.Name = "TaskNm", .ValueType = GetType(String), .DataPropertyName = "TaskNm", .HeaderText = "الأعمال",
-            .AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader}
+            .AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells}
         Dim DIg8 As New DataGridViewTextBoxColumn With
             {.Name = "TskFlMrk", .ValueType = GetType(Integer), .DataPropertyName = "TskFlMrk", .HeaderText = "درجة الأعمال",
-            .AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill}
+            .AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader}
         Dim DIg As New DataGridViewTextBoxColumn With
             {.Name = "GrDtID", .ValueType = GetType(Integer), .DataPropertyName = "GrDtID", .Visible = False}
         Dim DIg0 As New DataGridViewTextBoxColumn With
@@ -262,6 +266,13 @@ Public Class Form4
         BtnEdit.Enabled = False
         BtnSave.Enabled = False
     End Sub
+    Private Sub ToolStripButton10_Click(sender As Object, e As EventArgs) Handles ToolStripButton10.Click
+        Dim SqlStr As String =
+            "SELECT GrDt.GrDtID, GrDt.GrID, Grps.GrNm, Grps.Lnm, Grps.SubNm, GrDt.Mnm, GrDt.GrDt1, GrDt.GrDt2, Tsks.TaskID, Tsks.TaskNm, " &
+            "GrDt.TskFlMrk FROM Tsks INNER JOIN (GrDt INNER JOIN Grps ON GrDt.GrID = Grps.GrID) ON Tsks.TaskID = GrDt.TaskID " &
+            "ORDER BY GrDt.GrID, GrDt.GrDt1;"
+        CONDgv(SqlStr)
+    End Sub
     Private Sub BtnClear_Click(sender As Object, e As EventArgs) Handles BtnClear.Click
         BtnEdit.Enabled = False
         BtnDel.Enabled = False
@@ -271,6 +282,8 @@ Public Class Form4
         TxtMrk.Text = 0.ToString
         DateTimePicker1.Value = Now.Date
         DateTimePicker2.Value = Now.Date
+        ToolStripButton1.Enabled = False
+        ToolStripButton2.Enabled = False
     End Sub
     Private Sub BtnEdit_Click(sender As Object, e As EventArgs) Handles BtnEdit.Click
         'Edit
@@ -365,6 +378,9 @@ Public Class Form4
                 ToolStripButton10_Click(sender, e)
             End If
         End If
+        If e.KeyCode = Keys.F AndAlso e.Modifiers = Keys.Control Then
+            TextBox1.Focus()
+        End If
         If e.KeyData = Keys.Delete Then
             If BtnDel.Enabled = True Then
                 BtnDel_Click(sender, e)
@@ -381,5 +397,78 @@ Public Class Form4
         'Copy & Paste
         Dim digitsOnly As Regex = New Regex("[^\d]")
         TxtMrk.Text = digitsOnly.Replace(TxtMrk.Text, "")
+    End Sub
+
+    Private Sub TextBox1_Click(sender As Object, e As EventArgs) Handles TextBox1.Click
+
+    End Sub
+
+    Private Sub TextBox1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox1.KeyPress
+        If e.KeyChar = ChrW(Keys.Enter) Then
+            If IsNothing(ComboBox1.ComboBox.SelectedItem) Or ComboBox1.ComboBox.SelectedIndex = -1 Then
+                MsgBox("من فضلك أختر فلتر البحث أولا",
+                       MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
+                Exit Sub
+            End If
+            If TextBox1.Text.Contains("'") Or
+                    TextBox1.Text.Contains(",") Or
+                    TextBox1.Text.Contains(".") Then
+                MsgBox("البحث الذي أدخلته غير صحيح",
+                       MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
+                Exit Sub
+            End If
+            If TextBox1.Text.Length <= 0 Then Exit Sub
+            Dim SqlStr2 As String = String.Empty
+            Dim SqlStr1 As String =
+                "SELECT GrDt.GrDtID, GrDt.GrID, Grps.GrNm, Grps.Lnm, Grps.SubNm, GrDt.Mnm, GrDt.GrDt1, GrDt.GrDt2, Tsks.TaskID, " &
+                "Tsks.TaskNm, GrDt.TskFlMrk FROM Tsks INNER JOIN (GrDt INNER JOIN Grps ON GrDt.GrID = Grps.GrID) ON " &
+                "Tsks.TaskID = GrDt.TaskID "
+            Select Case ComboBox1.ComboBox.SelectedIndex
+                Case Is = 0
+                    Dim date1 As Date = "#" & TextBox1.Text & "#"
+                    SqlStr2 = "WHERE (((GrDt.GrDt1)=#" & date1.Date.ToString("MM/dd/yyyy") & "#)) ORDER BY GrDt.GrID, GrDt.GrDt1;"
+                Case Is = 1
+                    Dim Lnm1 As String = TextBox1.Text
+                    SqlStr2 = "WHERE (((Grps.Lnm) LIKE '%" & Lnm1 & "%')) ORDER BY GrDt.GrID, GrDt.GrDt1;"
+                Case Is = 2
+                    Dim SubNm1 As String = TextBox1.Text
+                    SqlStr2 = "WHERE (((Grps.SubNm) LIKE '%" & SubNm1 & "%')) ORDER BY GrDt.GrID, GrDt.GrDt1;"
+                Case Is = 3
+                    SqlStr2 = "WHERE (((Grps.GrNm) LIKE '%" & TextBox1.Text & "%')) ORDER BY GrDt.GrID, GrDt.GrDt1;"
+            End Select
+            CONDgv(SqlStr1 & SqlStr2)
+        End If
+    End Sub
+    Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
+        'بيان غياب كل يوم علي حدي
+        If GrID = 0 OrElse GrDtID = 0 OrElse DG1.Rows.Count <= 0 Then
+            Exit Sub
+        End If
+        Dim SqlDel As String =
+                "DROP VIEW AttDailyRpt;"
+        Dim SqlCreate As String =
+                "CREATE VIEW AttDailyRpt AS SELECT GrDt.GrDtID, GrDt.GrID, Attnd.StID, Stdnts.StNm, Attnd.PStat, GrDt.Mnm, " &
+                "GrDt.GrDt1, GrDt.GrDt2, Grps.GrNm, Grps.Lnm, Grps.SubNm FROM (GrDt INNER JOIN Grps ON GrDt.GrID = Grps.GrID) " &
+                "INNER JOIN (Stdnts INNER JOIN Attnd ON Stdnts.StID = Attnd.StID) ON GrDt.GrDtID = Attnd.GrDtID WHERE " &
+                "(((GrDt.GrDtID)=" & GrDtID & ") And ((GrDt.GrID)=" & GrID & ") And ((Attnd.PStat)=True));"
+        Using CN As New OleDbConnection(Constr1),
+                    CMDDel As New OleDbCommand(SqlDel, CN) With {.CommandType = CommandType.Text},
+                    CMDCREATE As New OleDbCommand(SqlCreate, CN) With {.CommandType = CommandType.Text}
+            CN.Open()
+            Try
+                CMDDel.ExecuteNonQuery()
+                CMDCREATE.ExecuteNonQuery()
+            Catch ex As OleDbException
+                CMDCREATE.ExecuteNonQuery()
+            End Try
+        End Using
+        Form10.SrcFrm = "DayGrp"
+        Form10.ShowDialog()
+    End Sub
+    Private Sub ToolStripButton2_Click(sender As Object, e As EventArgs) Handles ToolStripButton2.Click
+        If GrID = 0 OrElse GrDtID = 0 OrElse DG1.Rows.Count <= 0 Then
+            Exit Sub
+        End If
+        Form7.ShowDialog()
     End Sub
 End Class

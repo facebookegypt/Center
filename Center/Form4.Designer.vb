@@ -34,6 +34,14 @@ Partial Class Form4
         Me.ToolStripButton10 = New System.Windows.Forms.ToolStripButton()
         Me.BtnEdit = New System.Windows.Forms.ToolStripButton()
         Me.BtnDel = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripLabel3 = New System.Windows.Forms.ToolStripLabel()
+        Me.ComboBox1 = New System.Windows.Forms.ToolStripComboBox()
+        Me.TextBox1 = New System.Windows.Forms.ToolStripTextBox()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton2 = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel2 = New System.Windows.Forms.ToolStripLabel()
@@ -73,9 +81,9 @@ Partial Class Form4
         Me.GroupBox5.Controls.Add(Me.Label6)
         Me.GroupBox5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.GroupBox5.ForeColor = System.Drawing.Color.DarkGreen
-        Me.GroupBox5.Location = New System.Drawing.Point(5, 12)
+        Me.GroupBox5.Location = New System.Drawing.Point(2, 12)
         Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(711, 455)
+        Me.GroupBox5.Size = New System.Drawing.Size(734, 455)
         Me.GroupBox5.TabIndex = 28
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.UseCompatibleTextRendering = True
@@ -90,7 +98,7 @@ Partial Class Form4
         Me.CheckBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.CheckBox1.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Bold)
         Me.CheckBox1.ForeColor = System.Drawing.Color.LightGreen
-        Me.CheckBox1.Location = New System.Drawing.Point(140, 108)
+        Me.CheckBox1.Location = New System.Drawing.Point(163, 108)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Padding = New System.Windows.Forms.Padding(2)
         Me.CheckBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
@@ -104,7 +112,7 @@ Partial Class Form4
         '
         Me.TxtMrk.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxtMrk.Font = New System.Drawing.Font("Times New Roman", 12.25!)
-        Me.TxtMrk.Location = New System.Drawing.Point(140, 139)
+        Me.TxtMrk.Location = New System.Drawing.Point(163, 139)
         Me.TxtMrk.MaxLength = 60
         Me.TxtMrk.Name = "TxtMrk"
         Me.TxtMrk.RightToLeft = System.Windows.Forms.RightToLeft.Yes
@@ -122,7 +130,7 @@ Partial Class Form4
         Me.Label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Label1.Font = New System.Drawing.Font("Times New Roman", 11.0!)
         Me.Label1.ForeColor = System.Drawing.Color.Beige
-        Me.Label1.Location = New System.Drawing.Point(268, 139)
+        Me.Label1.Location = New System.Drawing.Point(291, 139)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(100, 25)
         Me.Label1.TabIndex = 39
@@ -132,6 +140,7 @@ Partial Class Form4
         '
         'Button1
         '
+        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
         Me.Button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray
         Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
@@ -150,11 +159,11 @@ Partial Class Form4
         Me.ToolStrip1.AllowMerge = False
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.ToolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BtnClear, Me.BtnSave, Me.ToolStripButton10, Me.BtnEdit, Me.BtnDel})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BtnClear, Me.BtnSave, Me.ToolStripButton10, Me.BtnEdit, Me.BtnDel, Me.ToolStripSeparator1, Me.ToolStripLabel3, Me.ComboBox1, Me.TextBox1, Me.ToolStripSeparator2, Me.ToolStripButton1, Me.ToolStripButton2, Me.ToolStripSeparator3})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 398)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.ToolStrip1.Size = New System.Drawing.Size(705, 54)
+        Me.ToolStrip1.Size = New System.Drawing.Size(728, 54)
         Me.ToolStrip1.Stretch = True
         Me.ToolStrip1.TabIndex = 37
         '
@@ -211,6 +220,69 @@ Partial Class Form4
         Me.BtnDel.Text = "حذف"
         Me.BtnDel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 54)
+        '
+        'ToolStripLabel3
+        '
+        Me.ToolStripLabel3.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.ToolStripLabel3.Name = "ToolStripLabel3"
+        Me.ToolStripLabel3.Size = New System.Drawing.Size(29, 51)
+        Me.ToolStripLabel3.Text = "بحث"
+        '
+        'ComboBox1
+        '
+        Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ComboBox1.Font = New System.Drawing.Font("Arial", 10.0!)
+        Me.ComboBox1.ForeColor = System.Drawing.Color.ForestGreen
+        Me.ComboBox1.Items.AddRange(New Object() {"التاريخ", "الصف", "المادة", "المجموعة"})
+        Me.ComboBox1.Name = "ComboBox1"
+        Me.ComboBox1.Padding = New System.Windows.Forms.Padding(2)
+        Me.ComboBox1.Size = New System.Drawing.Size(101, 54)
+        Me.ComboBox1.Sorted = True
+        '
+        'TextBox1
+        '
+        Me.TextBox1.ForeColor = System.Drawing.Color.ForestGreen
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.Padding = New System.Windows.Forms.Padding(2)
+        Me.TextBox1.Size = New System.Drawing.Size(158, 54)
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 54)
+        '
+        'ToolStripButton1
+        '
+        Me.ToolStripButton1.Enabled = False
+        Me.ToolStripButton1.Image = Global.WindowsApp1.My.Resources.Resources.report_user
+        Me.ToolStripButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.ToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton1.Name = "ToolStripButton1"
+        Me.ToolStripButton1.Size = New System.Drawing.Size(71, 51)
+        Me.ToolStripButton1.Text = "تقرير الغياب"
+        Me.ToolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'ToolStripButton2
+        '
+        Me.ToolStripButton2.Enabled = False
+        Me.ToolStripButton2.Image = Global.WindowsApp1.My.Resources.Resources.accept_button
+        Me.ToolStripButton2.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.ToolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton2.Name = "ToolStripButton2"
+        Me.ToolStripButton2.Size = New System.Drawing.Size(78, 51)
+        Me.ToolStripButton2.Text = "تقرير الدرجات"
+        Me.ToolStripButton2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'ToolStripSeparator3
+        '
+        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 54)
+        '
         'ToolStrip2
         '
         Me.ToolStrip2.AllowMerge = False
@@ -218,7 +290,7 @@ Partial Class Form4
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel1, Me.ToolStripLabel2})
         Me.ToolStrip2.Location = New System.Drawing.Point(3, 16)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(705, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(728, 25)
         Me.ToolStrip2.Stretch = True
         Me.ToolStrip2.TabIndex = 36
         '
@@ -241,7 +313,7 @@ Partial Class Form4
         Me.GroupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.GroupBox1.Location = New System.Drawing.Point(0, 170)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(711, 225)
+        Me.GroupBox1.Size = New System.Drawing.Size(734, 225)
         Me.GroupBox1.TabIndex = 35
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.UseCompatibleTextRendering = True
@@ -252,7 +324,7 @@ Partial Class Form4
         Me.ComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox2.Font = New System.Drawing.Font("Times New Roman", 11.0!)
         Me.ComboBox2.FormattingEnabled = True
-        Me.ComboBox2.Location = New System.Drawing.Point(374, 44)
+        Me.ComboBox2.Location = New System.Drawing.Point(397, 44)
         Me.ComboBox2.Name = "ComboBox2"
         Me.ComboBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.ComboBox2.Size = New System.Drawing.Size(225, 25)
@@ -265,7 +337,7 @@ Partial Class Form4
         Me.Label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label4.Font = New System.Drawing.Font("Times New Roman", 11.0!)
         Me.Label4.ForeColor = System.Drawing.Color.Beige
-        Me.Label4.Location = New System.Drawing.Point(605, 44)
+        Me.Label4.Location = New System.Drawing.Point(628, 44)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(100, 25)
         Me.Label4.TabIndex = 33
@@ -277,7 +349,7 @@ Partial Class Form4
         '
         Me.DateTimePicker1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DateTimePicker1.Font = New System.Drawing.Font("Times New Roman", 11.0!)
-        Me.DateTimePicker1.Location = New System.Drawing.Point(374, 77)
+        Me.DateTimePicker1.Location = New System.Drawing.Point(397, 77)
         Me.DateTimePicker1.Name = "DateTimePicker1"
         Me.DateTimePicker1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.DateTimePicker1.RightToLeftLayout = True
@@ -291,7 +363,7 @@ Partial Class Form4
         Me.Label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label5.Font = New System.Drawing.Font("Times New Roman", 11.0!)
         Me.Label5.ForeColor = System.Drawing.Color.Beige
-        Me.Label5.Location = New System.Drawing.Point(605, 77)
+        Me.Label5.Location = New System.Drawing.Point(628, 77)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(100, 24)
         Me.Label5.TabIndex = 31
@@ -305,7 +377,7 @@ Partial Class Form4
         Me.ComboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox3.Font = New System.Drawing.Font("Times New Roman", 11.0!)
         Me.ComboBox3.FormattingEnabled = True
-        Me.ComboBox3.Location = New System.Drawing.Point(374, 139)
+        Me.ComboBox3.Location = New System.Drawing.Point(397, 139)
         Me.ComboBox3.Name = "ComboBox3"
         Me.ComboBox3.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.ComboBox3.Size = New System.Drawing.Size(225, 25)
@@ -319,7 +391,7 @@ Partial Class Form4
         Me.Label8.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Label8.Font = New System.Drawing.Font("Times New Roman", 11.0!)
         Me.Label8.ForeColor = System.Drawing.Color.Beige
-        Me.Label8.Location = New System.Drawing.Point(605, 139)
+        Me.Label8.Location = New System.Drawing.Point(628, 139)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(100, 25)
         Me.Label8.TabIndex = 26
@@ -331,7 +403,7 @@ Partial Class Form4
         '
         Me.DateTimePicker2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DateTimePicker2.Font = New System.Drawing.Font("Times New Roman", 10.0!)
-        Me.DateTimePicker2.Location = New System.Drawing.Point(374, 109)
+        Me.DateTimePicker2.Location = New System.Drawing.Point(397, 109)
         Me.DateTimePicker2.Name = "DateTimePicker2"
         Me.DateTimePicker2.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.DateTimePicker2.RightToLeftLayout = True
@@ -345,7 +417,7 @@ Partial Class Form4
         Me.Label6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label6.Font = New System.Drawing.Font("Times New Roman", 11.0!)
         Me.Label6.ForeColor = System.Drawing.Color.Beige
-        Me.Label6.Location = New System.Drawing.Point(605, 108)
+        Me.Label6.Location = New System.Drawing.Point(628, 108)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(100, 24)
         Me.Label6.TabIndex = 24
@@ -357,7 +429,7 @@ Partial Class Form4
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(728, 479)
+        Me.ClientSize = New System.Drawing.Size(748, 479)
         Me.Controls.Add(Me.GroupBox5)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -394,4 +466,12 @@ Partial Class Form4
     Friend WithEvents TxtMrk As TextBox
     Friend WithEvents Label1 As Label
     Friend WithEvents CheckBox1 As CheckBox
+    Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
+    Friend WithEvents ToolStripLabel3 As ToolStripLabel
+    Friend WithEvents ComboBox1 As ToolStripComboBox
+    Friend WithEvents TextBox1 As ToolStripTextBox
+    Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
+    Friend WithEvents ToolStripButton1 As ToolStripButton
+    Friend WithEvents ToolStripButton2 As ToolStripButton
+    Friend WithEvents ToolStripSeparator3 As ToolStripSeparator
 End Class

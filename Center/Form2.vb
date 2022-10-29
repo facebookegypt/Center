@@ -128,7 +128,9 @@ Public Class Form2
             dropDownItems.AddRange({Mnu1, Mnu2})
             AddHandler Mnu1.Click, AddressOf Mnu1_click
             AddHandler Mnu2.Click, AddressOf Mnu2_click
+            ToolStripButton3.Enabled = True
         Else
+            ToolStripButton3.Enabled = False
             Dim dropDownItems As ToolStripItemCollection = Form1.SToolStripMenuItem.DropDownItems
             If dropDownItems.Count > 0 Then
                 dropDownItems.Clear()
@@ -413,6 +415,31 @@ Public Class Form2
         BackgroundImageLayout = ImageLayout.Stretch
         Invalidate(True)
     End Sub
+
+    Private Sub ToolStripButton3_Click(sender As Object, e As EventArgs) Handles ToolStripButton3.Click
+        'Students Days
+        Dim SqlDel As String =
+                "DROP VIEW StdntsDays;"
+        Dim SqlCreate As String =
+            "CREATE VIEW StdntsDays AS SELECT Stdnts.StID, Stdnts.StNm, Stdnts.Mob1, Stdnts.Mob2, Grps.GrID, Grps.GrNm, Grps.Lnm, " &
+            "Grps.SubNm, GrDt.GrDtID, GrDt.Mnm, GrDt.GrDt1, GrDt.GrDt2 FROM (Stdnts INNER JOIN (Grps INNER JOIN GrSt ON " &
+            "Grps.GrID = GrSt.GrID) ON Stdnts.StID = GrSt.StID) INNER JOIN GrDt ON Grps.GrID = GrDt.GrID " &
+            "WHERE (((Stdnts.StID)=" & StID1 & "));"
+        Using CN As New OleDbConnection(Constr1),
+                CMDDel As New OleDbCommand(SqlDel, CN) With {.CommandType = CommandType.Text},
+                CMDCREATE As New OleDbCommand(SqlCreate, CN) With {.CommandType = CommandType.Text}
+            CN.Open()
+            Try
+                CMDDel.ExecuteNonQuery()
+                CMDCREATE.ExecuteNonQuery()
+            Catch ex As OleDbException
+                CMDCREATE.ExecuteNonQuery()
+            End Try
+        End Using
+        Form10.SrcFrm = "StdntsDays"
+        Form10.ShowDialog()
+    End Sub
+
     Private Sub ComboBox2_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles ComboBox2.SelectionChangeCommitted
         Dim SqlStr As String = <sql>SELECT COUNT(StID) FROM GrSt Where GrID=<%= Convert.ToInt32(ComboBox2.SelectedValue) %>;</sql>.Value
         Dim Rslt As String = "عدد الطلاب بالمجموعة : "

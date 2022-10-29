@@ -52,7 +52,6 @@ Public Class Form5
     End Sub
     Private Sub ComboBox1_SelectionChangeCommitted(ByVal sender As Object, ByVal e As EventArgs) Handles ComboBox1.SelectionChangeCommitted
         TextBox1.SelectAll()
-        TextBox1.Text = String.Empty
     End Sub
     Private Sub TextBox1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox1.KeyPress
         If e.KeyChar = ChrW(Keys.Enter) Then
@@ -229,8 +228,8 @@ Public Class Form5
         IC.GetGrps(Dt1, Constr1, sqlstr, ComboBox2, "GrNm", "GrID")
         'Dt1.Rows.Clear()
         Dim SqlStr1 As String =
-            "SELECT Stdnts.StID, Stdnts.StNm FROM Stdnts LEFT JOIN (Grps RIGHT JOIN (GrSt LEFT JOIN GrDt ON 
-            GrSt.GrID = GrDt.GrID) ON Grps.GrID = GrDt.GrID) ON Stdnts.StID = GrSt.StID WHERE (((GrSt.GrID) Is Null));"
+            "SELECT Stdnts.StID, Stdnts.StNm FROM Stdnts LEFT JOIN (Grps RIGHT JOIN (GrSt LEFT JOIN GrDt ON GrSt.GrID = GrDt.GrID) " & _
+            "ON Grps.GrID = GrDt.GrID) ON Stdnts.StID = GrSt.StID WHERE (((GrSt.GrID) Is Null));"
         ConDGV(SqlStr1, "اختر الطالب", False)
         SetCols()
         Dt1 = New DataTable
@@ -251,6 +250,15 @@ Public Class Form5
             e.Graphics.DrawString(rowIdx, Font, SystemBrushes.ActiveBorder, headerBounds, centerFormat)
         End Using
     End Sub
+
+    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles TextBox1.TextChanged
+
+    End Sub
+
     Private Sub BtnSave_Click(ByVal sender As Object, ByVal e As EventArgs) Handles BtnSave.Click
         If Dt1.Rows.Count <= 0 Then
             MsgBox("يجب اختيار طالب واحد علي الأقل",

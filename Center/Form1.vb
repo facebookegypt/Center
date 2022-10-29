@@ -65,7 +65,6 @@ Public Class Form1
             .SelectedIndex = 0
             .ComboBox.EndUpdate()
         End With
-
     End Sub
     Private Sub Tlstrp_Slctioncom(sender As Object, e As EventArgs)
         Dim Cbo As ComboBox = CType(sender, ComboBox)
@@ -233,5 +232,9 @@ Public Class Form1
         ActiveControl = Nothing
         Enabled = True
         Activate()
+    End Sub
+
+    Private Sub ToolStripComboBox3_Click(sender As Object, e As EventArgs) Handles ToolStripComboBox3.Click
+
     End Sub
 End Class

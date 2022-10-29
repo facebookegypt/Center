@@ -33,6 +33,7 @@ Partial Class Form7
         Me.BtnDel = New System.Windows.Forms.ToolStripButton()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
+        Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
         Me.GroupBox2.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -89,7 +90,7 @@ Partial Class Form7
         Me.ToolStrip1.AllowMerge = False
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.ToolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BtnClear, Me.BtnSave, Me.BtnDel})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BtnClear, Me.BtnSave, Me.BtnDel, Me.ToolStripButton1})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 412)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
@@ -150,6 +151,18 @@ Partial Class Form7
         Me.ImageList1.Images.SetKeyName(0, "ShowAll.png")
         Me.ImageList1.Images.SetKeyName(1, "Time.ico")
         '
+        'ToolStripButton1
+        '
+        Me.ToolStripButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
+        Me.ToolStripButton1.Enabled = False
+        Me.ToolStripButton1.Image = Global.WindowsApp1.My.Resources.Resources.Del
+        Me.ToolStripButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.ToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton1.Name = "ToolStripButton1"
+        Me.ToolStripButton1.Size = New System.Drawing.Size(41, 51)
+        Me.ToolStripButton1.Text = "طباعة"
+        Me.ToolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
         'Form7
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -180,4 +193,5 @@ Partial Class Form7
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents ImageList1 As ImageList
     Friend WithEvents BtnDel As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripButton1 As ToolStripButton
 End Class

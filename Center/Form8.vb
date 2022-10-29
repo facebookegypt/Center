@@ -33,6 +33,7 @@ Public Class Form8
         .ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised
     }
     Private Dtable As DataTable, Dtable1 As DataTable
+    Private RptSrc As String
     Private Function GetMainTree(ByVal DT As DataTable) As TreeView
         DT = IC.GetData(<SQL>SELECT Grps.GrID, Grps.GrNm FROM Grps INNER JOIN GrDt ON Grps.GrID = GrDt.GrID GROUP BY Grps.GrID, 
             Grps.GrNm ORDER BY Grps.GrID ASC;</SQL>.Value)
@@ -98,11 +99,57 @@ Public Class Form8
         End If
         If e.Node.Level = 0 Then
             GrID1 = Integer.Parse(e.Node.Name)
+            BtnDel.Enabled = False
+            BtnPrint.Enabled = True
+            'All Days report of the group
+            Dim SqlDel As String =
+                "DROP VIEW AttDaysRpt;"
+            Dim SqlCreate As String =
+                "CREATE VIEW AttDaysRpt AS SELECT GrDt.GrDtID, GrDt.GrID, Attnd.StID, Stdnts.StNm, Attnd.PStat, GrDt.Mnm, GrDt.GrDt1, " &
+                "GrDt.GrDt2, Grps.GrNm, Grps.Lnm, Grps.SubNm FROM (GrDt INNER JOIN Grps ON GrDt.GrID = Grps.GrID) INNER JOIN " &
+                "(Stdnts INNER JOIN Attnd ON Stdnts.StID = Attnd.StID) ON GrDt.GrDtID = Attnd.GrDtID WHERE (((GrDt.GrID)=" & GrID1 & ") And " &
+                "((Attnd.PStat)=True));"
+            Using CN As New OleDbConnection(Constr1),
+                    CMDDel As New OleDbCommand(SqlDel, CN) With {.CommandType = CommandType.Text},
+                    CMDCREATE As New OleDbCommand(SqlCreate, CN) With {.CommandType = CommandType.Text}
+                CN.Open()
+                Try
+                    CMDDel.ExecuteNonQuery()
+                    CMDCREATE.ExecuteNonQuery()
+                Catch ex As OleDbException
+                    CMDCREATE.ExecuteNonQuery()
+                End Try
+            End Using
+            RptSrc = "AllGrp"
+            BtnPrint.Text = "طباعة تقرير كل الأيام"
         Else
             GrDtID1 = Integer.Parse(e.Node.Name)
             GrID1 = Integer.Parse(e.Node.Parent.Name)
             Label4.Text = e.Node.Text
             BtnClear.Enabled = True
+            BtnDel.Enabled = True
+            BtnPrint.Enabled = True
+            'daily report of the group
+            Dim SqlDel As String =
+                "DROP VIEW AttDailyRpt;"
+            Dim SqlCreate As String =
+                "CREATE VIEW AttDailyRpt AS SELECT GrDt.GrDtID, GrDt.GrID, Attnd.StID, Stdnts.StNm, Attnd.PStat, GrDt.Mnm, " &
+                "GrDt.GrDt1, GrDt.GrDt2, Grps.GrNm, Grps.Lnm, Grps.SubNm FROM (GrDt INNER JOIN Grps ON GrDt.GrID = Grps.GrID) " &
+                "INNER JOIN (Stdnts INNER JOIN Attnd ON Stdnts.StID = Attnd.StID) ON GrDt.GrDtID = Attnd.GrDtID WHERE " &
+                "(((GrDt.GrDtID)=" & GrDtID1 & ") And ((GrDt.GrID)=" & GrID1 & ") And ((Attnd.PStat)=True));"
+            Using CN As New OleDbConnection(Constr1),
+                    CMDDel As New OleDbCommand(SqlDel, CN) With {.CommandType = CommandType.Text},
+                    CMDCREATE As New OleDbCommand(SqlCreate, CN) With {.CommandType = CommandType.Text}
+                CN.Open()
+                Try
+                    CMDDel.ExecuteNonQuery()
+                    CMDCREATE.ExecuteNonQuery()
+                Catch ex As OleDbException
+                    CMDCREATE.ExecuteNonQuery()
+                End Try
+            End Using
+            RptSrc = "DayGrp"
+            BtnPrint.Text = "طباعة تقرير لليوم"
         End If
         ConDGV("SELECT Stdnts.StID, Stdnts.StNm, Attnd.PStat FROM (Stdnts INNER JOIN Attnd ON Stdnts.StID = Attnd.StID) INNER JOIN " &
                "(GrSt INNER JOIN Grps ON GrSt.GrID = Grps.GrID) ON Stdnts.StID = GrSt.StID WHERE (((GrSt.GrID)=" & GrID1 & ") AND " &
@@ -228,7 +275,6 @@ Public Class Form8
             e.Graphics.DrawString(rowIdx, Font, SystemBrushes.ActiveCaptionText, headerBounds, centerFormat)
         End Using
     End Sub
-
     Private Sub BtnSave_Click(sender As Object, e As EventArgs) Handles BtnSave.Click
         'Dim CNTra As OleDbTransaction = Nothing
         Dim N As Integer
@@ -284,9 +330,11 @@ Public Class Form8
         End Using
         If Dt2.Rows.Count >= 1 Then
             DGStdnts.Visible = True
+            BtnDel.Enabled = True
         Else
             Label4.Text = String.Empty
-            BtnClear.Visible = False
+            BtnClear.Enabled = False
+            BtnDel.Enabled = False
         End If
         DGStdnts.DataSource = New BindingSource(Dt2, Nothing)
         DGStdnts.Columns("StID").HeaderCell.Value = "كود الطالب"
@@ -297,6 +345,7 @@ Public Class Form8
         DGStdnts.Columns("StNm").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
         AddCol()
         BtnSave.Enabled = True
+        BtnPrint.Enabled = False
     End Sub
 
     Private Sub Form8_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
@@ -310,6 +359,68 @@ Public Class Form8
             If BtnClear.Enabled = True Then
                 BtnClear_Click(sender, e)
             End If
+        End If
+        If e.KeyCode = Keys.P AndAlso e.Modifiers = Keys.Control Then
+            If BtnPrint.Enabled = True Then
+                BtnPrint_Click(sender, e)
+            End If
+        End If
+        If e.KeyData = Keys.Delete Then
+            If BtnDel.Enabled = True Then
+                BtnDel_Click(sender, e)
+            End If
+        End If
+    End Sub
+    Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
+        If DGStdnts.Rows.Count <= 0 AndAlso Not TRV.SelectedNode.Parent Is Nothing Then
+            MsgBox("يجب تسجيل الغياب أولا.",
+                   MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
+            Exit Sub
+        End If
+        Form10.SrcFrm = RptSrc
+        Form10.ShowDialog()
+    End Sub
+    Private Sub BtnDel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnDel.Click
+        'Delete
+        'Attend and Results Tables are linked with Students
+        If DGStdnts.Rows.Count <= 0 Or GrDtID1 <= 0 Then
+            DGStdnts.AllowUserToDeleteRows = False
+            MsgBox("يجب اختيار ميعاد أولا.",
+                   MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
+            Exit Sub
+        End If
+        Dim SqlStr1 As String =
+            <sql>SELECT COUNT(Attnd.GrDtID) FROM Attnd WHERE Attnd.GrDtID=<%= GrDtID1 %>;</sql>.Value
+        Dim AreUsURE As MsgBoxResult =
+            MsgBox("سيتم حذف كشف غياب طلاب المجوعه فى هذا اليوم.",
+         MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical + MsgBoxStyle.YesNoCancel)
+        If AreUsURE = MsgBoxResult.Yes Then
+            DGStdnts.AllowUserToDeleteRows = True
+            Dim RUSre As MsgBoxResult = MsgBox("تأكيد حذف كشف الغياب من البرنامج.",
+                                                   MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight +
+                                                   MsgBoxStyle.Critical + MsgBoxStyle.YesNoCancel)
+            If RUSre = MsgBoxResult.Yes Then
+                Dim N As Integer
+                Dim SqlStr As String =
+                    <SQL>DELETE * FROM Attnd WHERE Attnd.GrDtID=?;</SQL>.Value
+                Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
+                        CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
+                    With CMD.Parameters
+                        .AddWithValue("?", GrDtID1)
+                    End With
+                    CN.Open()
+                    N = CMD.ExecuteNonQuery
+                End Using
+                MsgBox("تم حذف عدد  " & N.ToString & " كشف غياب.",
+                       MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
+            Else
+                MsgBox("تم الغاء العملية",
+                       MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
+            End If
+            BtnSave.Enabled = False
+            BtnDel.Enabled = False
+        Else
+            DGStdnts.AllowUserToDeleteRows = False
         End If
     End Sub
 End Class

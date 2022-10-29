@@ -37,17 +37,17 @@ Partial Class Form3
         '
         'GroupBox2
         '
-        Me.GroupBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox2.BackColor = System.Drawing.Color.Transparent
         Me.GroupBox2.Controls.Add(Me.StatusStrip1)
         Me.GroupBox2.Controls.Add(Me.RadioButton2)
         Me.GroupBox2.Controls.Add(Me.RadioButton1)
         Me.GroupBox2.Controls.Add(Me.TxtNm)
         Me.GroupBox2.Controls.Add(Me.Label1)
-        Me.GroupBox2.Location = New System.Drawing.Point(12, 12)
+        Me.GroupBox2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.GroupBox2.Location = New System.Drawing.Point(0, 0)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.GroupBox2.Size = New System.Drawing.Size(608, 196)
+        Me.GroupBox2.Size = New System.Drawing.Size(632, 214)
         Me.GroupBox2.TabIndex = 2
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "نسخة محلية"
@@ -57,10 +57,10 @@ Partial Class Form3
         '
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.ToolStripStatusLabel2})
         Me.StatusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow
-        Me.StatusStrip1.Location = New System.Drawing.Point(3, 171)
+        Me.StatusStrip1.Location = New System.Drawing.Point(3, 189)
         Me.StatusStrip1.Name = "StatusStrip1"
         Me.StatusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.ManagerRenderMode
-        Me.StatusStrip1.Size = New System.Drawing.Size(602, 22)
+        Me.StatusStrip1.Size = New System.Drawing.Size(626, 22)
         Me.StatusStrip1.SizingGrip = False
         Me.StatusStrip1.TabIndex = 6
         Me.StatusStrip1.Text = "StatusStrip1"
@@ -83,7 +83,7 @@ Partial Class Form3
         Me.RadioButton2.AutoCheck = False
         Me.RadioButton2.AutoEllipsis = True
         Me.RadioButton2.Font = New System.Drawing.Font("Times New Roman", 12.0!, System.Drawing.FontStyle.Bold)
-        Me.RadioButton2.Location = New System.Drawing.Point(6, 108)
+        Me.RadioButton2.Location = New System.Drawing.Point(30, 108)
         Me.RadioButton2.Name = "RadioButton2"
         Me.RadioButton2.Size = New System.Drawing.Size(490, 37)
         Me.RadioButton2.TabIndex = 5
@@ -98,7 +98,7 @@ Partial Class Form3
         Me.RadioButton1.AutoCheck = False
         Me.RadioButton1.AutoEllipsis = True
         Me.RadioButton1.Font = New System.Drawing.Font("Times New Roman", 12.0!, System.Drawing.FontStyle.Bold)
-        Me.RadioButton1.Location = New System.Drawing.Point(6, 65)
+        Me.RadioButton1.Location = New System.Drawing.Point(30, 65)
         Me.RadioButton1.Name = "RadioButton1"
         Me.RadioButton1.Size = New System.Drawing.Size(490, 37)
         Me.RadioButton1.TabIndex = 4
@@ -110,12 +110,12 @@ Partial Class Form3
         'TxtNm
         '
         Me.TxtNm.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxtNm.Font = New System.Drawing.Font("Times New Roman", 11.0!)
         Me.TxtNm.Location = New System.Drawing.Point(6, 35)
         Me.TxtNm.MaxLength = 60
         Me.TxtNm.Name = "TxtNm"
-        Me.TxtNm.Size = New System.Drawing.Size(490, 24)
+        Me.TxtNm.Size = New System.Drawing.Size(514, 24)
         Me.TxtNm.TabIndex = 2
         Me.TxtNm.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.TxtNm.WordWrap = False
@@ -126,7 +126,7 @@ Partial Class Form3
         Me.Label1.AutoEllipsis = True
         Me.Label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label1.Font = New System.Drawing.Font("Times New Roman", 11.0!)
-        Me.Label1.Location = New System.Drawing.Point(502, 32)
+        Me.Label1.Location = New System.Drawing.Point(526, 32)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(100, 28)
         Me.Label1.TabIndex = 2
@@ -138,7 +138,7 @@ Partial Class Form3
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(632, 313)
+        Me.ClientSize = New System.Drawing.Size(632, 214)
         Me.Controls.Add(Me.GroupBox2)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
