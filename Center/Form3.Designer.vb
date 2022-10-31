@@ -126,9 +126,9 @@ Partial Class Form3
         Me.Label1.AutoEllipsis = True
         Me.Label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label1.Font = New System.Drawing.Font("Times New Roman", 11.0!)
-        Me.Label1.Location = New System.Drawing.Point(526, 32)
+        Me.Label1.Location = New System.Drawing.Point(526, 35)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(100, 28)
+        Me.Label1.Size = New System.Drawing.Size(100, 24)
         Me.Label1.TabIndex = 2
         Me.Label1.Text = "مجلد الحفظ"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter

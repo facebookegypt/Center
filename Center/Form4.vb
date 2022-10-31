@@ -195,7 +195,6 @@ Public Class Form4
         BtnDel.Enabled = True
         BtnSave.Enabled = False
         ToolStripButton1.Enabled = True
-        ToolStripButton2.Enabled = True
     End Sub
     Private Sub DG1_RowPostPaint(sender As Object, e As DataGridViewRowPostPaintEventArgs)
         Dim grid = TryCast(sender, DataGridView)
@@ -283,7 +282,6 @@ Public Class Form4
         DateTimePicker1.Value = Now.Date
         DateTimePicker2.Value = Now.Date
         ToolStripButton1.Enabled = False
-        ToolStripButton2.Enabled = False
     End Sub
     Private Sub BtnEdit_Click(sender As Object, e As EventArgs) Handles BtnEdit.Click
         'Edit
@@ -464,11 +462,5 @@ Public Class Form4
         End Using
         Form10.SrcFrm = "DayGrp"
         Form10.ShowDialog()
-    End Sub
-    Private Sub ToolStripButton2_Click(sender As Object, e As EventArgs) Handles ToolStripButton2.Click
-        If GrID = 0 OrElse GrDtID = 0 OrElse DG1.Rows.Count <= 0 Then
-            Exit Sub
-        End If
-
     End Sub
 End Class

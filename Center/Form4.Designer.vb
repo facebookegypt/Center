@@ -40,8 +40,6 @@ Partial Class Form4
         Me.TextBox1 = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton2 = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel2 = New System.Windows.Forms.ToolStripLabel()
@@ -159,7 +157,7 @@ Partial Class Form4
         Me.ToolStrip1.AllowMerge = False
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.ToolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BtnClear, Me.BtnSave, Me.ToolStripButton10, Me.BtnEdit, Me.BtnDel, Me.ToolStripSeparator1, Me.ToolStripLabel3, Me.ComboBox1, Me.TextBox1, Me.ToolStripSeparator2, Me.ToolStripButton1, Me.ToolStripButton2, Me.ToolStripSeparator3})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BtnClear, Me.BtnSave, Me.ToolStripButton10, Me.BtnEdit, Me.BtnDel, Me.ToolStripSeparator1, Me.ToolStripLabel3, Me.ComboBox1, Me.TextBox1, Me.ToolStripSeparator2, Me.ToolStripButton1})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 398)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
@@ -241,7 +239,7 @@ Partial Class Form4
         Me.ComboBox1.Items.AddRange(New Object() {"التاريخ", "الصف", "المادة", "المجموعة"})
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Padding = New System.Windows.Forms.Padding(2)
-        Me.ComboBox1.Size = New System.Drawing.Size(101, 54)
+        Me.ComboBox1.Size = New System.Drawing.Size(93, 54)
         Me.ComboBox1.Sorted = True
         '
         'TextBox1
@@ -249,7 +247,7 @@ Partial Class Form4
         Me.TextBox1.ForeColor = System.Drawing.Color.ForestGreen
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Padding = New System.Windows.Forms.Padding(2)
-        Me.TextBox1.Size = New System.Drawing.Size(158, 54)
+        Me.TextBox1.Size = New System.Drawing.Size(150, 54)
         '
         'ToolStripSeparator2
         '
@@ -266,22 +264,6 @@ Partial Class Form4
         Me.ToolStripButton1.Size = New System.Drawing.Size(71, 51)
         Me.ToolStripButton1.Text = "تقرير الغياب"
         Me.ToolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'ToolStripButton2
-        '
-        Me.ToolStripButton2.Enabled = False
-        Me.ToolStripButton2.Image = Global.WindowsApp1.My.Resources.Resources.accept_button
-        Me.ToolStripButton2.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.ToolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton2.Name = "ToolStripButton2"
-        Me.ToolStripButton2.Size = New System.Drawing.Size(78, 51)
-        Me.ToolStripButton2.Text = "تقرير الدرجات"
-        Me.ToolStripButton2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'ToolStripSeparator3
-        '
-        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 54)
         '
         'ToolStrip2
         '
@@ -472,6 +454,4 @@ Partial Class Form4
     Friend WithEvents TextBox1 As ToolStripTextBox
     Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
     Friend WithEvents ToolStripButton1 As ToolStripButton
-    Friend WithEvents ToolStripButton2 As ToolStripButton
-    Friend WithEvents ToolStripSeparator3 As ToolStripSeparator
 End Class

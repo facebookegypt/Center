@@ -82,7 +82,7 @@
             My.Settings.BackUpDt = Now.Date
             My.Settings.Save()
             Dim Iu As Class1 = New Class1
-            AreUSure = MsgBox("هل ترغب فى تحديث النسخة الاحتياطية الأن؟", _
+            AreUSure = MsgBox("هل ترغب فى تحديث النسخة الاحتياطية الأن؟",
                                                MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight +
                                                MsgBoxStyle.Critical + MsgBoxStyle.YesNoCancel)
             If AreUSure = MsgBoxResult.Yes Then
@@ -90,8 +90,12 @@
             End If
         End If
     End Sub
-
-    Private Sub RadioButton1_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton1.CheckedChanged
-
+    Private Sub Form3_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+        If e.KeyCode = Keys.F12 Then
+            My.Settings.Reset()
+            MsgBox("يجب اعادة فتح البرنامج و تعيين اعدادات قاعدة البيانات")
+            Close()
+            End
+        End If
     End Sub
 End Class
