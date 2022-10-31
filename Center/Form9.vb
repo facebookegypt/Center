@@ -8,7 +8,6 @@ Public Class Form9
     Private crConnectionInfo As New ConnectionInfo
     Private CrTables As Tables
     Private CrTable As Table
-    Private TRV As TreeView
     Private Property Ii As New Class1
     Private Property Constr As String = Ii.ConStr
     'Private ReadOnly Property CurAttMnth As Integer = Form1.CurrentAttndMonth
@@ -23,6 +22,7 @@ Public Class Form9
         DoubleBuffered = True
         FormBorderStyle = FormBorderStyle.FixedToolWindow
         MdiParent = Form1
+        Button1.Enabled = False
         Dim SqlStr2 As String =
             "SELECT GrDt.GrID FROM GrDt WHERE (((GrDt.GrDtID)=?));"
         Using CN As New OleDbConnection(Constr),
@@ -88,46 +88,8 @@ Public Class Form9
         DT = Ii.GetData(SqlStr)
         Dim N As Integer = DT.Rows.Count
         Label1.Text = "عدد الأيام ( " & N & " ) يوم خلال شهر " & CrrDtNm
-
-        TRV = New TreeView With {
-        .Dock = DockStyle.Fill,
-        .RightToLeftLayout = True,
-        .LineColor = Color.Red,
-        .Font = New Font("Ariel", 11),
-        .PathSeparator = "-",
-        .HotTracking = True,
-        .HideSelection = False, .FullRowSelect = True, .ShowLines = True, .ShowPlusMinus = True, .ShowRootLines = True,
-        .BorderStyle = BorderStyle.None
-    }
-        With TRV
-            .BackColor = SystemColors.Control
-            .ImageIndex = 0
-            .SelectedImageIndex = 1
-        End With
-        Dim dt3 As DataTable = New DataTable
-        'AddHandler TRV.AfterSelect, AddressOf TRV_AfterSelect
-        GroupBox1.Controls.Add(TRV)
-        'GetMainTree(dt3)
+        Button1.Enabled = True
     End Sub
-    Private Function GetMainTree(ByVal DT As DataTable) As TreeView
-        DT = Ii.GetData(<SQL>SELECT Grps.GrID, Grps.GrNm FROM Grps INNER JOIN GrDt ON Grps.GrID = GrDt.GrID GROUP BY Grps.GrID, 
-            Grps.GrNm ORDER BY Grps.GrID ASC;</SQL>.Value)
-        If DT.Rows.Count > 0 Then
-            TRV.Nodes.Clear()
-            TRV.BeginUpdate()
-            For Each dr As DataRow In DT.Rows
-                Dim DadNode As TreeNode = New TreeNode With {
-                    .Name = dr("GrID").ToString(),
-                    .Text = dr("GrNm").ToString(),
-                    .Tag = dr("GrID").ToString(),
-                    .ForeColor = Color.Navy
-                }
-                TRV.Nodes.Add(DadNode)
-            Next
-            TRV.EndUpdate()
-        End If
-        Return TRV
-    End Function
     Private Sub GetData(ByVal SqlStr As String)
         DT = New DataTable
         Using CN As New OleDbConnection(Constr)
@@ -195,6 +157,7 @@ Public Class Form9
             cryRpt.SetDataSource(DT)
             'YOU MUST ALLWAYS PROVIDE CONNECTION INFO TO YOUR REPORTDOCUMENT BEFORE OPEN IT
             CrystalReportViewer1.ReportSource = cryRpt
+            Button1.Enabled = False
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
