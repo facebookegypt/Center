@@ -147,7 +147,7 @@ Partial Class Form1
         Me.SToolStripMenuItem.Image = Global.WindowsApp1.My.Resources.Resources.group_gear
         Me.SToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.SToolStripMenuItem.Name = "SToolStripMenuItem"
-        Me.SToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
         Me.SToolStripMenuItem.Text = "اعدادات الطلاب"
         Me.SToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -172,7 +172,7 @@ Partial Class Form1
         Me.MnuGr.Image = Global.WindowsApp1.My.Resources.Resources.table_gear
         Me.MnuGr.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.MnuGr.Name = "MnuGr"
-        Me.MnuGr.Size = New System.Drawing.Size(180, 22)
+        Me.MnuGr.Size = New System.Drawing.Size(179, 22)
         Me.MnuGr.Text = "اعدادات المجموعات"
         Me.MnuGr.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -197,7 +197,7 @@ Partial Class Form1
         Me.SToolStripMenuItem1.Image = Global.WindowsApp1.My.Resources.Resources.page_gear
         Me.SToolStripMenuItem1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.SToolStripMenuItem1.Name = "SToolStripMenuItem1"
-        Me.SToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.SToolStripMenuItem1.Size = New System.Drawing.Size(145, 22)
         Me.SToolStripMenuItem1.Text = "تسجيل الغياب"
         Me.SToolStripMenuItem1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -235,7 +235,7 @@ Partial Class Form1
         Me.MnuMarks.Image = Global.WindowsApp1.My.Resources.Resources.script_gear
         Me.MnuMarks.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.MnuMarks.Name = "MnuMarks"
-        Me.MnuMarks.Size = New System.Drawing.Size(180, 22)
+        Me.MnuMarks.Size = New System.Drawing.Size(163, 22)
         Me.MnuMarks.Text = "اعدادات الدرجات"
         '
         'MnuAllRpt

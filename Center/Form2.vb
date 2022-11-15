@@ -445,13 +445,12 @@ Public Class Form2
     Private Sub ToolStripButton4_Click(sender As Object, e As EventArgs) Handles ToolStripButton4.Click
         'Students Days
         Dim SqlDel0 As String =
-                "DROP VIEW StdntFulRpt0;"
+                "DROP VIEW StAttRslt;"
         Dim SqlCreate0 As String =
-            "CREATE VIEW StdntFulRpt0 AS SELECT Rslts.StID, GrDt.GrDtID, Stdnts.StNm, Grps.GrNm, Grps.Lnm, Grps.SubNm, GrDt.GrDt1, " &
-            "GrDt.GrDt2, Tsks.TaskNm, GrDt.TskFlMrk, Rslts.Mrk FROM Tsks INNER JOIN (((GrDt INNER JOIN GrSt ON GrDt.GrID = GrSt.GrID) " &
-            "INNER JOIN Grps ON (Grps.GrID = GrSt.GrID) AND (GrDt.GrID = Grps.GrID)) INNER JOIN (Stdnts INNER JOIN Rslts ON " &
-            "Stdnts.StID = Rslts.StID) ON (Stdnts.StID = GrSt.StID) AND (GrDt.GrDtID = Rslts.GrDtID)) ON Tsks.TaskID = GrDt.TaskID " &
-            "WHERE (((Rslts.StID)=" & StID1 & "));"
+            "CREATE VIEW StAttRslt AS SELECT Stdnts.StID, Attnd.GrDtID, Grps.GrID, Stdnts.StNm, Attnd.PStat, Rslts.Mrk, GrDt.Mnm, " &
+            "GrDt.GrDt1, GrDt.GrDt2, GrDt.TaskID, GrDt.TskFlMrk, Grps.GrNm, Grps.Lnm, Grps.SubNm FROM (GrDt INNER JOIN " &
+            "(Rslts RIGHT JOIN (Attnd INNER JOIN Stdnts ON Attnd.StID = Stdnts.StID) ON (Rslts.GrDtID = Attnd.GrDtID) AND " &
+            "(Rslts.StID = Attnd.StID)) ON GrDt.GrDtID = Attnd.GrDtID) INNER JOIN Grps ON GrDt.GrID = Grps.GrID;"
         Using CN As New OleDbConnection(Constr1),
                 CMDDel0 As New OleDbCommand(SqlDel0, CN) With {.CommandType = CommandType.Text},
                 CMDCREATE0 As New OleDbCommand(SqlCreate0, CN) With {.CommandType = CommandType.Text}
@@ -464,44 +463,7 @@ Public Class Form2
             End Try
         End Using
 
-        Dim SqlDel As String =
-                "DROP VIEW StdntFulRpt;"
-        Dim SqlCreate As String =
-            "CREATE VIEW StdntFulRpt AS SELECT Stdnts.StID, GrDt.GrDtID, Stdnts.StNm, GrDt.GrDt1, GrDt.GrDt2, Grps.GrNm, Grps.Lnm, " &
-            "Grps.SubNm, Attnd.PStat FROM Tsks INNER JOIN (((GrDt INNER JOIN GrSt ON GrDt.GrID = GrSt.GrID) INNER JOIN Grps ON " &
-            "(Grps.GrID = GrSt.GrID) AND (GrDt.GrID = Grps.GrID)) INNER JOIN (Stdnts INNER JOIN Attnd ON Stdnts.StID = Attnd.StID) " &
-            "ON (Stdnts.StID = GrSt.StID) And (GrDt.GrDtID = Attnd.GrDtID)) ON Tsks.TaskID = GrDt.TaskID WHERE " &
-            "(((Stdnts.StID)=" & StID1 & "));"
-        Using CN As New OleDbConnection(Constr1),
-                CMDDel As New OleDbCommand(SqlDel, CN) With {.CommandType = CommandType.Text},
-                CMDCREATE As New OleDbCommand(SqlCreate, CN) With {.CommandType = CommandType.Text}
-            CN.Open()
-            Try
-                CMDDel.ExecuteNonQuery()
-                CMDCREATE.ExecuteNonQuery()
-            Catch ex As OleDbException
-                CMDCREATE.ExecuteNonQuery()
-            End Try
-        End Using
-        Dim SqlDel1 As String =
-                "DROP VIEW StdntFulRpt1;"
-        Dim SqlCreate1 As String =
-            "CREATE VIEW StdntFulRpt1 AS SELECT StdntFulRpt0.StID, StdntFulRpt0.GrDtID, StdntFulRpt.GrDtID, StdntFulRpt0.StNm, " &
-            "StdntFulRpt0.GrNm, StdntFulRpt0.Lnm, StdntFulRpt0.SubNm, StdntFulRpt.GrDt1, StdntFulRpt.GrDt2, StdntFulRpt.PStat, " &
-            "StdntFulRpt0.TaskNm, StdntFulRpt0.TskFlMrk, StdntFulRpt0.Mrk FROM StdntFulRpt0, StdntFulRpt;"
-        Using CN As New OleDbConnection(Constr1),
-                CMDDel1 As New OleDbCommand(SqlDel1, CN) With {.CommandType = CommandType.Text},
-                CMDCREATE1 As New OleDbCommand(SqlCreate1, CN) With {.CommandType = CommandType.Text}
-            CN.Open()
-            Try
-                CMDDel1.ExecuteNonQuery()
-                CMDCREATE1.ExecuteNonQuery()
-            Catch ex As OleDbException
-                CMDCREATE1.ExecuteNonQuery()
-            End Try
-        End Using
-
-        Form10.SrcFrm = "StdntFulRpt"
+        Form10.SrcFrm = "StAttRslt"
         Form10.ShowDialog()
     End Sub
     Private Sub ComboBox2_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles ComboBox2.SelectionChangeCommitted
