@@ -76,21 +76,27 @@ Public Class Form7
             Dim SqlStr2 As String = <sql>SELECT COUNT(GrDtID) FROM Attnd Where GrDtID=<%= GrDtID1 %>;</sql>.Value
             If IC.GetCount1(SqlStr2) <= 0 Then
                 MsgBox("برجاء تسجيل غياب المجموعة أولا")
+                DGStdnts.Columns.Clear()
+                DGStdnts.DataSource = Nothing
+                BtnSave.Enabled = False
+                BtnDel.Enabled = False
+                BtnClear.Enabled = False
                 Exit Sub
             End If
             Label4.Text = e.Node.Text
             DGStdnts.Visible = True
+            BtnClear.Enabled = True
             BtnSave.Enabled = False
             BtnDel.Enabled = True
             ToolStripButton1.Enabled = True
-            AddCol()
             Dim SqlDel As String =
                 "DROP VIEW MarksRpt;"
             Dim SqlCreate As String =
                 "CREATE VIEW MarksRpt AS SELECT GrDt.GrDtID, GrDt.GrID, Rslts.StID, Stdnts.StNm, GrDt.Mnm, GrDt.GrDt1, GrDt.GrDt2, Grps.GrNm, " &
                 "Grps.Lnm, Grps.SubNm, Tsks.TaskID, Tsks.TaskNm, Rslts.Mrk, GrDt.TskFlMrk FROM Tsks INNER JOIN (Stdnts INNER JOIN " &
                 "((GrDt INNER JOIN Grps ON GrDt.GrID = Grps.GrID) INNER JOIN Rslts ON GrDt.GrDtID = Rslts.GrDtID) ON " &
-                "Stdnts.StID = Rslts.StID) ON Tsks.TaskID = GrDt.TaskID WHERE (((GrDt.GrDtID)=" & GrDtID1 & ") And ((GrDt.GrID)=" & GrID1 & "));"
+                "Stdnts.StID = Rslts.StID) ON Tsks.TaskID = GrDt.TaskID WHERE (((GrDt.GrDtID)=" & GrDtID1 & ") And " &
+                "((GrDt.GrID)=" & GrID1 & "));"
             Using CN As New OleDbConnection(Constr1),
                     CMDDel As New OleDbCommand(SqlDel, CN) With {.CommandType = CommandType.Text},
                     CMDCREATE As New OleDbCommand(SqlCreate, CN) With {.CommandType = CommandType.Text}
@@ -108,6 +114,7 @@ Public Class Form7
         ConDGV("SELECT Stdnts.StID, Stdnts.StNm, Rslts.Mrk FROM (Stdnts INNER JOIN (Grps INNER JOIN GrSt ON Grps.GrID = GrSt.GrID) " &
                "ON Stdnts.StID = GrSt.StID) INNER JOIN Rslts ON Stdnts.StID = Rslts.StID " &
                "WHERE (((GrSt.GrID)=" & GrID1 & ") And ((Rslts.GrDtID)=" & GrDtID1 & ")) ORDER BY Stdnts.StID ASC;")
+        AddCol()
     End Sub
     Private Sub AddCol()
         If GrDtID1 <= 0 Then Exit Sub
@@ -125,11 +132,13 @@ Public Class Form7
                 End If
             End Using
         End Using
+        Dim AddColumn As New DataGridViewTextBoxColumn
         If Not DGStdnts.Columns.Contains("Pscore") Then
-            Dim AddColumn As New DataGridViewTextBoxColumn
             With AddColumn
-                .HeaderText = " / درجة الطالب" & FlMrk.ToString
+                .DisplayIndex = 2
+                .HeaderText = "الدرجة/" & FlMrk.ToString
                 .Name = "Pscore"
+                .AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
                 .CellTemplate = New DataGridViewTextBoxCell()
                 .CellTemplate.Style.BackColor = Color.Beige
                 .CellTemplate.Style.ForeColor = Color.Black
@@ -139,12 +148,9 @@ Public Class Form7
                 .DataPropertyName = "Mrk"
             End With
             DGStdnts.Columns.Insert(2, AddColumn)
-        Else
-            With DGStdnts.Columns(2)
-                .HeaderText = "درجة الطالب / " & FlMrk.ToString
-                .DataPropertyName = "Mrk"
-            End With
         End If
+        DGStdnts.Refresh()
+        DGStdnts.Update()
     End Sub
     Private Sub DGStdnts_DataError(ByVal sender As Object, ByVal e As DataGridViewDataErrorEventArgs)
         ' If the data source raises an exception when a cell value is 
@@ -201,6 +207,7 @@ Public Class Form7
         DGStdnts.Columns("StNm").HeaderCell.Value = "اسم الطالب"
         DGStdnts.Columns("StNm").ReadOnly = True
         DGStdnts.Columns("StNm").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        'DGStdnts.Columns("Mrk").Visible = False
         AddHandler DGStdnts.RowPostPaint, AddressOf DGStdnts_RowPostPaint
         AddHandler DGStdnts.CellValidating, AddressOf DGStdnts_CellValidating
         AddHandler DGStdnts.CellValidated, AddressOf DGStdnts_CellValidated
@@ -277,23 +284,27 @@ Public Class Form7
             {.Alignment = StringAlignment.Center, .LineAlignment = StringAlignment.Center}
             Dim headerBounds =
                 New Rectangle(e.RowBounds.Right - 42, e.RowBounds.Top, grid.RowHeadersWidth, e.RowBounds.Height)
-            e.Graphics.DrawString(rowIdx, Font, Brushes.Blue, headerBounds, centerFormat)
+            e.Graphics.DrawString(rowIdx, Font, Brushes.White, headerBounds, centerFormat)
         End Using
     End Sub
     Private Sub Form7_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles MyBase.KeyPress
         If e.KeyChar = ChrW(Keys.Escape) Then Close()
     End Sub
+    Dim Dt2 As DataTable
     Private Sub BtnClear_Click(sender As Object, e As EventArgs) Handles BtnClear.Click
         Dim SqlStr As String =
             "SELECT Attnd.StID, Stdnts.StNm FROM (Stdnts INNER JOIN GrSt ON Stdnts.StID = GrSt.StID) INNER JOIN Attnd ON " &
             "Stdnts.StID = Attnd.StID WHERE (((Attnd.GrDtID)=" & GrDtID1 & ") AND ((Attnd.PStat)=False));"
-        Dim Dt2 As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
+        Dt2 = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
         Using CN = New OleDbConnection With {.ConnectionString = Constr1()},
             CMD = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text},
             DataAdapter1 = New OleDbDataAdapter(CMD)
             DataAdapter1.Fill(Dt2)
         End Using
-        DGStdnts.DataSource = Dt2
+        If DGStdnts.Columns.Contains("Mrk") Then
+            DGStdnts.Columns.Remove("Mrk")
+        End If
+        DGStdnts.DataSource = New BindingSource(Dt2, Nothing)
         DGStdnts.Columns("StID").HeaderCell.Value = "كود الطالب"
         DGStdnts.Columns("StID").ReadOnly = True
         DGStdnts.Columns("StID").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
@@ -307,9 +318,7 @@ Public Class Form7
         ElseIf DGStdnts.Rows.Count <= 0 Then
             BtnSave.Enabled = False
             BtnDel.Enabled = False
-
         End If
-
     End Sub
     Private Sub BtnSave_Click(sender As Object, e As EventArgs) Handles BtnSave.Click
         'Dim CNTra As OleDbTransaction = Nothing
@@ -400,7 +409,7 @@ Public Class Form7
     Private Sub BtnDel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnDel.Click
         'Delete
         'Attend and Results Tables are linked with Students
-        If DGStdnts.Rows.Count <= 0 Or GrDtID1 <= 0 Then
+        If DGStdnts.Rows.Count <= 0 OrElse GrDtID1 <= 0 Then
             DGStdnts.AllowUserToDeleteRows = False
             MsgBox("يجب اختيار ميعاد أولا.",
                    MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
@@ -413,13 +422,13 @@ Public Class Form7
          MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical + MsgBoxStyle.YesNoCancel)
         If AreUsURE = MsgBoxResult.Yes Then
             DGStdnts.AllowUserToDeleteRows = True
-            Dim RUSre As MsgBoxResult = MsgBox("تأكيد حذف كشف الغياب من البرنامج.",
+            Dim RUSre As MsgBoxResult = MsgBox("تأكيد حذف كشف الدرجات من البرنامج.",
                                                    MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight +
                                                    MsgBoxStyle.Critical + MsgBoxStyle.YesNoCancel)
             If RUSre = MsgBoxResult.Yes Then
                 Dim N As Integer
                 Dim SqlStr As String =
-                    <SQL>DELETE * FROM Attnd WHERE Attnd.GrDtID=?;</SQL>.Value
+                    <SQL>DELETE * FROM Rslts WHERE Rslts.GrDtID=?;</SQL>.Value
                 Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
                         CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
                     With CMD.Parameters
@@ -428,7 +437,7 @@ Public Class Form7
                     CN.Open()
                     N = CMD.ExecuteNonQuery
                 End Using
-                MsgBox("تم حذف عدد  " & N.ToString & " كشف غياب.",
+                MsgBox("تم حذف درجات عدد  " & N.ToString & " طلاب.",
                        MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
             Else
                 MsgBox("تم الغاء العملية",

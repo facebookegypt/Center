@@ -54,10 +54,10 @@ Partial Class Form1
         Me.MenuStrip2.Dock = System.Windows.Forms.DockStyle.Right
         Me.MenuStrip2.ImageScalingSize = New System.Drawing.Size(32, 32)
         Me.MenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.StudentsToolStripMenuItem, Me.GroupsToolStripMenuItem, Me.TimesToolStripMenuItem, Me.ToolStripComboBox3, Me.MnuMrks, Me.MnuAllRpt})
-        Me.MenuStrip2.Location = New System.Drawing.Point(674, 0)
+        Me.MenuStrip2.Location = New System.Drawing.Point(678, 0)
         Me.MenuStrip2.Name = "MenuStrip2"
         Me.MenuStrip2.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.MenuStrip2.Size = New System.Drawing.Size(126, 450)
+        Me.MenuStrip2.Size = New System.Drawing.Size(122, 450)
         Me.MenuStrip2.TabIndex = 1
         '
         'FileToolStripMenuItem
@@ -69,7 +69,7 @@ Partial Class Form1
         Me.FileToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Padding = New System.Windows.Forms.Padding(6)
-        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(113, 69)
+        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(109, 69)
         Me.FileToolStripMenuItem.Text = "ملف"
         Me.FileToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.FileToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
@@ -134,7 +134,7 @@ Partial Class Form1
         Me.StudentsToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.StudentsToolStripMenuItem.Name = "StudentsToolStripMenuItem"
         Me.StudentsToolStripMenuItem.Padding = New System.Windows.Forms.Padding(6)
-        Me.StudentsToolStripMenuItem.Size = New System.Drawing.Size(113, 69)
+        Me.StudentsToolStripMenuItem.Size = New System.Drawing.Size(109, 69)
         Me.StudentsToolStripMenuItem.Text = "الطلاب"
         Me.StudentsToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.StudentsToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
@@ -160,7 +160,7 @@ Partial Class Form1
         Me.GroupsToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.GroupsToolStripMenuItem.Name = "GroupsToolStripMenuItem"
         Me.GroupsToolStripMenuItem.Padding = New System.Windows.Forms.Padding(6)
-        Me.GroupsToolStripMenuItem.Size = New System.Drawing.Size(113, 69)
+        Me.GroupsToolStripMenuItem.Size = New System.Drawing.Size(109, 69)
         Me.GroupsToolStripMenuItem.Text = "المجموعات"
         Me.GroupsToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.GroupsToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
@@ -184,7 +184,7 @@ Partial Class Form1
         Me.TimesToolStripMenuItem.Image = Global.WindowsApp1.My.Resources.Resources.Time
         Me.TimesToolStripMenuItem.Name = "TimesToolStripMenuItem"
         Me.TimesToolStripMenuItem.Padding = New System.Windows.Forms.Padding(6)
-        Me.TimesToolStripMenuItem.Size = New System.Drawing.Size(113, 69)
+        Me.TimesToolStripMenuItem.Size = New System.Drawing.Size(109, 69)
         Me.TimesToolStripMenuItem.Text = "الغياب"
         Me.TimesToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.TimesToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
@@ -211,7 +211,7 @@ Partial Class Form1
         Me.ToolStripComboBox3.MergeAction = System.Windows.Forms.MergeAction.Insert
         Me.ToolStripComboBox3.Name = "ToolStripComboBox3"
         Me.ToolStripComboBox3.Padding = New System.Windows.Forms.Padding(2)
-        Me.ToolStripComboBox3.Size = New System.Drawing.Size(111, 27)
+        Me.ToolStripComboBox3.Size = New System.Drawing.Size(107, 27)
         Me.ToolStripComboBox3.Sorted = True
         '
         'MnuMrks
@@ -222,7 +222,7 @@ Partial Class Form1
         Me.MnuMrks.Image = Global.WindowsApp1.My.Resources.Resources.accept_button
         Me.MnuMrks.Name = "MnuMrks"
         Me.MnuMrks.Padding = New System.Windows.Forms.Padding(6)
-        Me.MnuMrks.Size = New System.Drawing.Size(113, 69)
+        Me.MnuMrks.Size = New System.Drawing.Size(109, 69)
         Me.MnuMrks.Text = "الدرجات"
         Me.MnuMrks.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.MnuMrks.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
@@ -244,7 +244,7 @@ Partial Class Form1
         Me.MnuAllRpt.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuRpt1})
         Me.MnuAllRpt.Image = Global.WindowsApp1.My.Resources.Resources.report_user
         Me.MnuAllRpt.Name = "MnuAllRpt"
-        Me.MnuAllRpt.Size = New System.Drawing.Size(113, 36)
+        Me.MnuAllRpt.Size = New System.Drawing.Size(109, 36)
         Me.MnuAllRpt.Text = "تقارير مجمعة"
         '
         'MnuRpt1

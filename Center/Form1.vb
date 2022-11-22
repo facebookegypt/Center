@@ -62,7 +62,7 @@ Public Class Form1
             .ComboBox.DataSource = New BindingSource(ComboItems, Nothing)
             .ComboBox.DisplayMember = "Value"
             .ComboBox.ValueMember = "Key"
-            .SelectedIndex = 0
+            .SelectedItem = Nothing
             .ComboBox.EndUpdate()
         End With
     End Sub

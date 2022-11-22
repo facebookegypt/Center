@@ -34,7 +34,7 @@ Public Class Form9
             .DataSource = DT.DefaultView.Table
             .DisplayMember = "GrNm"
             .ValueMember = "GrID"
-            .SelectedIndex = 0
+            .SelectedItem = Nothing
             .Refresh()
             .EndUpdate()
         End With
