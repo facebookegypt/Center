@@ -48,12 +48,12 @@ Public Class Form1
         End With
         ComboItems = New Dictionary(Of Integer, String)
         Dim Dis As New DataTable
-        Dim SqlStr As String = "SELECT DISTINCT ([GrDt].[Mnm]) AS Expr1, Min(GrDt.GrDtID) AS MinOfGrDtID FROM GrDt GROUP BY " &
-            "([GrDt].[Mnm]) ORDER BY ([GrDt].[Mnm]);"
+        Dim SqlStr As String = "SELECT First(GrDt.GrDtID) AS FirstOfGrDtID, Format([Mnm],'mmmmyyyy') AS Expr1 FROM GrDt GROUP BY " &
+            "Format([Mnm],'mmmmyyyy') ORDER BY Format([Mnm],'mmmmyyyy') DESC;"
         Dis = Ii.GetData(SqlStr)
         ComboItems.Clear()
         For Each DtR As DataRow In Dis.Rows
-            ComboItems.Add(DtR("MinOfGrDtID"), Format(DtR("Expr1"), "MMMMyyyy"))
+            ComboItems.Add(DtR("FirstOfGrDtID"), DtR("Expr1"))
         Next
         AddHandler ToolStripComboBox3.ComboBox.SelectionChangeCommitted, AddressOf Tlstrp_Slctioncom
         ComboItems.Add(0, "اختر الشهر")
@@ -62,7 +62,8 @@ Public Class Form1
             .ComboBox.DataSource = New BindingSource(ComboItems, Nothing)
             .ComboBox.DisplayMember = "Value"
             .ComboBox.ValueMember = "Key"
-            .SelectedItem = Nothing
+            .Sorted = True
+            .SelectedItem = {0, "اختر الشهر"}
             .ComboBox.EndUpdate()
         End With
     End Sub
