@@ -250,15 +250,6 @@ Public Class Form5
             e.Graphics.DrawString(rowIdx, Font, SystemBrushes.ActiveBorder, headerBounds, centerFormat)
         End Using
     End Sub
-
-    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
-
-    End Sub
-
-    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles TextBox1.TextChanged
-
-    End Sub
-
     Private Sub BtnSave_Click(ByVal sender As Object, ByVal e As EventArgs) Handles BtnSave.Click
         If Dt1.Rows.Count <= 0 Then
             MsgBox("يجب اختيار طالب واحد علي الأقل",

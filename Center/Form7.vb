@@ -6,24 +6,10 @@ Public Class Form7
     Private Property StID1 As Integer
     Private Property StAttVal As Boolean
     Private Property GrID1 As Integer
-    Private Property FlMrk As Double
+    Private Property FlMrk As Integer
     Public Property Constr1 As String = IC.ConStr
-    Private TRV As TreeView = New TreeView With {
-        .Dock = DockStyle.Fill,
-        .RightToLeftLayout = True,
-        .LineColor = Color.Red,
-        .Font = New Font("Ariel", 11),
-        .PathSeparator = "-",
-        .HotTracking = True,
-        .HideSelection = False, .FullRowSelect = True, .ShowLines = True, .ShowPlusMinus = True, .ShowRootLines = True,
-        .BorderStyle = BorderStyle.None
-    }
-    Private DGStdnts As DataGridView = New DataGridView With
-        {.Name = "DGV2", .BorderStyle = BorderStyle.None, .RightToLeft = RightToLeft.Yes,
-        .AllowUserToAddRows = False, .Dock = DockStyle.Fill,
-        .RowHeadersVisible = True, .BackgroundColor = Color.WhiteSmoke, .ColumnHeadersHeight = 50,
-         .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing}
-    Private Dtable As DataTable, Dtable1 As DataTable
+    Private WithEvents TRV As TreeView
+    Private WithEvents DGStdnts As New DataGridView
     Private RptSrc As String
     Private Function GetMainTree(ByVal DT As DataTable) As TreeView
         DT = IC.GetData(<SQL>SELECT Grps.GrID, Grps.GrNm FROM Grps INNER JOIN GrDt ON Grps.GrID = GrDt.GrID GROUP BY Grps.GrID, 
@@ -46,22 +32,23 @@ Public Class Form7
     End Function
     Private Sub TRV_AfterSelect(ByVal sender As Object, ByVal e As TreeViewEventArgs)
         Dim SqlStr1 As String =
-            "SELECT GrDt.GrDtID, GrDt.GrID, Tsks.TaskID, Grps.GrNm, GrDt.Mnm, GrDt.GrDt1, GrDt.GrDt2, Tsks.TaskNm, GrDt.TskFlMrk " &
+            "SELECT GrDt.GrDtID, GrDt.GrID, Tsks.TaskID, Grps.GrNm, GrDt.Mnm, GrDt.GrDt1, GrDt.GrDt2, Tsks.TaskNm, GrDt.TskNm " &
             "FROM Tsks INNER JOIN (Grps INNER JOIN GrDt ON Grps.GrID = GrDt.GrID) ON Tsks.TaskID = GrDt.TaskID " &
             "WHERE (((GrDt.GrID)=" & Integer.Parse(e.Node.Name) & ")) ORDER BY GrDt.GrDt1, GrDt.GrDt2 ASC;"
-        Dim DT As DataTable =
-            IC.GetData(SqlStr1)
+        Dim DT As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
+        DT = IC.GetData(SqlStr1)
         e.Node.Nodes.Clear()
         If DT.Rows.Count > 0 Then
             For Each dr As DataRow In DT.Rows
                 Dim DadNode As TreeNode = New TreeNode With {
                     .Name = dr("GrDtID").ToString(),
                     .Text = Format(dr("Mnm"), "MMMMyyyy") & " -- " & Format(dr("GrDt1"), "dddd, dd/MMMM") &
-                    " -- " & Format(dr("GrDt2"), "hh:mm tt") & " -- " & dr("TaskNm").ToString & "( " & dr("TskFlMrk").ToString & " )",
+                    " -- " & Format(dr("GrDt2"), "hh:mm tt") & " -- " & dr("TaskNm").ToString & "( " & dr("TskNm").ToString & " )",
                     .Tag = dr("TaskID").ToString()}
                 If e.Node.Level = 0 Then e.Node.Nodes.Add(DadNode)
             Next
         End If
+        DT.Dispose()
         If e.Node.Level = 0 Then
             GrID1 = Integer.Parse(e.Node.Name)
             Label4.Text = String.Empty
@@ -93,7 +80,7 @@ Public Class Form7
                 "DROP VIEW MarksRpt;"
             Dim SqlCreate As String =
                 "CREATE VIEW MarksRpt AS SELECT GrDt.GrDtID, GrDt.GrID, Rslts.StID, Stdnts.StNm, GrDt.Mnm, GrDt.GrDt1, GrDt.GrDt2, Grps.GrNm, " &
-                "Grps.Lnm, Grps.SubNm, Tsks.TaskID, Tsks.TaskNm, Rslts.Mrk, GrDt.TskFlMrk FROM Tsks INNER JOIN (Stdnts INNER JOIN " &
+                "Grps.Lnm, Grps.SubNm, Tsks.TaskID, Tsks.TaskNm, Rslts.Mrk, GrDt.TskFlMrk, GrDt.TskNm FROM Tsks INNER JOIN (Stdnts INNER JOIN " &
                 "((GrDt INNER JOIN Grps ON GrDt.GrID = Grps.GrID) INNER JOIN Rslts ON GrDt.GrDtID = Rslts.GrDtID) ON " &
                 "Stdnts.StID = Rslts.StID) ON Tsks.TaskID = GrDt.TaskID WHERE (((GrDt.GrDtID)=" & GrDtID1 & ") And " &
                 "((GrDt.GrID)=" & GrID1 & "));"
@@ -170,15 +157,25 @@ Public Class Form7
             DataAdapter1 = New OleDbDataAdapter(CMD)
             DataAdapter1.Fill(Dt2)
         End Using
+        GroupBox3.Controls.Add(DGStdnts)
         With DGStdnts
+            .DataSource = Nothing
+            .DataSource = New BindingSource(Dt2, Nothing)
             .EnableHeadersVisualStyles = False  'Will display the custom formats of mine.
             .EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2
             .GridColor = SystemColors.Control
             .SelectionMode = DataGridViewSelectionMode.CellSelect
-            .DataSource = New BindingSource(Dt2, Nothing)
+            .Name = "DGV2"
+            .BorderStyle = BorderStyle.None
+            .RightToLeft = RightToLeft.Yes
+            .AllowUserToAddRows = False
+            .Dock = DockStyle.Fill
+            .RowHeadersVisible = True
+            .BackgroundColor = Color.WhiteSmoke
+            .ColumnHeadersHeight = 50
+            .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
             .MultiSelect = False
         End With
-        GroupBox3.Controls.Add(DGStdnts)
         With DGStdnts.ColumnHeadersDefaultCellStyle
             .BackColor = Color.DarkCyan
             .ForeColor = Color.White
@@ -270,7 +267,7 @@ Public Class Form7
         ' editing since there Is Not any point in validating its initial value.
         If DGStdnts.Columns(e.ColumnIndex).Name = "Pscore" Then
             If e.FormattedValue.ToString.Length >= 1 Then
-                If Not IsNumeric(e.FormattedValue) OrElse Convert.ToInt32(e.FormattedValue) > FlMrk Then
+                If Not IsNumeric(e.FormattedValue) OrElse Convert.ToDouble(e.FormattedValue) > FlMrk Then
                     e.Cancel = True
                     DGStdnts.Rows(e.RowIndex).ErrorText = "اقصي درجة " & FlMrk.ToString
                 End If
@@ -290,12 +287,11 @@ Public Class Form7
     Private Sub Form7_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles MyBase.KeyPress
         If e.KeyChar = ChrW(Keys.Escape) Then Close()
     End Sub
-    Dim Dt2 As DataTable
     Private Sub BtnClear_Click(sender As Object, e As EventArgs) Handles BtnClear.Click
         Dim SqlStr As String =
             "SELECT Attnd.StID, Stdnts.StNm FROM (Stdnts INNER JOIN GrSt ON Stdnts.StID = GrSt.StID) INNER JOIN Attnd ON " &
             "Stdnts.StID = Attnd.StID WHERE (((Attnd.GrDtID)=" & GrDtID1 & ") AND ((Attnd.PStat)=False));"
-        Dt2 = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
+        Dim Dt2 As New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
         Using CN = New OleDbConnection With {.ConnectionString = Constr1()},
             CMD = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text},
             DataAdapter1 = New OleDbDataAdapter(CMD)
@@ -319,29 +315,41 @@ Public Class Form7
             BtnSave.Enabled = False
             BtnDel.Enabled = False
         End If
+        Dt2.Dispose()
+        Dt2 = Nothing
     End Sub
     Private Sub BtnSave_Click(sender As Object, e As EventArgs) Handles BtnSave.Click
         'Dim CNTra As OleDbTransaction = Nothing
+        Cursor.Current = Cursors.WaitCursor
         Dim N As Integer
         Dim SqlStr1 As String =
                 "DELETE * FROM Rslts WHERE GrDtID=?;"
         'اليوم الواحد ممكن يكون فيه أكتر من مجموعه
-        Using cn As New OleDbConnection(Constr1)
+        Using CN As New OleDbConnection(Constr1)
             '           CNTra = cn.BeginTransaction(IsolationLevel.ReadCommitted)
-            Dim cmd = New OleDbCommand(SqlStr1, cn) With {.CommandType = CommandType.Text}
+            Dim cmd = New OleDbCommand(SqlStr1, CN) With {.CommandType = CommandType.Text}
             With cmd.Parameters
                 .AddWithValue("?", GrDtID1)
             End With
-            cn.Open()
-            'Irow in the database "True" then do nothing
-            N = cmd.ExecuteNonQuery()
-            cmd.Parameters.Clear()
+            Try
+                CN.Open()
+                'Irow in the database "True" then do nothing
+                N = cmd.ExecuteNonQuery()
+                cmd.Parameters.Clear()
+            Catch ex As OleDbException
+                MsgBox("مشكلة فى حفظ الدرجات 1 : " & vbCrLf & ex.Message,
+                       MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Critical)
+                Cursor.Current = Cursors.Default
+                CN.Close()
+                Exit Sub
+            End Try
+
         End Using
         Dim sqlstr As String = "INSERT INTO Rslts(GrDtID,StID,Mrk,DtCrtd,DtMdfd) VALUES(?,?,?,?,?);"
         For Each IRow As DataGridViewRow In DGStdnts.Rows
             'INSERT
-            Using cn As New OleDbConnection(Constr1)
-                Dim cmd = New OleDbCommand(sqlstr, cn) With {.CommandType = CommandType.Text}
+            Using CN As New OleDbConnection(Constr1)
+                Dim cmd = New OleDbCommand(sqlstr, CN) With {.CommandType = CommandType.Text}
                 With cmd.Parameters
                     .AddWithValue("?", GrDtID1)
                     .AddWithValue("?", CType(IRow.Cells("StID").Value, Integer))
@@ -349,9 +357,17 @@ Public Class Form7
                     .AddWithValue("?", Now.Date)
                     .AddWithValue("?", Now.Date)
                 End With
-                cn.Open()
-                cmd.ExecuteNonQuery()
-                cmd.Parameters.Clear()
+                Try
+                    CN.Open()
+                    cmd.ExecuteNonQuery()
+                    cmd.Parameters.Clear()
+                Catch ex As OleDbException
+                    MsgBox("مشكلة فى حفظ الدرجات 2 : " & vbCrLf & ex.Message,
+                           MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Critical)
+                    Cursor.Current = Cursors.Default
+                    CN.Close()
+                    Exit Sub
+                End Try
             End Using
         Next
         MsgBox("تم تسجيل الدرجات بنجاح",
@@ -359,12 +375,23 @@ Public Class Form7
         ConDGV("SELECT Stdnts.StID, Stdnts.StNm, Rslts.Mrk FROM (Stdnts INNER JOIN (Grps INNER JOIN GrSt ON Grps.GrID = GrSt.GrID) " &
                "ON Stdnts.StID = GrSt.StID) INNER JOIN Rslts ON Stdnts.StID = Rslts.StID " &
                "WHERE (((GrSt.GrID)=" & GrID1 & ") And ((Rslts.GrDtID)=" & GrDtID1 & ")) ORDER BY Stdnts.StID ASC;")
+        Cursor.Current = Cursors.Default
     End Sub
     Private Sub Form7_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         KeyPreview = True
         DoubleBuffered = True
         'WindowState = FormWindowState.Maximized
-        MdiParent = Form1
+        'MdiParent = Form1
+        TRV = New TreeView With {
+        .Dock = DockStyle.Fill,
+        .RightToLeftLayout = True,
+        .LineColor = Color.Red,
+        .Font = New Font("Ariel", 11),
+        .PathSeparator = "-",
+        .HotTracking = True,
+        .HideSelection = False, .FullRowSelect = True, .ShowLines = True, .ShowPlusMinus = True, .ShowRootLines = True,
+        .BorderStyle = BorderStyle.None
+    }
         'Create View of all Groups Dates
         With TRV
             .BackColor = SystemColors.Control
@@ -395,7 +422,6 @@ Public Class Form7
             End If
         End If
     End Sub
-
     Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
         If DGStdnts.Rows.Count <= 0 AndAlso Not TRV.SelectedNode.Parent Is Nothing Then
             MsgBox("يجب تسجيل الدرجات أولا.",
@@ -405,7 +431,6 @@ Public Class Form7
         Form10.SrcFrm = RptSrc
         Form10.ShowDialog()
     End Sub
-
     Private Sub BtnDel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnDel.Click
         'Delete
         'Attend and Results Tables are linked with Students
@@ -448,5 +473,12 @@ Public Class Form7
         Else
             DGStdnts.AllowUserToDeleteRows = False
         End If
+    End Sub
+    Private Sub Form7_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        TRV = Nothing
+        DGStdnts = Nothing
+    End Sub
+    Private Sub Form7_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+        Dispose()
     End Sub
 End Class

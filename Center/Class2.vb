@@ -2,9 +2,11 @@
     Inherits Form
     Private ReadOnly Btn1 As Button = New Button With {.Dock = DockStyle.Bottom, .Text = "Save", .Name = "Btn1"}
     Public Txt1 As TextBox = New TextBox With {.Dock = DockStyle.Top, .Text = String.Empty, .Name = "Txt1"}
+    Public Shared Property Pro As String = Nothing
 
     Private Sub Btn1_Click(sender As Object, e As EventArgs)
         My.Settings.Save()
+        Pro = Txt1.Text
         Close()
     End Sub
     Sub New()
@@ -28,7 +30,12 @@
 
     End Sub
 
-    Private Sub Class2_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    Private Sub Class2_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
+    End Sub
+
+    Private Sub Class2_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        RemoveHandler Btn1.Click, AddressOf Btn1_Click
+        Dispose()
     End Sub
 End Class

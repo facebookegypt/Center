@@ -76,9 +76,11 @@ Public Class Class3
                 Close()
             End If
         End If
+
     End Sub
     Private Sub CboGrps_SelectionChangeCommitted(sender As Object, e As EventArgs)
         GrID1 = Convert.ToInt32(CboGrps.SelectedValue)
+
     End Sub
     Private Sub InitializeComponent()
         Me.SuspendLayout()
@@ -91,7 +93,11 @@ Public Class Class3
 
     End Sub
     Private Sub Class3_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
-        If e.KeyChar = ChrW(Keys.Escape) Then Close()
+        If e.KeyChar = ChrW(Keys.Escape) Then
+            RemoveHandler CboGrps.SelectionChangeCommitted, AddressOf CboGrps_SelectionChangeCommitted
+            RemoveHandler CboGrps.KeyPress, AddressOf CboGrps_KeyPress
+            Close()
+        End If
     End Sub
 
     Private Sub Class3_Load(sender As Object, e As EventArgs) Handles MyBase.Load

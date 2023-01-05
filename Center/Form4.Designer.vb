@@ -24,6 +24,8 @@ Partial Class Form4
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form4))
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
+        Me.TextBox2 = New System.Windows.Forms.TextBox()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.TxtMrk = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -59,9 +61,12 @@ Partial Class Form4
         '
         'GroupBox5
         '
-        Me.GroupBox5.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        Me.GroupBox5.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox5.BackColor = System.Drawing.Color.Transparent
+        Me.GroupBox5.Controls.Add(Me.TextBox2)
+        Me.GroupBox5.Controls.Add(Me.Label2)
         Me.GroupBox5.Controls.Add(Me.CheckBox1)
         Me.GroupBox5.Controls.Add(Me.TxtMrk)
         Me.GroupBox5.Controls.Add(Me.Label1)
@@ -86,6 +91,35 @@ Partial Class Form4
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.UseCompatibleTextRendering = True
         '
+        'TextBox2
+        '
+        Me.TextBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox2.Font = New System.Drawing.Font("Times New Roman", 10.0!)
+        Me.TextBox2.Location = New System.Drawing.Point(397, 141)
+        Me.TextBox2.MaxLength = 60
+        Me.TextBox2.Name = "TextBox2"
+        Me.TextBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes
+        Me.TextBox2.Size = New System.Drawing.Size(112, 23)
+        Me.TextBox2.TabIndex = 43
+        Me.TextBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.TextBox2.WordWrap = False
+        '
+        'Label2
+        '
+        Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label2.AutoEllipsis = True
+        Me.Label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Label2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Label2.Font = New System.Drawing.Font("Times New Roman", 11.0!)
+        Me.Label2.ForeColor = System.Drawing.Color.Beige
+        Me.Label2.Location = New System.Drawing.Point(515, 139)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(29, 25)
+        Me.Label2.TabIndex = 42
+        Me.Label2.Text = "بيان"
+        Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Label2.UseCompatibleTextRendering = True
+        '
         'CheckBox1
         '
         Me.CheckBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -94,8 +128,8 @@ Partial Class Form4
         Me.CheckBox1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
         Me.CheckBox1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.CheckBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.CheckBox1.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Bold)
-        Me.CheckBox1.ForeColor = System.Drawing.Color.LightGreen
+        Me.CheckBox1.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.CheckBox1.ForeColor = System.Drawing.Color.YellowGreen
         Me.CheckBox1.Location = New System.Drawing.Point(163, 108)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Padding = New System.Windows.Forms.Padding(2)
@@ -110,11 +144,11 @@ Partial Class Form4
         '
         Me.TxtMrk.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TxtMrk.Font = New System.Drawing.Font("Times New Roman", 12.25!)
-        Me.TxtMrk.Location = New System.Drawing.Point(163, 139)
+        Me.TxtMrk.Location = New System.Drawing.Point(246, 138)
         Me.TxtMrk.MaxLength = 60
         Me.TxtMrk.Name = "TxtMrk"
         Me.TxtMrk.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.TxtMrk.Size = New System.Drawing.Size(122, 26)
+        Me.TxtMrk.Size = New System.Drawing.Size(39, 26)
         Me.TxtMrk.TabIndex = 40
         Me.TxtMrk.Text = "0"
         Me.TxtMrk.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
@@ -188,7 +222,7 @@ Partial Class Form4
         'ToolStripButton10
         '
         Me.ToolStripButton10.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
-        Me.ToolStripButton10.Image = Global.WindowsApp1.My.Resources.Resources.ShowAll
+        Me.ToolStripButton10.Image = Global.WindowsApp1.My.Resources.Resources.R
         Me.ToolStripButton10.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.ToolStripButton10.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton10.Name = "ToolStripButton10"
@@ -239,7 +273,7 @@ Partial Class Form4
         Me.ComboBox1.Items.AddRange(New Object() {"التاريخ", "الصف", "المادة", "المجموعة"})
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Padding = New System.Windows.Forms.Padding(2)
-        Me.ComboBox1.Size = New System.Drawing.Size(93, 54)
+        Me.ComboBox1.Size = New System.Drawing.Size(75, 54)
         Me.ComboBox1.Sorted = True
         '
         'TextBox1
@@ -247,7 +281,7 @@ Partial Class Form4
         Me.TextBox1.ForeColor = System.Drawing.Color.ForestGreen
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Padding = New System.Windows.Forms.Padding(2)
-        Me.TextBox1.Size = New System.Drawing.Size(150, 54)
+        Me.TextBox1.Size = New System.Drawing.Size(122, 54)
         '
         'ToolStripSeparator2
         '
@@ -257,7 +291,7 @@ Partial Class Form4
         'ToolStripButton1
         '
         Me.ToolStripButton1.Enabled = False
-        Me.ToolStripButton1.Image = Global.WindowsApp1.My.Resources.Resources.report_user
+        Me.ToolStripButton1.Image = Global.WindowsApp1.My.Resources.Resources.printer
         Me.ToolStripButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.ToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton1.Name = "ToolStripButton1"
@@ -359,10 +393,10 @@ Partial Class Form4
         Me.ComboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox3.Font = New System.Drawing.Font("Times New Roman", 11.0!)
         Me.ComboBox3.FormattingEnabled = True
-        Me.ComboBox3.Location = New System.Drawing.Point(397, 139)
+        Me.ComboBox3.Location = New System.Drawing.Point(550, 139)
         Me.ComboBox3.Name = "ComboBox3"
         Me.ComboBox3.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.ComboBox3.Size = New System.Drawing.Size(225, 25)
+        Me.ComboBox3.Size = New System.Drawing.Size(72, 25)
         Me.ComboBox3.TabIndex = 27
         '
         'Label8
@@ -411,8 +445,11 @@ Partial Class Form4
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), System.Drawing.Image)
+        Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.ClientSize = New System.Drawing.Size(748, 479)
         Me.Controls.Add(Me.GroupBox5)
+        Me.DoubleBuffered = True
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Form4"
@@ -454,4 +491,6 @@ Partial Class Form4
     Friend WithEvents TextBox1 As ToolStripTextBox
     Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
     Friend WithEvents ToolStripButton1 As ToolStripButton
+    Friend WithEvents TextBox2 As TextBox
+    Friend WithEvents Label2 As Label
 End Class

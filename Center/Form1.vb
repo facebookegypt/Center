@@ -24,8 +24,8 @@ Public Class Form1
     Private Sub Form1_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
         KeyPreview = True
         RightToLeft = RightToLeft.Yes
-        Timer1.Interval = 1000
-        Timer1.Enabled = True
+        'Timer1.Interval = 1000
+        'Timer1.Enabled = True
         DoubleBuffered = True
         WindowState = FormWindowState.Maximized
         BackgroundImage = My.Resources.ResourceManager.GetObject("Main1")
@@ -43,6 +43,20 @@ Public Class Form1
             End If
         End If
         With Ii.PopupNotifier1
+            .ShowCloseButton = True
+            .ShowOptionsButton = True
+            .TitleFont = New Font("Times New Roman", 12, FontStyle.Bold)
+            .TitleColor = Color.Black
+            .TitlePadding = New Padding(5)
+            .ContentFont = New Font("Arial", 10.25, FontStyle.Bold)
+            .ContentColor = Color.White
+            .IsRightToLeft = True
+            .TitleText = "مرحبا فى برنامج C E N T E R"
+            .Delay = 5000
+            .BorderColor = Color.Red
+            .HeaderColor = Color.Red
+            .BodyColor = Color.DeepSkyBlue
+            .GradientPower = 10
             .ContentText = "السلام عليكم و رحمة الله و بركاته. لديك  " & GrDtToday() & " مجموعات اليوم."
             .Popup()
         End With
@@ -55,7 +69,6 @@ Public Class Form1
         For Each DtR As DataRow In Dis.Rows
             ComboItems.Add(DtR("FirstOfGrDtID"), DtR("Expr1"))
         Next
-        AddHandler ToolStripComboBox3.ComboBox.SelectionChangeCommitted, AddressOf Tlstrp_Slctioncom
         ComboItems.Add(0, "اختر الشهر")
         ToolStripComboBox3.ComboBox.BeginUpdate()
         With ToolStripComboBox3
@@ -66,6 +79,16 @@ Public Class Form1
             .SelectedItem = {0, "اختر الشهر"}
             .ComboBox.EndUpdate()
         End With
+        AddHandler ToolStripComboBox3.ComboBox.DropDown, AddressOf Tlstrp_DropDown
+        AddHandler ToolStripComboBox3.ComboBox.DropDownClosed, AddressOf Tlstrp_DropDownClossed
+    End Sub
+    Private Sub Tlstrp_DropDownClossed(sender As Object, e As EventArgs)
+        Dim Cbo As ComboBox = CType(sender, ComboBox)
+        RemoveHandler ToolStripComboBox3.ComboBox.SelectionChangeCommitted, AddressOf Tlstrp_Slctioncom
+    End Sub
+    Private Sub Tlstrp_DropDown(sender As Object, e As EventArgs)
+        Dim Cbo As ComboBox = CType(sender, ComboBox)
+        AddHandler ToolStripComboBox3.ComboBox.SelectionChangeCommitted, AddressOf Tlstrp_Slctioncom
     End Sub
     Private Sub Tlstrp_Slctioncom(sender As Object, e As EventArgs)
         Dim Cbo As ComboBox = CType(sender, ComboBox)
@@ -73,8 +96,8 @@ Public Class Form1
         CurrentAttndMonthNm = DirectCast(Cbo.SelectedItem, KeyValuePair(Of Integer, String)).Value.ToString
         CurrentAttndMonth = DirectCast(Cbo.SelectedItem, KeyValuePair(Of Integer, String)).Key
 
-        Dim Frm9 As New Form9
-        IsMdiContainer = True
+        'Dim Frm9 As New Form
+        'IsMdiContainer = True
         For Each Frm As Form In Application.OpenForms
             If Frm.Text.Contains(CurrentAttndMonthNm) Then
                 Frm.Visible = True
@@ -82,60 +105,78 @@ Public Class Form1
                 Exit Sub
             End If
         Next
-        With Frm9
-            .MdiParent = Me
-            '.WindowState = FormWindowState.Normal
-            .ShowIcon = True
-            .Show()
-        End With
+        Dim Frm9 As New Form
+        Frm9 = Form9
+        Frm9.Show(Me)
+        'Frm9.BringToFront()
+        'With Frm9
+        '.MdiParent = Me
+        '.WindowState = FormWindowState.Normal
+        '.ShowIcon = True
+        '.Show()
+        'End With
     End Sub
     Private Sub Form1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
         If e.KeyChar = ChrW(Keys.Escape) Then Close()
     End Sub
-    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
-        Text = Now.ToString
-    End Sub
+    'Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+    'Text = Now.ToString
+    'End Sub
     Private Sub Form1_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
         Dim Iu As Class1 = New Class1
-        Dim BackUpFolder As String = My.Settings.LocalBackUpFolder
-        Iu.CompRepair(BackUpFolder)
-        'Create the file stream for the source file
-        Dim BackUpPath As String = BackUpFolder
-        'Exception: if Database file is open then an error occures 'File is being used by another process" 01Sept2022
-        Dim streamRead As New IO.FileStream(IO.Path.Combine(Application.StartupPath, My.Settings.dbNm), IO.FileMode.Open)
-        'Create the file stream for the destination file
-        Dim streamWrite As IO.FileStream =
-            New IO.FileStream(IO.Path.Combine(BackUpFolder, "BackUp--" &
-                                              Now.Date.ToShortDateString.Replace("/", "_") & ".accdb.bak"),
-                                          IO.FileMode.Create)
-        'Determine the size in bytes of the source file (-1 as our position starts at 0)
-        Dim lngLen As Long = streamRead.Length - 1
-        Dim byteBuffer(1048576) As Byte   'our stream buffer
-        Dim intBytesRead As Integer    'number of bytes read
-
-        While streamRead.Position < lngLen    'keep streaming until EOF
-            'Read from the Source
-            intBytesRead = (streamRead.Read(byteBuffer, 0, 1048576))
-            'Write to the Target
-            streamWrite.Write(byteBuffer, 0, intBytesRead)
-            'Display the progress
-            'ToolStripProgressBar1.Value = CInt(streamRead.Position / lngLen * 100)
-            Application.DoEvents()    'do it
-        End While
-        'Clean up 
-        streamWrite.Flush()
-        streamWrite.Close()
-        streamRead.Close()
+        Dim BackUpFolder, BackUpPath As String
+        Dim streamRead As IO.FileStream, streamWrite As IO.FileStream
+        Dim lngLen As Long, byteBuffer(1048576) As Byte   'our stream buffer
+        Try
+            BackUpFolder = My.Settings.LocalBackUpFolder
+            Iu.CompRepair(BackUpFolder)
+            'Create the file stream for the source file
+            BackUpPath = BackUpFolder
+            'Exception: if Database file is open then an error occures 'File is being used by another process" 01Sept2022
+            streamRead = New IO.FileStream(IO.Path.Combine(Application.StartupPath, My.Settings.dbNm), IO.FileMode.Open)
+            'Create the file stream for the destination file
+            streamWrite =
+                New IO.FileStream(IO.Path.Combine(BackUpFolder, "BackUp--" &
+                                                  Now.Date.ToShortDateString.Replace("/", "_") & ".accdb.bak"),
+                                              IO.FileMode.Create)
+            'Determine the size in bytes of the source file (-1 as our position starts at 0)
+            lngLen = streamRead.Length - 1
+            Dim intBytesRead As Integer    'number of bytes read
+            While streamRead.Position < lngLen    'keep streaming until EOF
+                'Read from the Source
+                intBytesRead = (streamRead.Read(byteBuffer, 0, 1048576))
+                'Write to the Target
+                streamWrite.Write(byteBuffer, 0, intBytesRead)
+                'Display the progress
+                'ToolStripProgressBar1.Value = CInt(streamRead.Position / lngLen * 100)
+                Application.DoEvents()    'do it
+            End While
+            'Clean up 
+            streamWrite.Flush()
+            streamWrite.Close()
+            streamRead.Close()
+            RemoveHandler ToolStripComboBox3.ComboBox.DropDown, AddressOf Tlstrp_DropDown
+            RemoveHandler ToolStripComboBox3.ComboBox.DropDownClosed, AddressOf Tlstrp_DropDownClossed
+        Catch ex As Exception
+            MsgBox("Closing : " & ex.Message)
+        End Try
     End Sub
     Private Sub SToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SToolStripMenuItem.Click
-        If Form2.Visible = True Then Form2.BringToFront()
-        IsMdiContainer = True
-        With Form2
-            .MdiParent = Me
-            '.WindowState = FormWindowState.Normal
-            .ShowIcon = True
-            .Show()
-        End With
+        If Form2.Visible = True Then
+            Form2.BringToFront()
+            Exit Sub
+        End If
+        'IsMdiContainer = True
+        Dim Frm2 As New Form
+        Frm2 = Form2
+        Frm2.Show(Me)
+        'IsMdiContainer = True
+        'With Form2
+        '   .MdiParent = Me
+        '.WindowState = FormWindowState.Normal
+        '  .ShowIcon = True
+        ' .Show()
+        'End With
     End Sub
     Private Sub MnuFilSav_Click(sender As Object, e As EventArgs) Handles MnuFilSav.Click
         Dim Iu As Class1 = New Class1
@@ -162,13 +203,19 @@ Public Class Form1
         MsgBox("تم تصدير النسخة بنجاح.", MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
     End Sub
     Private Sub QToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles QToolStripMenuItem.Click
-        If Form3.Visible = True Then Form3.BringToFront()
-        IsMdiContainer = True
-        With Form3
-            .MdiParent = Me
+        If Form3.Visible = True Then
+            Form3.BringToFront()
+            Exit Sub
+        End If
+        'IsMdiContainer = True
+        Dim Frm3 As New Form
+        Frm3 = Form3
+        Frm3.Show(Me)
+        With Frm3
+            ' .MdiParent = Me
             ' .WindowState = FormWindowState.Normal
-            .ShowIcon = True
-            .Show()
+            '.ShowIcon = True
+            '.Show()
         End With
     End Sub
     Private Sub MnuFilExi_Click(sender As Object, e As EventArgs) Handles MnuFilExi.Click
@@ -185,41 +232,50 @@ Public Class Form1
             Form4.BringToFront()
             Exit Sub
         End If
-        IsMdiContainer = True
-        With Form4
-            .MdiParent = Me
-            '.WindowState = FormWindowState.Normal
-            .ShowIcon = True
-            .Show()
-        End With
+        'IsMdiContainer = True
+        Dim Frm4 As New Form
+        Frm4 = Form4
+        Frm4.Show(Me)
+
+        'With Form4
+        ' .MdiParent = Me
+        '.WindowState = FormWindowState.Normal
+        ' .ShowIcon = True
+        '.Show()
+        '.Focus()
+        'End With
     End Sub
     Private Sub SToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SToolStripMenuItem1.Click
         If Form8.Visible = True Then
             Form8.BringToFront()
             Exit Sub
         End If
-        IsMdiContainer = True
-        Dim Frm7 As New Form8
-        With Frm7
-            .MdiParent = Me
-            '.WindowState = FormWindowState.Normal
-            .ShowIcon = True
-            .Show()
-        End With
+        'IsMdiContainer = True
+        Dim Frm8 As New Form
+        Frm8 = Form8
+        Frm8.Show(Me)
+        'With Frm7
+        ' .MdiParent = Me
+        ' '.WindowState = FormWindowState.Normal
+        ' .ShowIcon = True
+        ' .Show()
+        'End With
     End Sub
     Private Sub MnuMarks_Click(sender As Object, e As EventArgs) Handles MnuMarks.Click
         If Form7.Visible Then
             Form7.BringToFront()
             Exit Sub
         End If
-        IsMdiContainer = True
-        Dim Frm7 As New Form7
-        With Frm7
-            .MdiParent = Me
-            '.WindowState = FormWindowState.Normal
-            .ShowIcon = True
-            .Show()
-        End With
+        'IsMdiContainer = True
+        Dim Frm7 As New Form
+        Frm7 = Form7
+        Frm7.Show(Me)
+        'With Frm7
+        ' .MdiParent = Me
+        ' '.WindowState = FormWindowState.Normal
+        ' .ShowIcon = True
+        ' .Show()
+        ' End With
     End Sub
     Private ComboItems As Dictionary(Of Integer, String)
     Private Sub ToolStripComboBox3_DropDownClosed(sender As Object, e As EventArgs) Handles ToolStripComboBox3.DropDownClosed
@@ -250,7 +306,11 @@ Public Class Form1
         Form10.ShowDialog()
     End Sub
 
-    Private Sub ToolStripComboBox3_Click(sender As Object, e As EventArgs) Handles ToolStripComboBox3.Click
+    Private Sub MnuMrks_Click(sender As Object, e As EventArgs) Handles MnuMrks.Click
+
+    End Sub
+
+    Private Sub GroupsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GroupsToolStripMenuItem.Click
 
     End Sub
 End Class

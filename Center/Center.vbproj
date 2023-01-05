@@ -49,7 +49,7 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>bin\Debug\Icon1.ico</ApplicationIcon>
+    <ApplicationIcon>Icon1.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -64,7 +64,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\x86\Release\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DocumentationFile>Center.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
@@ -77,25 +77,21 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
     <Reference Include="CrystalDecisions.ReportSource, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
     <Reference Include="CrystalDecisions.Shared, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
     <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Office.interop.access.dao, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>bin\Debug\Microsoft.Office.interop.access.dao.dll</HintPath>
+      <HintPath>bin\Release\Microsoft.Office.interop.access.dao.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -127,52 +123,52 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
-    <Compile Include="bin\Debug\Reports\CrystalReport1.vb">
+    <Compile Include="bin\Release\Reports\CrystalReport1.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
       <DependentUpon>CrystalReport1.rpt</DependentUpon>
       <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="bin\Debug\Reports\CrystalReport2.vb">
+    <Compile Include="bin\Release\Reports\CrystalReport2.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CrystalReport2.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="bin\Debug\Reports\CrystalReport3.vb">
+    <Compile Include="bin\Release\Reports\CrystalReport3.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CrystalReport3.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="bin\Debug\Reports\CrystalReport4.vb">
+    <Compile Include="bin\Release\Reports\CrystalReport4.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CrystalReport4.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="bin\Debug\Reports\CrystalReport5.vb">
+    <Compile Include="bin\Release\Reports\CrystalReport5.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CrystalReport5.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="bin\Debug\Reports\CrystalReport6.vb">
+    <Compile Include="bin\Release\Reports\CrystalReport6.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CrystalReport6.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="bin\Debug\Reports\CrystalReport7.vb">
+    <Compile Include="bin\Release\Reports\CrystalReport7.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CrystalReport7.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="bin\Debug\Reports\Form10.Designer.vb">
+    <Compile Include="bin\Release\Reports\Form10.Designer.vb">
       <DependentUpon>Form10.vb</DependentUpon>
     </Compile>
-    <Compile Include="bin\Debug\Reports\Form10.vb">
+    <Compile Include="bin\Release\Reports\Form10.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Class1.vb" />
@@ -251,39 +247,37 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="SplashScreen1.Designer.vb">
-      <DependentUpon>SplashScreen1.vb</DependentUpon>
-    </Compile>
-    <Compile Include="SplashScreen1.vb">
-      <SubType>Form</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="bin\Debug\Reports\CrystalReport2.rpt">
+    <EmbeddedResource Include="bin\Release\Reports\CrystalReport1.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="bin\Release\Reports\CrystalReport2.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CrystalReport2.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="bin\Debug\Reports\CrystalReport3.rpt">
+    <EmbeddedResource Include="bin\Release\Reports\CrystalReport3.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CrystalReport3.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="bin\Debug\Reports\CrystalReport4.rpt">
+    <EmbeddedResource Include="bin\Release\Reports\CrystalReport4.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CrystalReport4.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="bin\Debug\Reports\CrystalReport5.rpt">
+    <EmbeddedResource Include="bin\Release\Reports\CrystalReport5.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CrystalReport5.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="bin\Debug\Reports\CrystalReport6.rpt">
+    <EmbeddedResource Include="bin\Release\Reports\CrystalReport6.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CrystalReport6.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="bin\Debug\Reports\CrystalReport7.rpt">
+    <EmbeddedResource Include="bin\Release\Reports\CrystalReport7.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CrystalReport7.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="bin\Debug\Reports\Form10.resx">
+    <EmbeddedResource Include="bin\Release\Reports\Form10.resx">
       <DependentUpon>Form10.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Class2.resx">
@@ -327,15 +321,8 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="SplashScreen1.resx">
-      <DependentUpon>SplashScreen1.vb</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\Debug\account_functions.png" />
-    <None Include="bin\Debug\account_menu.png" />
-    <None Include="bin\Debug\Add.png" />
-    <None Include="bin\Debug\BackUp\BackUp--25_10_2022.accdb.bak" />
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
@@ -349,36 +336,30 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Add.png" />
+    <Content Include="Resources\BackUp.png" />
+    <Content Include="Resources\Del.png" />
+    <Content Include="Resources\Edit.png" />
+    <Content Include="Resources\Icon2.ico" />
+    <Content Include="Resources\Main1.png" />
+    <Content Include="Resources\Main2.jpg" />
+    <Content Include="Resources\Main3.png" />
+    <Content Include="Resources\printer.png" />
+    <Content Include="Resources\qwe.png" />
+    <Content Include="Resources\ShowAll.png" />
+    <Content Include="Resources\Time.ico" />
+    <Content Include="Resources\wallpaper2you_439423.jpg" />
     <None Include="Resources\Text-Edit-icon_2.png" />
     <None Include="Resources\report_user.png" />
     <None Include="Resources\R.png" />
     <None Include="packages.config" />
-    <None Include="Resources\accept_button.png" />
-    <None Include="bin\Debug\Icon1.ico" />
-    <None Include="bin\Debug\Stdnts.ico" />
-    <None Include="bin\Debug\Icon3.ico" />
-    <None Include="bin\Debug\Time.ico" />
-    <None Include="bin\Debug\ShowAll.png" />
-    <None Include="bin\Debug\Main3.jpg" />
-    <None Include="bin\Debug\getty_1146511178_ppbdmz.jpg" />
-    <None Include="bin\Debug\Del.png" />
-    <None Include="bin\Debug\qwe.png" />
-    <None Include="bin\Debug\Main1.png" />
-    <None Include="bin\Debug\folder_add.png" />
-    <None Include="bin\Debug\door_out.png" />
-    <None Include="bin\Debug\group_gear.png" />
-    <None Include="bin\Debug\table_gear.png" />
-    <None Include="bin\Debug\page_gear.png" />
-    <None Include="bin\Debug\script_gear.png" />
-    <None Include="bin\Debug\book_open.png" />
-    <EmbeddedResource Include="bin\Debug\Reports\CrystalReport1.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CrystalReport1.vb</LastGenOutput>
-    </EmbeddedResource>
     <Content Include="Icon1.ico" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Release\BackUp\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

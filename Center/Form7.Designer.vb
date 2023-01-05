@@ -31,9 +31,9 @@ Partial Class Form7
         Me.BtnClear = New System.Windows.Forms.ToolStripButton()
         Me.BtnSave = New System.Windows.Forms.ToolStripButton()
         Me.BtnDel = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
-        Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
         Me.GroupBox2.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -41,7 +41,7 @@ Partial Class Form7
         'GroupBox2
         '
         Me.GroupBox2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.GroupBox2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.GroupBox2.BackColor = System.Drawing.Color.Transparent
         Me.GroupBox2.Controls.Add(Me.Label4)
@@ -51,23 +51,25 @@ Partial Class Form7
         Me.GroupBox2.Location = New System.Drawing.Point(12, 0)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.GroupBox2.Size = New System.Drawing.Size(413, 469)
+        Me.GroupBox2.Size = New System.Drawing.Size(512, 469)
         Me.GroupBox2.TabIndex = 6
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.UseCompatibleTextRendering = True
         '
         'Label4
         '
+        Me.Label4.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label4.AutoEllipsis = True
         Me.Label4.BackColor = System.Drawing.Color.DarkCyan
-        Me.Label4.Dock = System.Windows.Forms.DockStyle.Top
         Me.Label4.Font = New System.Drawing.Font("Times New Roman", 12.25!, System.Drawing.FontStyle.Bold)
         Me.Label4.ForeColor = System.Drawing.Color.White
         Me.Label4.Location = New System.Drawing.Point(3, 16)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(407, 29)
+        Me.Label4.Size = New System.Drawing.Size(506, 55)
         Me.Label4.TabIndex = 45
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Label4.UseCompatibleTextRendering = True
         '
         'GroupBox3
         '
@@ -76,10 +78,10 @@ Partial Class Form7
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox3.BackColor = System.Drawing.Color.Transparent
         Me.GroupBox3.ForeColor = System.Drawing.Color.ForestGreen
-        Me.GroupBox3.Location = New System.Drawing.Point(3, 58)
+        Me.GroupBox3.Location = New System.Drawing.Point(3, 74)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.GroupBox3.Size = New System.Drawing.Size(407, 351)
+        Me.GroupBox3.Size = New System.Drawing.Size(506, 335)
         Me.GroupBox3.TabIndex = 44
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "تسجيل الدرجات"
@@ -91,54 +93,72 @@ Partial Class Form7
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.ToolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BtnClear, Me.BtnSave, Me.BtnDel, Me.ToolStripButton1})
-        Me.ToolStrip1.Location = New System.Drawing.Point(3, 412)
+        Me.ToolStrip1.Location = New System.Drawing.Point(3, 426)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.ToolStrip1.Size = New System.Drawing.Size(407, 54)
+        Me.ToolStrip1.Size = New System.Drawing.Size(506, 40)
         Me.ToolStrip1.Stretch = True
         Me.ToolStrip1.TabIndex = 41
         '
         'BtnClear
         '
-        Me.BtnClear.Image = CType(resources.GetObject("BtnClear.Image"), System.Drawing.Image)
+        Me.BtnClear.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
         Me.BtnClear.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.BtnClear.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnClear.Name = "BtnClear"
-        Me.BtnClear.Size = New System.Drawing.Size(36, 51)
+        Me.BtnClear.Padding = New System.Windows.Forms.Padding(6)
+        Me.BtnClear.Size = New System.Drawing.Size(56, 37)
         Me.BtnClear.Text = "جديد"
         Me.BtnClear.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'BtnSave
         '
         Me.BtnSave.Enabled = False
-        Me.BtnSave.Image = CType(resources.GetObject("BtnSave.Image"), System.Drawing.Image)
+        Me.BtnSave.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
         Me.BtnSave.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.BtnSave.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnSave.Name = "BtnSave"
-        Me.BtnSave.Size = New System.Drawing.Size(36, 51)
+        Me.BtnSave.Padding = New System.Windows.Forms.Padding(6)
+        Me.BtnSave.Size = New System.Drawing.Size(56, 37)
         Me.BtnSave.Text = "حفظ"
         Me.BtnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'BtnDel
         '
         Me.BtnDel.Enabled = False
-        Me.BtnDel.Image = Global.WindowsApp1.My.Resources.Resources.Del
+        Me.BtnDel.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
         Me.BtnDel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.BtnDel.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnDel.Name = "BtnDel"
-        Me.BtnDel.Size = New System.Drawing.Size(36, 51)
+        Me.BtnDel.Padding = New System.Windows.Forms.Padding(6)
+        Me.BtnDel.Size = New System.Drawing.Size(59, 37)
         Me.BtnDel.Text = "حذف"
         Me.BtnDel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
+        'ToolStripButton1
+        '
+        Me.ToolStripButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
+        Me.ToolStripButton1.Enabled = False
+        Me.ToolStripButton1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
+        Me.ToolStripButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.ToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton1.Name = "ToolStripButton1"
+        Me.ToolStripButton1.Padding = New System.Windows.Forms.Padding(6)
+        Me.ToolStripButton1.Size = New System.Drawing.Size(65, 37)
+        Me.ToolStripButton1.Text = "طباعة"
+        Me.ToolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
         'GroupBox1
         '
+        Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox1.BackColor = System.Drawing.Color.Transparent
-        Me.GroupBox1.Dock = System.Windows.Forms.DockStyle.Right
         Me.GroupBox1.ForeColor = System.Drawing.Color.ForestGreen
-        Me.GroupBox1.Location = New System.Drawing.Point(428, 0)
+        Me.GroupBox1.Location = New System.Drawing.Point(530, 0)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.GroupBox1.Size = New System.Drawing.Size(406, 469)
+        Me.GroupBox1.Size = New System.Drawing.Size(304, 469)
         Me.GroupBox1.TabIndex = 5
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "اختر اليوم"
@@ -150,18 +170,6 @@ Partial Class Form7
         Me.ImageList1.TransparentColor = System.Drawing.Color.Transparent
         Me.ImageList1.Images.SetKeyName(0, "ShowAll.png")
         Me.ImageList1.Images.SetKeyName(1, "Time.ico")
-        '
-        'ToolStripButton1
-        '
-        Me.ToolStripButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
-        Me.ToolStripButton1.Enabled = False
-        Me.ToolStripButton1.Image = Global.WindowsApp1.My.Resources.Resources.Del
-        Me.ToolStripButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.ToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton1.Name = "ToolStripButton1"
-        Me.ToolStripButton1.Size = New System.Drawing.Size(41, 51)
-        Me.ToolStripButton1.Text = "طباعة"
-        Me.ToolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'Form7
         '

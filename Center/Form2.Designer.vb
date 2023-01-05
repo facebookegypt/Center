@@ -147,7 +147,7 @@ Partial Class Form2
         'ToolStripButton1
         '
         Me.ToolStripButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
-        Me.ToolStripButton1.Image = Global.WindowsApp1.My.Resources.Resources.ShowAll
+        Me.ToolStripButton1.Image = Global.WindowsApp1.My.Resources.Resources.R
         Me.ToolStripButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.ToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton1.Name = "ToolStripButton1"
@@ -163,7 +163,6 @@ Partial Class Form2
         'ToolStripButton3
         '
         Me.ToolStripButton3.Enabled = False
-        Me.ToolStripButton3.Image = Global.WindowsApp1.My.Resources.Resources.Time
         Me.ToolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton3.Name = "ToolStripButton3"
         Me.ToolStripButton3.Size = New System.Drawing.Size(51, 51)
@@ -185,7 +184,7 @@ Partial Class Form2
         '
         Me.ToolStripButton4.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
         Me.ToolStripButton4.Enabled = False
-        Me.ToolStripButton4.Image = Global.WindowsApp1.My.Resources.Resources.report_user
+        Me.ToolStripButton4.Image = Global.WindowsApp1.My.Resources.Resources.printer
         Me.ToolStripButton4.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.ToolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton4.Name = "ToolStripButton4"
@@ -350,12 +349,12 @@ Partial Class Form2
         '
         'Button2
         '
-        Me.Button2.BackgroundImage = Global.WindowsApp1.My.Resources.Resources.R
         Me.Button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
         Me.Button2.Dock = System.Windows.Forms.DockStyle.Left
         Me.Button2.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
         Me.Button2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.WhiteSmoke
         Me.Button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button2.Image = Global.WindowsApp1.My.Resources.Resources.R
         Me.Button2.Location = New System.Drawing.Point(3, 16)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(29, 31)
@@ -441,6 +440,7 @@ Partial Class Form2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.ClientSize = New System.Drawing.Size(800, 472)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.GroupBox4)

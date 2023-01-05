@@ -8,8 +8,6 @@
         WindowState = FormWindowState.Normal
         RightToLeft = RightToLeft.Yes
         KeyPreview = True
-        BackgroundImageLayout = ImageLayout.Center
-        BackgroundImage = Image.FromFile(IO.Path.Combine(Application.StartupPath, "Main3.png"), True)
         TxtNm.Select()
         TxtNm.Text = My.Settings.LocalBackUpFolder
         TxtNm.ReadOnly = True
@@ -97,5 +95,9 @@
             Close()
             End
         End If
+    End Sub
+
+    Private Sub Form3_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+        Dispose()
     End Sub
 End Class

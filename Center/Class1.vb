@@ -4,23 +4,7 @@ Imports Microsoft.Win32
 Imports Tulpep.NotificationWindow
 Public Class Class1
     Public Property ConstrU As String
-    Public Property PopupNotifier1 = New PopupNotifier With
-        {
-        .ShowCloseButton = True,
-        .ShowOptionsButton = True,
-        .TitleFont = New Font("Times New Roman", 12, FontStyle.Bold),
-        .TitleColor = Color.Black,
-        .TitlePadding = New Padding(5),
-        .ContentFont = New Font("Arial", 10.25, FontStyle.Bold),
-        .ContentColor = Color.White,
-        .IsRightToLeft = True,
-        .TitleText = "مرحبا فى برنامج C E N T E R",
-        .Delay = 5000,
-        .BorderColor = Color.Red,
-        .HeaderColor = Color.Red,
-        .BodyColor = Color.DeepSkyBlue,
-        .GradientPower = 10
-    }
+    Public Property PopupNotifier1 = New PopupNotifier
     Private Function DbFound() As Boolean
         If IO.File.Exists(IO.Path.Combine(Application.StartupPath, My.Settings.dbNm)) Then
             Return True
@@ -60,16 +44,14 @@ Public Class Class1
         ConstrU = "مشكلة فى ملفات الأكسس"
         Dim Ilist As List(Of String) = New List(Of String)
         Ilist = FindProvider()
-        Dim Pro As String = String.Empty
         If DbFound() Then
             If String.IsNullOrEmpty(My.Settings.Provider) Then
                 If Ilist.Count > 1 Then
                     Class2.Txt1.Text = String.Join(",", Ilist)
                     Class2.ShowDialog()
-                    Pro = Class2.Txt1.Text
-                    My.Settings.Provider = Pro
+                    My.Settings.Provider = Class2.Pro
                     My.Settings.Save()
-                    ConstrU = Pro & IO.Path.Combine(Application.StartupPath, My.Settings.dbNm) & ";" &
+                    ConstrU = My.Settings.Provider & IO.Path.Combine(Application.StartupPath, My.Settings.dbNm) & ";" &
                     "Jet OLEDB:Database Password= " & My.Settings.dbPass & ";" &
                     "Persist Security Info=False;"
                 Else
@@ -212,6 +194,7 @@ Public Class Class1
             .EndUpdate()
             .Update()
         End With
+        DT1.Dispose()
     End Sub
     Public Function GetCount1(ByVal SqlStr As String) As Object
         Dim Rslt As String = String.Empty

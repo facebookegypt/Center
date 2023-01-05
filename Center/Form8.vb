@@ -8,30 +8,8 @@ Public Class Form8
     Private Property StAttVal As Boolean
     Private Property GrID1 As Integer
     Public Property Constr1 As String = IC.ConStr
-    Private TRV As TreeView = New TreeView With {
-        .Dock = DockStyle.Fill,
-        .RightToLeftLayout = True,
-        .LineColor = Color.Red,
-        .Font = New Font("Ariel", 11),
-        .PathSeparator = "-",
-        .HotTracking = True,
-        .HideSelection = False, .FullRowSelect = True, .ShowLines = True, .ShowPlusMinus = True, .ShowRootLines = True,
-        .BorderStyle = BorderStyle.None
-    }
-    Private DGStdnts As DataGridView = New DataGridView With
-        {
-        .Name = "DGV2",
-        .BorderStyle = BorderStyle.None,
-        .RightToLeft = RightToLeft.Yes,
-        .AllowUserToAddRows = False,
-        .Dock = DockStyle.Fill,
-        .EnableHeadersVisualStyles = False,
-        .RowHeadersVisible = True,
-        .BackgroundColor = Color.WhiteSmoke,
-        .ColumnHeadersHeight = 50,
-        .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing,
-        .ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised
-    }
+    Private WithEvents TRV As TreeView
+    Private WithEvents DGStdnts As DataGridView
     Private Dtable As DataTable, Dtable1 As DataTable
     Private RptSrc As String
     Private Function GetMainTree(ByVal DT As DataTable) As TreeView
@@ -60,8 +38,32 @@ Public Class Form8
         KeyPreview = True
         Text = "تسجيل حضور و غياب الطلبة"
         DoubleBuffered = True
+        DGStdnts = New DataGridView With
+        {
+        .Name = "DGV2",
+        .BorderStyle = BorderStyle.None,
+        .RightToLeft = RightToLeft.Yes,
+        .AllowUserToAddRows = False,
+        .Dock = DockStyle.Fill,
+        .EnableHeadersVisualStyles = False,
+        .RowHeadersVisible = True,
+        .BackgroundColor = Color.WhiteSmoke,
+        .ColumnHeadersHeight = 50,
+        .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing,
+        .ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised
+    }
         'WindowState = FormWindowState.Maximized
-        MdiParent = Form1
+        'MdiParent = Form1
+        TRV = New TreeView With {
+        .Dock = DockStyle.Fill,
+        .RightToLeftLayout = True,
+        .LineColor = Color.Red,
+        .Font = New Font("Ariel", 11),
+        .PathSeparator = "-",
+        .HotTracking = True,
+        .HideSelection = False, .FullRowSelect = True, .ShowLines = True, .ShowPlusMinus = True, .ShowRootLines = True,
+        .BorderStyle = BorderStyle.None
+    }
         'Create View of all Groups Dates
         With TRV
             .BackColor = SystemColors.Control
@@ -277,6 +279,7 @@ Public Class Form8
     End Sub
     Private Sub BtnSave_Click(sender As Object, e As EventArgs) Handles BtnSave.Click
         'Dim CNTra As OleDbTransaction = Nothing
+        Cursor = Cursors.WaitCursor
         Dim N As Integer
         Dim SqlStr1 As String =
                 "DELETE * FROM Attnd WHERE GrDtID=?;"
@@ -288,10 +291,18 @@ Public Class Form8
             With cmd.Parameters
                 .AddWithValue("?", GrDtID1)
             End With
-            cn.Open()
-            'Irow in the database "True" then do nothing
-            N = cmd.ExecuteNonQuery()
-            cmd.Parameters.Clear()
+            Try
+                cn.Open()
+                'Irow in the database "True" then do nothing
+                N = cmd.ExecuteNonQuery()
+                cmd.Parameters.Clear()
+            Catch ex As OleDbException
+                MsgBox(ex.Message,
+                       MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight +
+                       MsgBoxStyle.Critical + MsgBoxStyle.YesNoCancel)
+                Cursor = Cursors.Default
+            End Try
+
         End Using
 
         Dim sqlstr As String = "INSERT INTO Attnd(GrDtID,StID,Pstat,DtCrtd,DtMdfd) VALUES(?,?,?,?,?);"
@@ -306,9 +317,16 @@ Public Class Form8
                     .AddWithValue("?", Now.Date)
                     .AddWithValue("?", Now.Date)
                 End With
-                cn.Open()
-                cmd.ExecuteNonQuery()
-                cmd.Parameters.Clear()
+                Try
+                    cn.Open()
+                    cmd.ExecuteNonQuery()
+                    cmd.Parameters.Clear()
+                Catch ex As OleDbException
+                    MsgBox(ex.Message,
+                       MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight +
+                       MsgBoxStyle.Critical + MsgBoxStyle.YesNoCancel)
+                    Cursor = Cursors.Default
+                End Try
             End Using
         Next
         MsgBox("تم تسجيل غياب المجموعة اليوم بنجاح",
@@ -316,7 +334,7 @@ Public Class Form8
         ConDGV("SELECT Stdnts.StID, Stdnts.StNm, Attnd.PStat FROM (Stdnts INNER JOIN Attnd ON Stdnts.StID = Attnd.StID) INNER JOIN " &
                    "(GrSt INNER JOIN Grps ON GrSt.GrID = Grps.GrID) ON Stdnts.StID = GrSt.StID WHERE (((GrSt.GrID)=" & GrID1 & ") AND " &
                    "((Attnd.GrDtID)=" & GrDtID1 & ")) ORDER BY Stdnts.StID;")
-
+        Cursor = Cursors.Default
     End Sub
     Private Sub BtnClear_Click(sender As Object, e As EventArgs) Handles BtnClear.Click
         Dim SqlStr As String =
@@ -347,7 +365,6 @@ Public Class Form8
         BtnSave.Enabled = True
         BtnPrint.Enabled = False
     End Sub
-
     Private Sub Form8_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         'Use KeyCode when you don't care about the modifiers, KeyData when you do.
         If e.KeyCode = Keys.S AndAlso e.Modifiers = Keys.Control Then
@@ -422,5 +439,10 @@ Public Class Form8
         Else
             DGStdnts.AllowUserToDeleteRows = False
         End If
+    End Sub
+
+    Private Sub Form8_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        DGStdnts = Nothing
+        TRV = Nothing
     End Sub
 End Class

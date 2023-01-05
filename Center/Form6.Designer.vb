@@ -119,7 +119,7 @@ Partial Class Form6
         'ToolStripButton6
         '
         Me.ToolStripButton6.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
-        Me.ToolStripButton6.Image = Global.WindowsApp1.My.Resources.Resources.ShowAll
+        Me.ToolStripButton6.Image = Global.WindowsApp1.My.Resources.Resources.R
         Me.ToolStripButton6.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.ToolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton6.Name = "ToolStripButton6"

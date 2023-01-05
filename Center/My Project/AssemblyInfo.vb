@@ -8,8 +8,8 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("SMS Center")>
-<Assembly: AssemblyDescription("Students Management System")>
+<Assembly: AssemblyTitle("S M S Center")>
+<Assembly: AssemblyDescription("Students Management System By Ahmed Samir")>
 <Assembly: AssemblyCompany("Evry1falls")>
 <Assembly: AssemblyProduct("SMS Center App.")>
 <Assembly: AssemblyCopyright("Copyright © Evry1falls-01012209977 2022")>

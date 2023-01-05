@@ -5,20 +5,8 @@ Public Class Form2
     Private StNm, StMob1, StMob2 As String
     Public Property StID1 As Integer
     Public Property GrID1 As Integer
-    Private DGStdnts As DataGridView = New DataGridView With
-        {.Name = "DGV2", .BorderStyle = BorderStyle.None, .RightToLeft = RightToLeft.Yes,
-        .AllowUserToAddRows = False, .Dock = DockStyle.Fill,
-        .RowHeadersVisible = True, .BackgroundColor = Color.WhiteSmoke, .ColumnHeadersHeight = 50,
-         .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing},
-        Dt1 As DataTable, dt2 As DataTable
-    Private Mnu1 As ToolStripMenuItem = New ToolStripMenuItem With
-        {
-        .Name = "Mnu1", .Enabled = True, .Text = "نقل الي مجموعة اخري", .Visible = True
-    }
-    Private Mnu2 As ToolStripMenuItem = New ToolStripMenuItem With
-        {
-        .Name = "Mnu2", .Enabled = True, .Text = "حذف من المجموعة الحالية", .Visible = True
-    }
+    Private WithEvents DGStdnts As New DataGridView
+
     Private Function GetGrpName(ByVal SqlStr As String) As String()
         Dim Rslt As String() = Nothing
         Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
@@ -36,26 +24,47 @@ Public Class Form2
         End Using
         Return Rslt
     End Function
-    Private Sub GetStdnts(ByVal SqlStr As String)
-        Dim Dt2 As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
+    Private Sub DGSTDNTS_RowPostPaint(sender As Object, e As DataGridViewRowPostPaintEventArgs)
+        Dim grid = TryCast(sender, DataGridView)
+        Dim rowIdx As String = Convert.ToString(e.RowIndex + 1)
+        Using centerFormat As StringFormat = New StringFormat() With
+            {.Alignment = StringAlignment.Center, .LineAlignment = StringAlignment.Center}
+            Dim headerBounds =
+                New Rectangle(e.RowBounds.Right - 42, e.RowBounds.Top, grid.RowHeadersWidth, e.RowBounds.Height)
+            e.Graphics.DrawString(rowIdx, Font, SystemBrushes.ControlText, headerBounds, centerFormat)
+        End Using
+
+    End Sub
+    Private Sub ConDGV(ByVal SqlStr As String)
+        Dim DT2 As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
         Using CN = New OleDbConnection With {.ConnectionString = Constr1()},
             CMD = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text},
             DataAdapter1 = New OleDbDataAdapter(CMD)
-            DataAdapter1.Fill(Dt2)
+            DataAdapter1.Fill(DT2)
         End Using
+        GroupBox2.Controls.Add(DGStdnts)
         With DGStdnts
-                .EnableHeadersVisualStyles = False  'Will display the custom formats of mine.
-                .EditMode = DataGridViewEditMode.EditOnEnter
-                .GridColor = SystemColors.Control
-                .SelectionMode = DataGridViewSelectionMode.FullRowSelect
-                .MultiSelect = False
-            .ReadOnly = True
-            .DefaultCellStyle.WrapMode = DataGridViewTriState.True
             .AutoGenerateColumns = False
             .DataSource = Nothing
-            .DataSource = New BindingSource(Dt2.DefaultView, Nothing)
+            .DataSource = New BindingSource(DT2.DefaultView, Nothing)
+            .MultiSelect = False
+            .SelectionMode = DataGridViewSelectionMode.FullRowSelect
+            .ReadOnly = True
+            .DefaultCellStyle.WrapMode = DataGridViewTriState.True
+            .Name = "DGV2"
+            .BorderStyle = BorderStyle.None
+            .RightToLeft = RightToLeft.Yes
+            .AllowUserToAddRows = False
+            .Dock = DockStyle.Fill
+            .RowHeadersVisible = True
+            .BackgroundColor = Color.WhiteSmoke
+            .ColumnHeadersHeight = 50
+            .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+
+            .EnableHeadersVisualStyles = False  'Will display the custom formats of mine.
+            .EditMode = DataGridViewEditMode.EditOnEnter
+            .GridColor = SystemColors.Control
         End With
-        GroupBox2.Controls.Add(DGStdnts)
         With DGStdnts.ColumnHeadersDefaultCellStyle
             .BackColor = Color.DarkCyan
             .ForeColor = Color.White
@@ -72,23 +81,6 @@ Public Class Form2
             .SelectionBackColor = Color.LightCyan
             .SelectionForeColor = Color.Navy
         End With
-        AddHandler DGStdnts.RowPostPaint, AddressOf DGSTDNTS_RowPostPaint
-        AddHandler DGStdnts.CellClick, AddressOf DGStdnts_CellClick
-
-    End Sub
-    Private Sub DGSTDNTS_RowPostPaint(sender As Object, e As DataGridViewRowPostPaintEventArgs)
-        Dim grid = TryCast(sender, DataGridView)
-        Dim rowIdx As String = Convert.ToString(e.RowIndex + 1)
-        Using centerFormat As StringFormat = New StringFormat() With
-            {.Alignment = StringAlignment.Center, .LineAlignment = StringAlignment.Center}
-            Dim headerBounds =
-                New Rectangle(e.RowBounds.Right - 42, e.RowBounds.Top, grid.RowHeadersWidth, e.RowBounds.Height)
-            e.Graphics.DrawString(rowIdx, Font, SystemBrushes.ControlText, headerBounds, centerFormat)
-        End Using
-    End Sub
-    Private Sub ConDGV(ByVal SqlStr As String)
-        'SqlStr = <sql>SELECT * From Stdnts;</sql>.Value
-        GetStdnts(SqlStr)
         Dim DIg2 As New DataGridViewTextBoxColumn With
             {.Name = "StNm", .ValueType = GetType(String), .DataPropertyName = "StNm", .HeaderText = "اسم الطالب"}
         Dim DIg0 As New DataGridViewTextBoxColumn With
@@ -107,6 +99,9 @@ Public Class Form2
         DIg0.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
         DIg_1.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
         DIg1.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+        DT2.Dispose()
+        AddHandler DGStdnts.RowPostPaint, AddressOf DGSTDNTS_RowPostPaint
+        AddHandler DGStdnts.CellClick, AddressOf DGStdnts_CellClick
     End Sub
     Private Sub DGStdnts_CellClick(sender As Object, e As DataGridViewCellEventArgs)
         If e.RowIndex = -1 Or e.ColumnIndex = -1 Then Exit Sub
@@ -122,68 +117,10 @@ Public Class Form2
             "SELECT Stdnts.StID, Grps.GrNm FROM (Stdnts INNER JOIN GrSt ON Stdnts.StID = GrSt.StID) INNER JOIN Grps " &
             "ON GrSt.GrID = Grps.GrID WHERE (((Stdnts.StID)=" & StID1 & "));"
         ToolStripStatusLabel2.Text = "المجموعه : " & GetGrpName(SqlStr).First
-        Dim SqlStr1 As String = <sql>SELECT COUNT(GrID) FROM GrSt Where StID=<%= StID1 %>;</sql>.Value
-        If Convert.ToInt32(IC.GetCount1(SqlStr1)) >= 1 Then
-            Dim dropDownItems As ToolStripItemCollection = Form1.SToolStripMenuItem.DropDownItems
-            dropDownItems.AddRange({Mnu1, Mnu2})
-            AddHandler Mnu1.Click, AddressOf Mnu1_click
-            AddHandler Mnu2.Click, AddressOf Mnu2_click
-            ToolStripButton3.Enabled = True
-        Else
-            ToolStripButton3.Enabled = False
-            Dim dropDownItems As ToolStripItemCollection = Form1.SToolStripMenuItem.DropDownItems
-            If dropDownItems.Count > 0 Then
-                dropDownItems.Clear()
-            End If
-        End If
         BtnEdit.Enabled = True
         BtnDel.Enabled = True
         BtnSave.Enabled = False
         ToolStripButton4.Enabled = True
-    End Sub
-    Private Sub Mnu1_click(sender As Object, e As EventArgs)
-        Class3.ShowDialog()
-        RemoveHandler Mnu1.Click, AddressOf Mnu1_click
-    End Sub
-    Private Sub Mnu2_click(sender As Object, e As EventArgs)
-        If StID1 <= 0 Then
-            MsgBox("من فضلك اختر طالب أولا.")
-            Exit Sub
-        End If
-        Dim SqlStr As String = <sql>SELECT COUNT(GrID) FROM GrSt Where StID=<%= StID1 %>;</sql>.Value
-        If Convert.ToInt32(IC.GetCount1(SqlStr)) >= 1 Then
-            Dim RUSre As MsgBoxResult = MsgBox("تأكيد حذف الطالب من المجموعة فقط.",
-                                               MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight +
-                                               MsgBoxStyle.Critical + MsgBoxStyle.YesNoCancel)
-            If RUSre = MsgBoxResult.Yes Then
-                Dim N As Integer
-                Dim SqlStr1 As String =
-                        <SQL>DELETE * FROM GrSt WHERE GrSt.StID=?;</SQL>.Value
-                Using CN As New OleDbConnection With {.ConnectionString = Constr1},
-                            CMD As New OleDbCommand(SqlStr1, CN) With {.CommandType = CommandType.Text}
-                    With CMD.Parameters
-                        .AddWithValue("?", StID1)
-                    End With
-                    CN.Open()
-                    N = CMD.ExecuteNonQuery
-                    CMD.Parameters.Clear()
-                End Using
-                Dim SqlStr2 As String =
-                        <SQL>DELETE * FROM Attnd WHERE Attnd.StID=?;</SQL>.Value
-                Using CN As New OleDbConnection With {.ConnectionString = Constr1},
-                            CMD As New OleDbCommand(SqlStr1, CN) With {.CommandType = CommandType.Text}
-                    With CMD.Parameters
-                        .AddWithValue("?", StID1)
-                    End With
-                    CN.Open()
-                    N = CMD.ExecuteNonQuery
-                    CMD.Parameters.Clear()
-                End Using
-                MsgBox("تم حذف الطالب من المجموعة , وكشوف الغياب", _
-                       MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Information)
-            End If
-        End If
-        RemoveHandler Mnu2.Click, AddressOf Mnu2_click
     End Sub
     Private Sub BtnClear_Click(sender As Object, e As EventArgs) Handles BtnClear.Click
         For Each Ctrl As Control In Me.GroupBox1.Controls
@@ -201,6 +138,10 @@ Public Class Form2
         BtnDel.Enabled = False
         ToolStripButton4.Enabled = False
         ToolStripButton3.Enabled = False
+        GroupBox2.Controls.Remove(DGStdnts)
+        GroupBox2.Refresh()
+        RemoveHandler DGStdnts.CellClick, AddressOf DGStdnts_CellClick
+        RemoveHandler DGStdnts.RowPostPaint, AddressOf DGSTDNTS_RowPostPaint
     End Sub
     Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
         ToolStripStatusLabel1.Text = "لديك " & GetCount("Stdnts", "StID") & " طالب."
@@ -361,11 +302,13 @@ Public Class Form2
         KeyPreview = True
         Constr1 = IC.ConStr
         'WindowState = FormWindowState.Maximized
-        BackgroundImage = Image.FromFile(IO.Path.Combine(Application.StartupPath, "Main2.jpg"), True)
+        'BackgroundImage = My.Resources.Main2
         ComboBox1.SelectedIndex = 0
         Dim sqlstr As String = <sql>SELECT GrDt.GrID, Grps.GrNm FROM Grps INNER JOIN GrDt ON Grps.GrID = GrDt.GrID 
             GROUP BY GrDt.GrID, Grps.GrNm;</sql>.Value
+        Dim Dt1 = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
         IC.GetGrps(Dt1, Constr1, sqlstr, ComboBox2, "GrNm", "GrID")
+        Dt1.Dispose()
     End Sub
     Private Sub Form2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
         If e.KeyChar = ChrW(Keys.Escape) Then Close()
@@ -509,6 +452,12 @@ Public Class Form2
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
         Dim sqlstr As String = <sql>SELECT GrDt.GrID, Grps.GrNm FROM Grps INNER JOIN GrDt ON Grps.GrID = GrDt.GrID 
             GROUP BY GrDt.GrID, Grps.GrNm;</sql>.Value
+        Dim Dt1 As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
         IC.GetGrps(Dt1, Constr1, sqlstr, ComboBox2, "GrNm", "GrID")
+        Dt1.Dispose()
+    End Sub
+    Private Sub Form2_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+        DGStdnts.Dispose()
+        Dispose()
     End Sub
 End Class

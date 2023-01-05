@@ -41,7 +41,7 @@ Partial Class Form9
         Me.GroupBox1.Controls.Add(Me.ComboBox1)
         Me.GroupBox1.Dock = System.Windows.Forms.DockStyle.Right
         Me.GroupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.GroupBox1.Location = New System.Drawing.Point(570, 0)
+        Me.GroupBox1.Location = New System.Drawing.Point(658, 0)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.GroupBox1.Size = New System.Drawing.Size(230, 450)
@@ -54,6 +54,8 @@ Partial Class Form9
         '
         Me.Button1.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.Button1.Enabled = False
+        Me.Button1.Image = Global.WindowsApp1.My.Resources.Resources.printer
+        Me.Button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.Button1.Location = New System.Drawing.Point(3, 417)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(224, 30)
@@ -102,7 +104,7 @@ Partial Class Form9
         Me.GroupBox2.Location = New System.Drawing.Point(1, 0)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.GroupBox2.Size = New System.Drawing.Size(563, 450)
+        Me.GroupBox2.Size = New System.Drawing.Size(651, 450)
         Me.GroupBox2.TabIndex = 2
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "معاينة"
@@ -120,7 +122,7 @@ Partial Class Form9
         Me.CrystalReportViewer1.ShowGroupTreeButton = False
         Me.CrystalReportViewer1.ShowLogo = False
         Me.CrystalReportViewer1.ShowParameterPanelButton = False
-        Me.CrystalReportViewer1.Size = New System.Drawing.Size(557, 431)
+        Me.CrystalReportViewer1.Size = New System.Drawing.Size(645, 431)
         Me.CrystalReportViewer1.TabIndex = 2
         Me.CrystalReportViewer1.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None
         '
@@ -128,11 +130,13 @@ Partial Class Form9
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(888, 450)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Form9"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Form9"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox2.ResumeLayout(False)
