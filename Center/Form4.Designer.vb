@@ -111,7 +111,7 @@ Partial Class Form4
         Me.Label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Label2.Font = New System.Drawing.Font("Times New Roman", 11.0!)
-        Me.Label2.ForeColor = System.Drawing.Color.Beige
+        Me.Label2.ForeColor = System.Drawing.Color.Green
         Me.Label2.Location = New System.Drawing.Point(515, 139)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(29, 25)
@@ -129,7 +129,7 @@ Partial Class Form4
         Me.CheckBox1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.CheckBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.CheckBox1.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.CheckBox1.ForeColor = System.Drawing.Color.YellowGreen
+        Me.CheckBox1.ForeColor = System.Drawing.Color.Green
         Me.CheckBox1.Location = New System.Drawing.Point(163, 108)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Padding = New System.Windows.Forms.Padding(2)
@@ -161,7 +161,7 @@ Partial Class Form4
         Me.Label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Label1.Font = New System.Drawing.Font("Times New Roman", 11.0!)
-        Me.Label1.ForeColor = System.Drawing.Color.Beige
+        Me.Label1.ForeColor = System.Drawing.Color.Green
         Me.Label1.Location = New System.Drawing.Point(291, 139)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(100, 25)
@@ -177,8 +177,8 @@ Partial Class Form4
         Me.Button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray
         Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button1.ForeColor = System.Drawing.Color.SeaShell
-        Me.Button1.Location = New System.Drawing.Point(293, 44)
+        Me.Button1.ForeColor = System.Drawing.Color.Green
+        Me.Button1.Location = New System.Drawing.Point(316, 44)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(75, 25)
         Me.Button1.TabIndex = 38
@@ -201,21 +201,23 @@ Partial Class Form4
         '
         'BtnClear
         '
-        Me.BtnClear.Image = CType(resources.GetObject("BtnClear.Image"), System.Drawing.Image)
+        Me.BtnClear.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Bold)
         Me.BtnClear.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.BtnClear.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnClear.Name = "BtnClear"
-        Me.BtnClear.Size = New System.Drawing.Size(36, 51)
+        Me.BtnClear.Padding = New System.Windows.Forms.Padding(6)
+        Me.BtnClear.Size = New System.Drawing.Size(55, 51)
         Me.BtnClear.Text = "جديد"
         Me.BtnClear.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'BtnSave
         '
-        Me.BtnSave.Image = CType(resources.GetObject("BtnSave.Image"), System.Drawing.Image)
+        Me.BtnSave.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Bold)
         Me.BtnSave.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.BtnSave.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnSave.Name = "BtnSave"
-        Me.BtnSave.Size = New System.Drawing.Size(36, 51)
+        Me.BtnSave.Padding = New System.Windows.Forms.Padding(6)
+        Me.BtnSave.Size = New System.Drawing.Size(55, 51)
         Me.BtnSave.Text = "حفظ"
         Me.BtnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -233,22 +235,24 @@ Partial Class Form4
         'BtnEdit
         '
         Me.BtnEdit.Enabled = False
-        Me.BtnEdit.Image = CType(resources.GetObject("BtnEdit.Image"), System.Drawing.Image)
+        Me.BtnEdit.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Bold)
         Me.BtnEdit.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.BtnEdit.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnEdit.Name = "BtnEdit"
-        Me.BtnEdit.Size = New System.Drawing.Size(40, 51)
+        Me.BtnEdit.Padding = New System.Windows.Forms.Padding(6)
+        Me.BtnEdit.Size = New System.Drawing.Size(62, 51)
         Me.BtnEdit.Text = "تعديل"
         Me.BtnEdit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'BtnDel
         '
         Me.BtnDel.Enabled = False
-        Me.BtnDel.Image = CType(resources.GetObject("BtnDel.Image"), System.Drawing.Image)
+        Me.BtnDel.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Bold)
         Me.BtnDel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.BtnDel.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnDel.Name = "BtnDel"
-        Me.BtnDel.Size = New System.Drawing.Size(36, 51)
+        Me.BtnDel.Padding = New System.Windows.Forms.Padding(6)
+        Me.BtnDel.Size = New System.Drawing.Size(57, 51)
         Me.BtnDel.Text = "حذف"
         Me.BtnDel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -281,7 +285,7 @@ Partial Class Form4
         Me.TextBox1.ForeColor = System.Drawing.Color.ForestGreen
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Padding = New System.Windows.Forms.Padding(2)
-        Me.TextBox1.Size = New System.Drawing.Size(122, 54)
+        Me.TextBox1.Size = New System.Drawing.Size(118, 54)
         '
         'ToolStripSeparator2
         '
@@ -352,7 +356,7 @@ Partial Class Form4
         Me.Label4.AutoEllipsis = True
         Me.Label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label4.Font = New System.Drawing.Font("Times New Roman", 11.0!)
-        Me.Label4.ForeColor = System.Drawing.Color.Beige
+        Me.Label4.ForeColor = System.Drawing.Color.Green
         Me.Label4.Location = New System.Drawing.Point(628, 44)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(100, 25)
@@ -378,10 +382,10 @@ Partial Class Form4
         Me.Label5.AutoEllipsis = True
         Me.Label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label5.Font = New System.Drawing.Font("Times New Roman", 11.0!)
-        Me.Label5.ForeColor = System.Drawing.Color.Beige
+        Me.Label5.ForeColor = System.Drawing.Color.Green
         Me.Label5.Location = New System.Drawing.Point(628, 77)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(100, 24)
+        Me.Label5.Size = New System.Drawing.Size(100, 25)
         Me.Label5.TabIndex = 31
         Me.Label5.Text = "الشهر"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -406,7 +410,7 @@ Partial Class Form4
         Me.Label8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label8.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Label8.Font = New System.Drawing.Font("Times New Roman", 11.0!)
-        Me.Label8.ForeColor = System.Drawing.Color.Beige
+        Me.Label8.ForeColor = System.Drawing.Color.Green
         Me.Label8.Location = New System.Drawing.Point(628, 139)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(100, 25)
@@ -432,10 +436,10 @@ Partial Class Form4
         Me.Label6.AutoEllipsis = True
         Me.Label6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label6.Font = New System.Drawing.Font("Times New Roman", 11.0!)
-        Me.Label6.ForeColor = System.Drawing.Color.Beige
+        Me.Label6.ForeColor = System.Drawing.Color.Green
         Me.Label6.Location = New System.Drawing.Point(628, 108)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(100, 24)
+        Me.Label6.Size = New System.Drawing.Size(100, 25)
         Me.Label6.TabIndex = 24
         Me.Label6.Text = "اليوم/الساعه"
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -445,7 +449,6 @@ Partial Class Form4
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), System.Drawing.Image)
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.ClientSize = New System.Drawing.Size(748, 479)
         Me.Controls.Add(Me.GroupBox5)

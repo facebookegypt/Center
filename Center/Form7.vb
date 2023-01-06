@@ -200,7 +200,7 @@ Public Class Form7
 
         DGStdnts.Columns("StID").HeaderCell.Value = "كود الطالب"
         DGStdnts.Columns("StID").ReadOnly = True
-        DGStdnts.Columns("StID").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+        DGStdnts.Columns("StID").AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader
         DGStdnts.Columns("StNm").HeaderCell.Value = "اسم الطالب"
         DGStdnts.Columns("StNm").ReadOnly = True
         DGStdnts.Columns("StNm").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill

@@ -121,6 +121,7 @@ Public Class Form2
         BtnDel.Enabled = True
         BtnSave.Enabled = False
         ToolStripButton4.Enabled = True
+        ToolStripButton3.Enabled = True
     End Sub
     Private Sub BtnClear_Click(sender As Object, e As EventArgs) Handles BtnClear.Click
         For Each Ctrl As Control In Me.GroupBox1.Controls
@@ -414,13 +415,6 @@ Public Class Form2
         Dim Rslt As String = "عدد الطلاب بالمجموعة : "
         GroupBox3.Text = Rslt & Convert.ToInt32(IC.GetCount1(SqlStr)) & " طالب."
     End Sub
-    Private Sub Form2_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        Dim dropDownItems As ToolStripItemCollection = Form1.SToolStripMenuItem.DropDownItems
-        If dropDownItems.Count > 0 Then
-            dropDownItems.Clear()
-        End If
-    End Sub
-
     Private Sub Form2_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         'Use KeyCode when you don't care about the modifiers, KeyData when you do.
         If e.KeyCode = Keys.S AndAlso e.Modifiers = Keys.Control Then
@@ -457,7 +451,11 @@ Public Class Form2
         Dt1.Dispose()
     End Sub
     Private Sub Form2_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+        DGStdnts.DataSource = Nothing
         DGStdnts.Dispose()
+        GC.Collect()
+        GC.WaitForPendingFinalizers()
+        GC.Collect()
         Dispose()
     End Sub
 End Class

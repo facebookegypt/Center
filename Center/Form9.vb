@@ -27,7 +27,8 @@ Public Class Form9
             "GrDt.GrDtID = Attnd.GrDtID GROUP BY GrDt.GrID, Grps.GrNm, Format([Mnm],'mmmm/yyyy') HAVING " &
             "(((Format([Mnm],'mmmm/yyyy'))='" & CrrDtNm & "')) ORDER BY GrDt.GrID ASC;"
         '        DT = New DataTable
-        Dim DT As DataTable = Ii.GetData(SqlStr4)
+        Dim DT As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.CurrentCulture}
+        DT = Ii.GetData(SqlStr4)
         With ComboBox1
             '.Items.Clear()
             .BeginUpdate()
@@ -70,7 +71,7 @@ Public Class Form9
             End Try
         End Using
         'الأيام بتاعت المجموعة دي اللي اتسجل فيها الغياب
-        Dim DT As DataTable = New DataTable
+        Dim DT As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.CurrentCulture}
         Dim SqlStr As String =
             "SELECT GrDt.GrDtID FROM GrDt WHERE (((Format([Mnm],'mmmm/yyyy'))='" & CrrDtNm & "') AND ((GrDt.GrID)=" & SelectedGrID1 & "));"
         DT = Ii.GetData(SqlStr)
@@ -78,6 +79,7 @@ Public Class Form9
         Label1.Text = "عدد الأيام ( " & N & " ) يوم خلال شهر " & CrrDtNm
         Button1.Enabled = True
         CrystalReportViewer1.ReportSource = Nothing
+        DT.Dispose()
     End Sub
     Private Sub AssignConnection(rpt As ReportDocument)
         Dim connection As New ConnectionInfo With {
@@ -148,18 +150,22 @@ Public Class Form9
             CrystalReportViewer1.Refresh()
             Button1.Enabled = False
             DT.Dispose()
-            DT = Nothing
         Catch ex As Exception
             MsgBox("خطأ فى التقارير 2 :" & vbCrLf & ex.Message,
                            MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Critical)
         End Try
     End Sub
-
     Private Sub Form9_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        cryRpt = Nothing
+        With cryRpt
+            .Close()
+            .Dispose()
+        End With
+        With CrystalReportViewer1
+            .ReportSource = Nothing
+            .Dispose()
+        End With
         CrystalReportViewer1 = Nothing
     End Sub
-
     Private Sub Form9_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
         Dispose()
     End Sub

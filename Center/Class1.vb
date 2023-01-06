@@ -132,6 +132,7 @@ Public Class Class1
                                     Compactedfil,
                                     Dao.LanguageConstants.dbLangGeneral,
                                     Dao.DatabaseTypeEnum.dbVersion150, ";pwd=" & My.Settings.dbPass)
+            MyAccDB = Nothing
         Catch ex As Exception
             MsgBox("Error 1: " & ex.Message, MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Critical)
             End
