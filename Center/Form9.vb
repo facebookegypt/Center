@@ -167,6 +167,9 @@ Public Class Form9
         CrystalReportViewer1 = Nothing
     End Sub
     Private Sub Form9_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+        GC.Collect()
+        GC.WaitForPendingFinalizers()
+        GC.Collect()
         Dispose()
     End Sub
 End Class

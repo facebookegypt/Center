@@ -28,9 +28,6 @@ Public Class Form1
         'Timer1.Enabled = True
         DoubleBuffered = True
         WindowState = FormWindowState.Maximized
-        BackgroundImage = My.Resources.ResourceManager.GetObject("Main1")
-        LayoutMdi(MdiLayout.ArrangeIcons)
-        IsMdiContainer = True
         If Not IsNothing(My.Settings.LstBckPDt) And My.Settings.BackUpSet <> 0 And My.Settings.LocalBackUpFolder.Length >= 1 Then
             If My.Settings.BackUpSet = 1 Then  'Day
                 If DateDiff(DateInterval.Day, Now.Date, My.Settings.LstBckPDt) > 2 Then
@@ -60,8 +57,8 @@ Public Class Form1
             .ContentText = "السلام عليكم و رحمة الله و بركاته. لديك  " & GrDtToday() & " مجموعات اليوم."
             .Popup()
         End With
-        ComboItems = New Dictionary(Of Integer, String)
-        Dim Dis As New DataTable
+        Dim ComboItems As New Dictionary(Of Integer, String)
+        Dim Dis As New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
         Dim SqlStr As String = "SELECT First(GrDt.GrDtID) AS FirstOfGrDtID, Format([Mnm],'mmmmyyyy') AS Expr1 FROM GrDt GROUP BY " &
             "Format([Mnm],'mmmmyyyy') ORDER BY Format([Mnm],'mmmmyyyy') DESC;"
         Dis = Ii.GetData(SqlStr)
@@ -79,6 +76,9 @@ Public Class Form1
             .SelectedItem = {0, "اختر الشهر"}
             .ComboBox.EndUpdate()
         End With
+        ComboItems.Clear()
+        ComboItems = Nothing
+        Dis.Dispose()
         AddHandler ToolStripComboBox3.ComboBox.DropDown, AddressOf Tlstrp_DropDown
         AddHandler ToolStripComboBox3.ComboBox.DropDownClosed, AddressOf Tlstrp_DropDownClossed
     End Sub
@@ -108,20 +108,10 @@ Public Class Form1
         Dim Frm9 As New Form
         Frm9 = Form9
         Frm9.Show(Me)
-        'Frm9.BringToFront()
-        'With Frm9
-        '.MdiParent = Me
-        '.WindowState = FormWindowState.Normal
-        '.ShowIcon = True
-        '.Show()
-        'End With
     End Sub
     Private Sub Form1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
         If e.KeyChar = ChrW(Keys.Escape) Then Close()
     End Sub
-    'Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
-    'Text = Now.ToString
-    'End Sub
     Private Sub Form1_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
         Dim Iu As Class1 = New Class1
         Dim BackUpFolder, BackUpPath As String
@@ -166,17 +156,9 @@ Public Class Form1
             Form2.BringToFront()
             Exit Sub
         End If
-        'IsMdiContainer = True
         Dim Frm2 As New Form
         Frm2 = Form2
         Frm2.Show(Me)
-        'IsMdiContainer = True
-        'With Form2
-        '   .MdiParent = Me
-        '.WindowState = FormWindowState.Normal
-        '  .ShowIcon = True
-        ' .Show()
-        'End With
     End Sub
     Private Sub MnuFilSav_Click(sender As Object, e As EventArgs) Handles MnuFilSav.Click
         Dim Iu As Class1 = New Class1
@@ -211,21 +193,9 @@ Public Class Form1
         Dim Frm3 As New Form
         Frm3 = Form3
         Frm3.Show(Me)
-        With Frm3
-            ' .MdiParent = Me
-            ' .WindowState = FormWindowState.Normal
-            '.ShowIcon = True
-            '.Show()
-        End With
     End Sub
     Private Sub MnuFilExi_Click(sender As Object, e As EventArgs) Handles MnuFilExi.Click
         Close()
-    End Sub
-    Private Sub Form1_Resize(sender As Object, e As EventArgs) Handles Me.Resize
-        BackgroundImageLayout = ImageLayout.Stretch
-        Invalidate(True)
-        Update()
-        Refresh()
     End Sub
     Private Sub MnuGr_Click(sender As Object, e As EventArgs) Handles MnuGr.Click
         If Form4.Visible = True Then
@@ -236,48 +206,25 @@ Public Class Form1
         Dim Frm4 As New Form
         Frm4 = Form4
         Frm4.Show(Me)
-
-        'With Form4
-        ' .MdiParent = Me
-        '.WindowState = FormWindowState.Normal
-        ' .ShowIcon = True
-        '.Show()
-        '.Focus()
-        'End With
     End Sub
     Private Sub SToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SToolStripMenuItem1.Click
         If Form8.Visible = True Then
             Form8.BringToFront()
             Exit Sub
         End If
-        'IsMdiContainer = True
         Dim Frm8 As New Form
         Frm8 = Form8
         Frm8.Show(Me)
-        'With Frm7
-        ' .MdiParent = Me
-        ' '.WindowState = FormWindowState.Normal
-        ' .ShowIcon = True
-        ' .Show()
-        'End With
     End Sub
     Private Sub MnuMarks_Click(sender As Object, e As EventArgs) Handles MnuMarks.Click
         If Form7.Visible Then
             Form7.BringToFront()
             Exit Sub
         End If
-        'IsMdiContainer = True
         Dim Frm7 As New Form
         Frm7 = Form7
         Frm7.Show(Me)
-        'With Frm7
-        ' .MdiParent = Me
-        ' '.WindowState = FormWindowState.Normal
-        ' .ShowIcon = True
-        ' .Show()
-        ' End With
     End Sub
-    Private ComboItems As Dictionary(Of Integer, String)
     Private Sub ToolStripComboBox3_DropDownClosed(sender As Object, e As EventArgs) Handles ToolStripComboBox3.DropDownClosed
         ActiveControl = Nothing
         Enabled = True
@@ -304,13 +251,5 @@ Public Class Form1
 
         Form10.SrcFrm = "GrpsDtsRpt"
         Form10.ShowDialog()
-    End Sub
-
-    Private Sub MnuMrks_Click(sender As Object, e As EventArgs) Handles MnuMrks.Click
-
-    End Sub
-
-    Private Sub GroupsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GroupsToolStripMenuItem.Click
-
     End Sub
 End Class

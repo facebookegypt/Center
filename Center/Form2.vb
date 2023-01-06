@@ -307,7 +307,7 @@ Public Class Form2
         ComboBox1.SelectedIndex = 0
         Dim sqlstr As String = <sql>SELECT GrDt.GrID, Grps.GrNm FROM Grps INNER JOIN GrDt ON Grps.GrID = GrDt.GrID 
             GROUP BY GrDt.GrID, Grps.GrNm;</sql>.Value
-        Dim Dt1 = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
+        Dim Dt1 As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
         IC.GetGrps(Dt1, Constr1, sqlstr, ComboBox2, "GrNm", "GrID")
         Dt1.Dispose()
     End Sub
