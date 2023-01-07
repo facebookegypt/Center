@@ -136,7 +136,7 @@ Partial Class Form1
         Me.SToolStripMenuItem.ForeColor = System.Drawing.Color.SeaGreen
         Me.SToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.SToolStripMenuItem.Name = "SToolStripMenuItem"
-        Me.SToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
         Me.SToolStripMenuItem.Text = "اعدادات الطلاب"
         Me.SToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '

@@ -81,7 +81,7 @@ Partial Class Form7
         Me.GroupBox3.Location = New System.Drawing.Point(3, 74)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.GroupBox3.Size = New System.Drawing.Size(506, 335)
+        Me.GroupBox3.Size = New System.Drawing.Size(506, 329)
         Me.GroupBox3.TabIndex = 44
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "تسجيل الدرجات"
@@ -93,45 +93,48 @@ Partial Class Form7
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.ToolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BtnClear, Me.BtnSave, Me.BtnDel, Me.ToolStripButton1})
-        Me.ToolStrip1.Location = New System.Drawing.Point(3, 426)
+        Me.ToolStrip1.Location = New System.Drawing.Point(3, 406)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.ToolStrip1.Size = New System.Drawing.Size(506, 40)
+        Me.ToolStrip1.Size = New System.Drawing.Size(506, 60)
         Me.ToolStrip1.Stretch = True
         Me.ToolStrip1.TabIndex = 41
         '
         'BtnClear
         '
+        Me.BtnClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.BtnClear.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
         Me.BtnClear.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.BtnClear.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnClear.Name = "BtnClear"
         Me.BtnClear.Padding = New System.Windows.Forms.Padding(6)
-        Me.BtnClear.Size = New System.Drawing.Size(56, 37)
+        Me.BtnClear.Size = New System.Drawing.Size(56, 57)
         Me.BtnClear.Text = "جديد"
         Me.BtnClear.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'BtnSave
         '
+        Me.BtnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.BtnSave.Enabled = False
         Me.BtnSave.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
         Me.BtnSave.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.BtnSave.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnSave.Name = "BtnSave"
         Me.BtnSave.Padding = New System.Windows.Forms.Padding(6)
-        Me.BtnSave.Size = New System.Drawing.Size(56, 37)
+        Me.BtnSave.Size = New System.Drawing.Size(56, 57)
         Me.BtnSave.Text = "حفظ"
         Me.BtnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'BtnDel
         '
+        Me.BtnDel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.BtnDel.Enabled = False
         Me.BtnDel.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
         Me.BtnDel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.BtnDel.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnDel.Name = "BtnDel"
         Me.BtnDel.Padding = New System.Windows.Forms.Padding(6)
-        Me.BtnDel.Size = New System.Drawing.Size(59, 37)
+        Me.BtnDel.Size = New System.Drawing.Size(59, 57)
         Me.BtnDel.Text = "حذف"
         Me.BtnDel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -140,11 +143,11 @@ Partial Class Form7
         Me.ToolStripButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
         Me.ToolStripButton1.Enabled = False
         Me.ToolStripButton1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
+        Me.ToolStripButton1.Image = Global.WindowsApp1.My.Resources.Resources.printer
         Me.ToolStripButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.ToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton1.Name = "ToolStripButton1"
-        Me.ToolStripButton1.Padding = New System.Windows.Forms.Padding(6)
-        Me.ToolStripButton1.Size = New System.Drawing.Size(65, 37)
+        Me.ToolStripButton1.Size = New System.Drawing.Size(53, 57)
         Me.ToolStripButton1.Text = "طباعة"
         Me.ToolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '

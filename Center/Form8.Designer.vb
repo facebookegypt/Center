@@ -94,7 +94,7 @@ Partial Class Form8
         Me.GroupBox3.Location = New System.Drawing.Point(3, 74)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.GroupBox3.Size = New System.Drawing.Size(419, 334)
+        Me.GroupBox3.Size = New System.Drawing.Size(419, 328)
         Me.GroupBox3.TabIndex = 44
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "تسجيل غياب الطلبة"
@@ -106,27 +106,29 @@ Partial Class Form8
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.ToolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BtnClear, Me.BtnSave, Me.BtnDel, Me.BtnPrint})
-        Me.ToolStrip1.Location = New System.Drawing.Point(3, 425)
+        Me.ToolStrip1.Location = New System.Drawing.Point(3, 405)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.ToolStrip1.Size = New System.Drawing.Size(419, 40)
+        Me.ToolStrip1.Size = New System.Drawing.Size(419, 60)
         Me.ToolStrip1.Stretch = True
         Me.ToolStrip1.TabIndex = 41
         '
         'BtnClear
         '
+        Me.BtnClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.BtnClear.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
         Me.BtnClear.ForeColor = System.Drawing.Color.Green
         Me.BtnClear.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.BtnClear.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnClear.Name = "BtnClear"
         Me.BtnClear.Padding = New System.Windows.Forms.Padding(6)
-        Me.BtnClear.Size = New System.Drawing.Size(56, 37)
+        Me.BtnClear.Size = New System.Drawing.Size(56, 57)
         Me.BtnClear.Text = "جديد"
         Me.BtnClear.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'BtnSave
         '
+        Me.BtnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.BtnSave.Enabled = False
         Me.BtnSave.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
         Me.BtnSave.ForeColor = System.Drawing.Color.Green
@@ -134,12 +136,13 @@ Partial Class Form8
         Me.BtnSave.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnSave.Name = "BtnSave"
         Me.BtnSave.Padding = New System.Windows.Forms.Padding(6)
-        Me.BtnSave.Size = New System.Drawing.Size(56, 37)
+        Me.BtnSave.Size = New System.Drawing.Size(56, 57)
         Me.BtnSave.Text = "حفظ"
         Me.BtnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'BtnDel
         '
+        Me.BtnDel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.BtnDel.Enabled = False
         Me.BtnDel.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
         Me.BtnDel.ForeColor = System.Drawing.Color.Green
@@ -147,7 +150,7 @@ Partial Class Form8
         Me.BtnDel.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnDel.Name = "BtnDel"
         Me.BtnDel.Padding = New System.Windows.Forms.Padding(6)
-        Me.BtnDel.Size = New System.Drawing.Size(59, 37)
+        Me.BtnDel.Size = New System.Drawing.Size(59, 57)
         Me.BtnDel.Text = "حذف"
         Me.BtnDel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -157,11 +160,11 @@ Partial Class Form8
         Me.BtnPrint.Enabled = False
         Me.BtnPrint.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
         Me.BtnPrint.ForeColor = System.Drawing.Color.Green
+        Me.BtnPrint.Image = Global.WindowsApp1.My.Resources.Resources.printer
         Me.BtnPrint.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.BtnPrint.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnPrint.Name = "BtnPrint"
-        Me.BtnPrint.Padding = New System.Windows.Forms.Padding(6)
-        Me.BtnPrint.Size = New System.Drawing.Size(65, 37)
+        Me.BtnPrint.Size = New System.Drawing.Size(53, 57)
         Me.BtnPrint.Text = "طباعة"
         Me.BtnPrint.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '

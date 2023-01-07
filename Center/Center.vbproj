@@ -336,21 +336,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Add.png" />
-    <Content Include="Resources\BackUp.png" />
-    <Content Include="Resources\Del.png" />
-    <Content Include="Resources\Edit.png" />
-    <Content Include="Resources\Icon2.ico" />
     <Content Include="Resources\Main1.png" />
-    <Content Include="Resources\Main2.jpg" />
     <Content Include="Resources\Main3.png" />
     <Content Include="Resources\printer.png" />
-    <Content Include="Resources\qwe.png" />
-    <Content Include="Resources\ShowAll.png" />
-    <Content Include="Resources\Time.ico" />
-    <Content Include="Resources\wallpaper2you_439423.jpg" />
-    <None Include="Resources\Text-Edit-icon_2.png" />
-    <None Include="Resources\report_user.png" />
     <None Include="Resources\R.png" />
     <None Include="packages.config" />
     <Content Include="Icon1.ico" />

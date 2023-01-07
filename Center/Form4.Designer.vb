@@ -285,7 +285,7 @@ Partial Class Form4
         Me.TextBox1.ForeColor = System.Drawing.Color.ForestGreen
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Padding = New System.Windows.Forms.Padding(2)
-        Me.TextBox1.Size = New System.Drawing.Size(118, 54)
+        Me.TextBox1.Size = New System.Drawing.Size(114, 54)
         '
         'ToolStripSeparator2
         '

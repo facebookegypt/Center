@@ -67,52 +67,68 @@ Partial Class Form6
         Me.ToolStrip3.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.ToolStrip3.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
         Me.ToolStrip3.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BtnAdd, Me.BtnSave, Me.BtnEdit, Me.BtnDel, Me.ToolStripButton6})
-        Me.ToolStrip3.Location = New System.Drawing.Point(3, 393)
+        Me.ToolStrip3.Location = New System.Drawing.Point(3, 409)
         Me.ToolStrip3.Name = "ToolStrip3"
         Me.ToolStrip3.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.ToolStrip3.Size = New System.Drawing.Size(345, 54)
+        Me.ToolStrip3.Size = New System.Drawing.Size(345, 38)
         Me.ToolStrip3.Stretch = True
         Me.ToolStrip3.TabIndex = 33
         '
         'BtnAdd
         '
-        Me.BtnAdd.Image = CType(resources.GetObject("BtnAdd.Image"), System.Drawing.Image)
+        Me.BtnAdd.AccessibleDescription = ""
+        Me.BtnAdd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.BtnAdd.Font = New System.Drawing.Font("Segoe UI", 10.25!, System.Drawing.FontStyle.Bold)
+        Me.BtnAdd.ForeColor = System.Drawing.Color.Green
         Me.BtnAdd.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.BtnAdd.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnAdd.Name = "BtnAdd"
-        Me.BtnAdd.Size = New System.Drawing.Size(36, 51)
+        Me.BtnAdd.Padding = New System.Windows.Forms.Padding(6)
+        Me.BtnAdd.Size = New System.Drawing.Size(52, 35)
         Me.BtnAdd.Text = "جديد"
         Me.BtnAdd.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'BtnSave
         '
-        Me.BtnSave.Image = CType(resources.GetObject("BtnSave.Image"), System.Drawing.Image)
+        Me.BtnSave.AccessibleDescription = ""
+        Me.BtnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.BtnSave.Font = New System.Drawing.Font("Segoe UI", 10.25!, System.Drawing.FontStyle.Bold)
+        Me.BtnSave.ForeColor = System.Drawing.Color.Green
         Me.BtnSave.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.BtnSave.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnSave.Name = "BtnSave"
-        Me.BtnSave.Size = New System.Drawing.Size(36, 51)
+        Me.BtnSave.Padding = New System.Windows.Forms.Padding(6)
+        Me.BtnSave.Size = New System.Drawing.Size(52, 35)
         Me.BtnSave.Text = "حفظ"
         Me.BtnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'BtnEdit
         '
+        Me.BtnEdit.AccessibleDescription = ""
+        Me.BtnEdit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.BtnEdit.Enabled = False
-        Me.BtnEdit.Image = CType(resources.GetObject("BtnEdit.Image"), System.Drawing.Image)
+        Me.BtnEdit.Font = New System.Drawing.Font("Segoe UI", 10.25!, System.Drawing.FontStyle.Bold)
+        Me.BtnEdit.ForeColor = System.Drawing.Color.Green
         Me.BtnEdit.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.BtnEdit.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnEdit.Name = "BtnEdit"
-        Me.BtnEdit.Size = New System.Drawing.Size(40, 51)
+        Me.BtnEdit.Padding = New System.Windows.Forms.Padding(6)
+        Me.BtnEdit.Size = New System.Drawing.Size(59, 35)
         Me.BtnEdit.Text = "تعديل"
         Me.BtnEdit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'BtnDel
         '
+        Me.BtnDel.AccessibleDescription = ""
+        Me.BtnDel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.BtnDel.Enabled = False
-        Me.BtnDel.Image = CType(resources.GetObject("BtnDel.Image"), System.Drawing.Image)
+        Me.BtnDel.Font = New System.Drawing.Font("Segoe UI", 10.25!, System.Drawing.FontStyle.Bold)
+        Me.BtnDel.ForeColor = System.Drawing.Color.Green
         Me.BtnDel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.BtnDel.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnDel.Name = "BtnDel"
-        Me.BtnDel.Size = New System.Drawing.Size(36, 51)
+        Me.BtnDel.Padding = New System.Windows.Forms.Padding(6)
+        Me.BtnDel.Size = New System.Drawing.Size(54, 35)
         Me.BtnDel.Text = "حذف"
         Me.BtnDel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -123,7 +139,7 @@ Partial Class Form6
         Me.ToolStripButton6.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.ToolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton6.Name = "ToolStripButton6"
-        Me.ToolStripButton6.Size = New System.Drawing.Size(62, 51)
+        Me.ToolStripButton6.Size = New System.Drawing.Size(62, 35)
         Me.ToolStripButton6.Text = "عرض الكل"
         Me.ToolStripButton6.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -230,6 +246,7 @@ Partial Class Form6
         Me.ClientSize = New System.Drawing.Size(351, 450)
         Me.Controls.Add(Me.GroupBox3)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Form6"
         Me.Text = "مجموعة جديدة"
         Me.GroupBox3.ResumeLayout(False)

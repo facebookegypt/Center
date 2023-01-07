@@ -41,6 +41,7 @@ Partial Class Form9
         Me.GroupBox1.Controls.Add(Me.ComboBox1)
         Me.GroupBox1.Dock = System.Windows.Forms.DockStyle.Right
         Me.GroupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.GroupBox1.ForeColor = System.Drawing.Color.Green
         Me.GroupBox1.Location = New System.Drawing.Point(658, 0)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
@@ -54,11 +55,13 @@ Partial Class Form9
         '
         Me.Button1.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.Button1.Enabled = False
+        Me.Button1.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Bold)
+        Me.Button1.ForeColor = System.Drawing.Color.Green
         Me.Button1.Image = Global.WindowsApp1.My.Resources.Resources.printer
         Me.Button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.Button1.Location = New System.Drawing.Point(3, 417)
+        Me.Button1.Location = New System.Drawing.Point(3, 408)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(224, 30)
+        Me.Button1.Size = New System.Drawing.Size(224, 39)
         Me.Button1.TabIndex = 3
         Me.Button1.Text = "طباعة بيان الدرحات و الغياب"
         Me.Button1.UseCompatibleTextRendering = True
@@ -101,6 +104,7 @@ Partial Class Form9
         Me.GroupBox2.BackColor = System.Drawing.Color.Transparent
         Me.GroupBox2.Controls.Add(Me.CrystalReportViewer1)
         Me.GroupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.GroupBox2.ForeColor = System.Drawing.Color.Green
         Me.GroupBox2.Location = New System.Drawing.Point(1, 0)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes
