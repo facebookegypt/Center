@@ -310,6 +310,7 @@ Public Class Form2
         Dim Dt1 As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
         IC.GetGrps(Dt1, Constr1, sqlstr, ComboBox2, "GrNm", "GrID")
         Dt1.Dispose()
+        Activate()
     End Sub
     Private Sub Form2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
         If e.KeyChar = ChrW(Keys.Escape) Then Close()
@@ -453,9 +454,6 @@ Public Class Form2
     Private Sub Form2_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
         DGStdnts.DataSource = Nothing
         DGStdnts.Dispose()
-        GC.Collect()
-        GC.WaitForPendingFinalizers()
-        GC.Collect()
-        Dispose()
+        Dispose(True)
     End Sub
 End Class

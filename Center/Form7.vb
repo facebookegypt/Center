@@ -336,6 +336,7 @@ Public Class Form7
                 'Irow in the database "True" then do nothing
                 N = cmd.ExecuteNonQuery()
                 cmd.Parameters.Clear()
+                cmd.Dispose()
             Catch ex As OleDbException
                 MsgBox("مشكلة فى حفظ الدرجات 1 : " & vbCrLf & ex.Message,
                        MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Critical)
@@ -343,7 +344,6 @@ Public Class Form7
                 CN.Close()
                 Exit Sub
             End Try
-
         End Using
         Dim sqlstr As String = "INSERT INTO Rslts(GrDtID,StID,Mrk,DtCrtd,DtMdfd) VALUES(?,?,?,?,?);"
         For Each IRow As DataGridViewRow In DGStdnts.Rows
@@ -361,6 +361,7 @@ Public Class Form7
                     CN.Open()
                     cmd.ExecuteNonQuery()
                     cmd.Parameters.Clear()
+                    cmd.Dispose()
                 Catch ex As OleDbException
                     MsgBox("مشكلة فى حفظ الدرجات 2 : " & vbCrLf & ex.Message,
                            MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Critical)
@@ -399,10 +400,11 @@ Public Class Form7
             .ImageIndex = 0
             .SelectedImageIndex = 1
         End With
-        Dim dt3 As DataTable = New DataTable
         AddHandler TRV.AfterSelect, AddressOf TRV_AfterSelect
         GroupBox1.Controls.Add(TRV)
+        Dim dt3 As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
         GetMainTree(dt3)
+        dt3.Dispose()
     End Sub
     Private Sub Form7_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         'Use KeyCode when you don't care about the modifiers, KeyData when you do.

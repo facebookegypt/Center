@@ -22,7 +22,6 @@ Partial Class Form5
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form5))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.ComboBox2 = New System.Windows.Forms.ComboBox()
@@ -137,31 +136,37 @@ Partial Class Form5
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.ToolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BtnClear, Me.BtnSave, Me.ToolStripButton1})
-        Me.ToolStrip1.Location = New System.Drawing.Point(0, 396)
+        Me.ToolStrip1.Location = New System.Drawing.Point(0, 411)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.ToolStrip1.Size = New System.Drawing.Size(785, 54)
+        Me.ToolStrip1.Size = New System.Drawing.Size(785, 39)
         Me.ToolStrip1.Stretch = True
         Me.ToolStrip1.TabIndex = 40
         '
         'BtnClear
         '
-        Me.BtnClear.Image = CType(resources.GetObject("BtnClear.Image"), System.Drawing.Image)
+        Me.BtnClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.BtnClear.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnClear.ForeColor = System.Drawing.Color.Green
         Me.BtnClear.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.BtnClear.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnClear.Name = "BtnClear"
-        Me.BtnClear.Size = New System.Drawing.Size(36, 51)
+        Me.BtnClear.Padding = New System.Windows.Forms.Padding(6)
+        Me.BtnClear.Size = New System.Drawing.Size(55, 36)
         Me.BtnClear.Text = "جديد"
         Me.BtnClear.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'BtnSave
         '
+        Me.BtnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.BtnSave.Enabled = False
-        Me.BtnSave.Image = CType(resources.GetObject("BtnSave.Image"), System.Drawing.Image)
+        Me.BtnSave.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnSave.ForeColor = System.Drawing.Color.Green
         Me.BtnSave.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.BtnSave.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnSave.Name = "BtnSave"
-        Me.BtnSave.Size = New System.Drawing.Size(36, 51)
+        Me.BtnSave.Padding = New System.Windows.Forms.Padding(6)
+        Me.BtnSave.Size = New System.Drawing.Size(55, 36)
         Me.BtnSave.Text = "حفظ"
         Me.BtnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -173,7 +178,7 @@ Partial Class Form5
         Me.ToolStripButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.ToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton1.Name = "ToolStripButton1"
-        Me.ToolStripButton1.Size = New System.Drawing.Size(42, 51)
+        Me.ToolStripButton1.Size = New System.Drawing.Size(42, 36)
         Me.ToolStripButton1.Text = "معاينة"
         Me.ToolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '

@@ -159,7 +159,7 @@ Partial Class Form1
         Me.MnuGr.ForeColor = System.Drawing.Color.SeaGreen
         Me.MnuGr.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.MnuGr.Name = "MnuGr"
-        Me.MnuGr.Size = New System.Drawing.Size(180, 22)
+        Me.MnuGr.Size = New System.Drawing.Size(179, 22)
         Me.MnuGr.Text = "اعدادات المجموعات"
         Me.MnuGr.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -182,7 +182,7 @@ Partial Class Form1
         Me.SToolStripMenuItem1.ForeColor = System.Drawing.Color.SeaGreen
         Me.SToolStripMenuItem1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.SToolStripMenuItem1.Name = "SToolStripMenuItem1"
-        Me.SToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.SToolStripMenuItem1.Size = New System.Drawing.Size(145, 22)
         Me.SToolStripMenuItem1.Text = "تسجيل الغياب"
         Me.SToolStripMenuItem1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -218,7 +218,7 @@ Partial Class Form1
         Me.MnuMarks.ForeColor = System.Drawing.Color.SeaGreen
         Me.MnuMarks.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.MnuMarks.Name = "MnuMarks"
-        Me.MnuMarks.Size = New System.Drawing.Size(180, 22)
+        Me.MnuMarks.Size = New System.Drawing.Size(163, 22)
         Me.MnuMarks.Text = "اعدادات الدرجات"
         '
         'MnuAllRpt

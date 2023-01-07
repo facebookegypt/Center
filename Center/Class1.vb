@@ -89,7 +89,6 @@ Public Class Class1
         Next
         Return Provider1
     End Function
-    Private DefaultLocalFolder As IO.DirectoryInfo
     Public Function OfdOpn(ByVal Desc1 As String) As String
         'compact And repair database
         Dim Rslt As String = String.Empty
@@ -103,9 +102,10 @@ Public Class Class1
         If result = DialogResult.OK Then
             FolderName = OFD.SelectedPath
             Rslt = FolderName
-            DefaultLocalFolder = New IO.DirectoryInfo(Rslt)
+            Dim DefaultLocalFolder As New IO.DirectoryInfo(Rslt)
             My.Settings.LocalBackUpFolder = DefaultLocalFolder.FullName
             My.Settings.Save()
+            DefaultLocalFolder = Nothing
         Else
             Return String.Empty
             Exit Function
@@ -115,7 +115,10 @@ Public Class Class1
     Public Function CompRepair(Optional Compactedfil As String = "") As Boolean
         'expression .CompactDatabase(SrcName, DstName, DstLocale, Options, password)
         'This will Compact & Repair MSAccess2007 Database to the same location with the same name.
-        InstalledAccessEngine.Add(DBEngineVer())
+        Dim InstalledAccess As String = Nothing
+        Dim InstalledAccessEngine As New List(Of String) From {
+            DBEngineVer()
+        }
         InstalledAccess = GetAccessVersionNiceName()
         Dim Result As Boolean = False
         Cursor.Current = Cursors.WaitCursor
@@ -165,6 +168,8 @@ Public Class Class1
             CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text},
             DataAdapter1 As OleDbDataAdapter = New OleDbDataAdapter(CMD)
             DataAdapter1.Fill(Dt1)
+            CMD.Dispose()
+            DataAdapter1.Dispose()
         End Using
         Return Dt1
     End Function
@@ -176,10 +181,12 @@ Public Class Class1
                         Optional ByVal ValMem As String = "Key")
         DT1 = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
         Try
-            Using CN = New OleDbConnection With {.ConnectionString = Constr1},
-                CMD = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text},
+            Using CN As New OleDbConnection With {.ConnectionString = Constr1},
+                CMD As New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text},
                 DataAdapter1 = New OleDbDataAdapter(CMD)
                 DataAdapter1.Fill(DT1)
+                CMD.Dispose()
+                DataAdapter1.Dispose()
             End Using
         Catch ex As OleDbException
             MsgBox("مشكلة فى التعرف علي قاعدة البيانات : " & vbCrLf & ex.Message,
@@ -198,17 +205,19 @@ Public Class Class1
         DT1.Dispose()
     End Sub
     Public Function GetCount1(ByVal SqlStr As String) As Object
-        Dim Rslt As String = String.Empty
-        Dim Obj As Object
-        Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = ConStr()},
-                CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
-            CN.Open()
-            Obj = CMD.ExecuteScalar
+        Dim Obj As Object = Nothing
+        Try
+            Using CN As New OleDbConnection With {.ConnectionString = ConStr()},
+                CMD As New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
+                CN.Open()
+                Obj = CMD.ExecuteScalar
+                CMD.Dispose()
+                Return Obj
+            End Using
+        Catch ex As Exception
             Return Obj
-        End Using
+        End Try
     End Function
-    Private Property InstalledAccessEngine As New List(Of String)
-    Private Property InstalledAccess As String
     Public Function GetAccessVersionNiceName() As String
         Try
             Dim ClassName As String = GetAccessClassName()

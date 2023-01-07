@@ -252,4 +252,7 @@ Public Class Form1
         Form10.SrcFrm = "GrpsDtsRpt"
         Form10.ShowDialog()
     End Sub
+    Private Sub Form1_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+        Dispose(True)
+    End Sub
 End Class

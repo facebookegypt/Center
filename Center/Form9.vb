@@ -8,8 +8,6 @@ Public Class Form9
     Private crConnectionInfo As New ConnectionInfo
     Private CrTables As Tables
     Private CrTable As Table
-    Private Property Ii As New Class1
-    Private Property Constr As String = Ii.ConStr
     Private SelectedGrID As DataRowView
     Private CuRRdT As Date = Form1.CurrentAttndMonthNm 'CurAttMnthNm
     Private CrrDtNm As String = Format(CuRRdT, "MMMM/yyyy")
@@ -28,18 +26,21 @@ Public Class Form9
             "(((Format([Mnm],'mmmm/yyyy'))='" & CrrDtNm & "')) ORDER BY GrDt.GrID ASC;"
         '        DT = New DataTable
         Dim DT As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.CurrentCulture}
+        Dim Ii As New Class1
+        Dim Constr As String = Ii.ConStr
         DT = Ii.GetData(SqlStr4)
         With ComboBox1
             '.Items.Clear()
             .BeginUpdate()
-            .DataSource = DT.DefaultView.Table
+            .DataSource = New BindingSource(DT, Nothing)
             .DisplayMember = "GrNm"
             .ValueMember = "GrID"
             .SelectedItem = Nothing
             .Refresh()
             .EndUpdate()
         End With
-        DT = Nothing
+        DT.Dispose()
+        Ii = Nothing
     End Sub
     Private Sub Form9_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
         If e.KeyChar = ChrW(Keys.Escape) Then Close()
@@ -59,6 +60,8 @@ Public Class Form9
             "Grps.SubNm FROM (GrDt INNER JOIN Grps ON GrDt.GrID = Grps.GrID) INNER JOIN (Rslts RIGHT JOIN (Attnd INNER JOIN Stdnts " &
             "ON Attnd.StID = Stdnts.StID) ON (Rslts.StID = Attnd.StID) And (Rslts.GrDtID = Attnd.GrDtID)) ON " &
             "GrDt.GrDtID = Attnd.GrDtID WHERE (((Grps.GrID)=" & SelectedGrID1 & ") And ((Format([Mnm],'mmmm/yyyy'))='" & CrrDtNm & "'));"
+        Dim Ii As New Class1
+        Dim Constr As String = Ii.ConStr
         Using CN As New OleDbConnection(Constr),
                 CMD As New OleDbCommand(SqlStr1, CN) With {.CommandType = CommandType.Text},
                 CMD1 As New OleDbCommand(SqlStr3, CN) With {.CommandType = CommandType.Text}
@@ -68,6 +71,9 @@ Public Class Form9
                 CMD1.ExecuteNonQuery()
             Catch ex As OleDbException
                 CMD1.ExecuteNonQuery()
+            Finally
+                CMD.Dispose()
+                CMD1.Dispose()
             End Try
         End Using
         'الأيام بتاعت المجموعة دي اللي اتسجل فيها الغياب
@@ -121,6 +127,7 @@ Public Class Form9
         table.LogOnInfo.ConnectionInfo.Password = connection.Password
         table.LogOnInfo.ConnectionInfo.Type = connection.Type
         table.ApplyLogOnInfo(logOnInfo)
+        table.Dispose()
     End Sub
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Dim SqlStr As String = String.Empty
@@ -155,7 +162,7 @@ Public Class Form9
                            MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Critical)
         End Try
     End Sub
-    Private Sub Form9_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub Form9_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
         With cryRpt
             .Close()
             .Dispose()
@@ -165,11 +172,9 @@ Public Class Form9
             .Dispose()
         End With
         CrystalReportViewer1 = Nothing
-    End Sub
-    Private Sub Form9_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+        Dispose(True)
         GC.Collect()
         GC.WaitForPendingFinalizers()
         GC.Collect()
-        Dispose()
     End Sub
 End Class

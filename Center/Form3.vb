@@ -96,8 +96,7 @@
             End
         End If
     End Sub
-
     Private Sub Form3_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
-        Dispose()
+        Dispose(True)
     End Sub
 End Class

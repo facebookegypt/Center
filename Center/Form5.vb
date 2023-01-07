@@ -10,7 +10,7 @@ Public Class Form5
         .AllowUserToAddRows = False, .Dock = DockStyle.Fill,
         .EnableHeadersVisualStyles = False, .RowHeadersVisible = True, .BackgroundColor = Color.WhiteSmoke,
         .ColumnHeadersHeight = 50, .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing},
-        Dt1 As DataTable
+        Dt1 As New DataTable
     Private Sub Form5_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         'Use KeyCode when you don't care about the modifiers, KeyData when you do.
         If e.KeyCode = Keys.S AndAlso e.Modifiers = Keys.Control Then
@@ -100,11 +100,10 @@ Public Class Form5
         End If
         DT.Columns.Add(AddColumn)
     End Sub
-    Private Dt2 As DataTable
     Private Sub ConDGV(ByVal SqlStr As String, Optional ChkColNm As String = "Chk", Optional ChkColVal As Boolean = False)
         DGStdnts.DataBindings.Clear()
         DGStdnts.DataSource = Nothing
-        Dt2 = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
+        Dim Dt2 As New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
         'SqlStr = <sql>SELECT * From Stdnts;</sql>.Value
         Using CN = New OleDbConnection With {.ConnectionString = Constr1()},
             CMD = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text},
@@ -120,7 +119,7 @@ Public Class Form5
             .MultiSelect = False
         End With
         AddCol1(Dt2, ChkColNm, ChkColVal)
-        DGStdnts.DataSource = New BindingSource(Dt2, Nothing)
+        'DGStdnts.DataSource = New BindingSource(Dt2, Nothing)
         GroupBox2.Controls.Add(DGStdnts)
         With DGStdnts.ColumnHeadersDefaultCellStyle
             .BackColor = Color.DarkCyan
@@ -139,6 +138,7 @@ Public Class Form5
             .SelectionForeColor = Color.Navy
         End With
         'AddCol(False)
+        Dt2.Dispose()
         AddHandler DGStdnts.RowPostPaint, AddressOf DGSTDNTS_RowPostPaint
         AddHandler DGStdnts.CurrentCellDirtyStateChanged, AddressOf Dgstdnts_CurrentCellDirtyStateChanged
         AddHandler DGStdnts.CellValueChanged, AddressOf Dgstdnts_CellValueChanged
@@ -258,6 +258,7 @@ Public Class Form5
         End If
         Dim sqlstr As String =
             "INSERT INTO GrSt(GrID,StID) VALUES(?,?);"
+        Cursor = Cursors.WaitCursor
         Using cn As New OleDbConnection(Constr1),
             cmD As New OleDbCommand(sqlstr, cn)
             cmD.CommandType = CommandType.Text
@@ -272,6 +273,7 @@ Public Class Form5
             Catch ex As OleDbException
                 MsgBox("مشكلة في الحفظ : " & ex.Message & vbCrLf,
                        MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Information)
+                Cursor = Cursors.Default
                 Exit Sub
             End Try
         End Using
@@ -281,6 +283,7 @@ Public Class Form5
         BtnClear.Enabled = True
         BtnSave.Enabled = False
         ToolStripButton1.Enabled = False
+        Cursor = Cursors.Default
     End Sub
     Private Sub ToolStripButton1_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ToolStripButton1.Click
         If Dt1.Columns.Contains("تعديل") Then
@@ -296,6 +299,7 @@ Public Class Form5
         Dt1.Columns.Add(DC1)
         DGStdnts.DataSource = New BindingSource(Dt1, Nothing)
         SetCols()
+        Dt1.Dispose()
     End Sub
     Private Sub ComboBox2_SelectionChangeCommitted(ByVal sender As Object, ByVal e As System.EventArgs) Handles ComboBox2.SelectionChangeCommitted
         Dim sqlstr As String =
@@ -320,5 +324,13 @@ Public Class Form5
         DGStdnts.Columns("StNm").ReadOnly = True
         DGStdnts.Columns("StNm").HeaderCell.Value = "اسم الطالب"
         DGStdnts.Columns("StNm").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+    End Sub
+    Private Sub Form5_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+        RemoveHandler DGStdnts.RowPostPaint, AddressOf DGSTDNTS_RowPostPaint
+        RemoveHandler DGStdnts.CurrentCellDirtyStateChanged, AddressOf Dgstdnts_CurrentCellDirtyStateChanged
+        RemoveHandler DGStdnts.CellValueChanged, AddressOf Dgstdnts_CellValueChanged
+        RemoveHandler DGStdnts.EditingControlShowing, AddressOf DGStdnts_EditingControlShowing
+        Dt1.Dispose()
+        Dispose(True)
     End Sub
 End Class

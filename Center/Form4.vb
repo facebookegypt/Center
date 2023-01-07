@@ -101,9 +101,9 @@ Public Class Form4
                 'Exit For
             End If
             NxtDy = DateAdd(DateInterval.WeekOfYear, I, DateTimePicker2.Value.Date)
-            Using CN = New OleDbConnection(Constr1),
-                cmd = New OleDbCommand(SqlStr1, CN) With {.CommandType = CommandType.Text}
-                With cmd.Parameters
+            Using CN As New OleDbConnection(Constr1),
+                CMD As New OleDbCommand(SqlStr1, CN) With {.CommandType = CommandType.Text}
+                With CMD.Parameters
                     .AddWithValue("?", GrID)
                     .AddWithValue("?", DateTimePicker1.Value.Date)
                     .AddWithValue("?", NxtDy)
@@ -116,14 +116,17 @@ Public Class Form4
                 End With
                 Try
                     CN.Open()
-                    N = cmd.ExecuteNonQuery()
-                    cmd.Parameters.Clear()
+                    N = CMD.ExecuteNonQuery()
+                    CMD.Parameters.Clear()
+                    CMD.Dispose()
+                    CN.Dispose()
                 Catch ex As OleDbException
                     MsgBox("مشكلة فى الحفظ 1 : " & ex.Message,
                            MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Critical)
                     Cursor = Cursors.Default
-                    CN.Close()
+                    CN.Dispose()
                     Exit Sub
+                Finally
                 End Try
             End Using
         Next
@@ -454,7 +457,7 @@ Public Class Form4
             Dim SqlStr2 As String = String.Empty
             Dim SqlStr1 As String =
                 "SELECT GrDt.GrDtID, GrDt.GrID, Grps.GrNm, Grps.Lnm, Grps.SubNm, GrDt.Mnm, GrDt.GrDt1, GrDt.GrDt2, Tsks.TaskID, " &
-                "Tsks.TaskNm, GrDt.TskFlMrk FROM Tsks INNER JOIN (GrDt INNER JOIN Grps ON GrDt.GrID = Grps.GrID) ON " &
+                "Tsks.TaskNm, GrDt.TskFlMrk, GrDt.TskNm FROM Tsks INNER JOIN (GrDt INNER JOIN Grps ON GrDt.GrID = Grps.GrID) ON " &
                 "Tsks.TaskID = GrDt.TaskID "
             Try
                 Select Case ComboBox1.ComboBox.SelectedIndex
@@ -511,6 +514,6 @@ Public Class Form4
         RemoveHandler DG1.CellClick, AddressOf DG1_CellClick
         RemoveHandler ComboBox1.ComboBox.SelectionChangeCommitted, AddressOf ComboBox1_OnSelectionChangedCommitted
         RemoveHandler DG1.RowPostPaint, AddressOf DG1_RowPostPaint
-        Dispose()
+        Dispose(True)
     End Sub
 End Class

@@ -26,7 +26,6 @@ Partial Class Form2
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.BtnClear = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton2 = New System.Windows.Forms.ToolStripSeparator()
         Me.BtnSave = New System.Windows.Forms.ToolStripButton()
         Me.BtnEdit = New System.Windows.Forms.ToolStripButton()
         Me.BtnDel = New System.Windows.Forms.ToolStripButton()
@@ -65,8 +64,6 @@ Partial Class Form2
         '
         'GroupBox1
         '
-        Me.GroupBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox1.BackColor = System.Drawing.Color.Transparent
         Me.GroupBox1.Controls.Add(Me.ToolStrip1)
         Me.GroupBox1.Controls.Add(Me.TxtMob1)
@@ -79,7 +76,7 @@ Partial Class Form2
         Me.GroupBox1.Location = New System.Drawing.Point(359, 12)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.GroupBox1.Size = New System.Drawing.Size(429, 327)
+        Me.GroupBox1.Size = New System.Drawing.Size(429, 435)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "بيانات الطالب"
@@ -90,8 +87,8 @@ Partial Class Form2
         Me.ToolStrip1.AllowMerge = False
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.ToolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BtnClear, Me.ToolStripButton2, Me.BtnSave, Me.BtnEdit, Me.BtnDel, Me.ToolStripButton1, Me.ToolStripSeparator1, Me.ToolStripButton3, Me.ToolStripSeparator2, Me.ToolStripSeparator3, Me.ToolStripButton4})
-        Me.ToolStrip1.Location = New System.Drawing.Point(3, 270)
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BtnClear, Me.BtnSave, Me.BtnEdit, Me.BtnDel, Me.ToolStripButton1, Me.ToolStripSeparator1, Me.ToolStripButton3, Me.ToolStripSeparator2, Me.ToolStripSeparator3, Me.ToolStripButton4})
+        Me.ToolStrip1.Location = New System.Drawing.Point(3, 378)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.Size = New System.Drawing.Size(423, 54)
         Me.ToolStrip1.Stretch = True
@@ -99,48 +96,51 @@ Partial Class Form2
         '
         'BtnClear
         '
-        Me.BtnClear.Image = CType(resources.GetObject("BtnClear.Image"), System.Drawing.Image)
+        Me.BtnClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.BtnClear.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnClear.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.BtnClear.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnClear.Name = "BtnClear"
-        Me.BtnClear.Size = New System.Drawing.Size(36, 51)
+        Me.BtnClear.Padding = New System.Windows.Forms.Padding(4)
+        Me.BtnClear.Size = New System.Drawing.Size(42, 51)
         Me.BtnClear.Text = "جديد"
         Me.BtnClear.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
-        'ToolStripButton2
-        '
-        Me.ToolStripButton2.Name = "ToolStripButton2"
-        Me.ToolStripButton2.Size = New System.Drawing.Size(6, 54)
-        '
         'BtnSave
         '
-        Me.BtnSave.Image = CType(resources.GetObject("BtnSave.Image"), System.Drawing.Image)
+        Me.BtnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.BtnSave.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnSave.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.BtnSave.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnSave.Name = "BtnSave"
-        Me.BtnSave.Size = New System.Drawing.Size(36, 51)
+        Me.BtnSave.Padding = New System.Windows.Forms.Padding(4)
+        Me.BtnSave.Size = New System.Drawing.Size(42, 51)
         Me.BtnSave.Text = "حفظ"
         Me.BtnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'BtnEdit
         '
+        Me.BtnEdit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.BtnEdit.Enabled = False
-        Me.BtnEdit.Image = CType(resources.GetObject("BtnEdit.Image"), System.Drawing.Image)
+        Me.BtnEdit.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnEdit.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.BtnEdit.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnEdit.Name = "BtnEdit"
-        Me.BtnEdit.Size = New System.Drawing.Size(40, 51)
+        Me.BtnEdit.Padding = New System.Windows.Forms.Padding(4)
+        Me.BtnEdit.Size = New System.Drawing.Size(48, 51)
         Me.BtnEdit.Text = "تعديل"
         Me.BtnEdit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'BtnDel
         '
+        Me.BtnDel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.BtnDel.Enabled = False
-        Me.BtnDel.Image = CType(resources.GetObject("BtnDel.Image"), System.Drawing.Image)
+        Me.BtnDel.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
         Me.BtnDel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.BtnDel.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnDel.Name = "BtnDel"
-        Me.BtnDel.Size = New System.Drawing.Size(36, 51)
+        Me.BtnDel.Padding = New System.Windows.Forms.Padding(4)
+        Me.BtnDel.Size = New System.Drawing.Size(44, 51)
         Me.BtnDel.Text = "حذف"
         Me.BtnDel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -283,7 +283,7 @@ Partial Class Form2
         Me.GroupBox4.Location = New System.Drawing.Point(12, 12)
         Me.GroupBox4.Name = "GroupBox4"
         Me.GroupBox4.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.GroupBox4.Size = New System.Drawing.Size(341, 327)
+        Me.GroupBox4.Size = New System.Drawing.Size(345, 435)
         Me.GroupBox4.TabIndex = 1
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "الطلبة"
@@ -300,7 +300,7 @@ Partial Class Form2
         Me.GroupBox5.Location = New System.Drawing.Point(3, 72)
         Me.GroupBox5.Name = "GroupBox5"
         Me.GroupBox5.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.GroupBox5.Size = New System.Drawing.Size(335, 46)
+        Me.GroupBox5.Size = New System.Drawing.Size(339, 46)
         Me.GroupBox5.TabIndex = 9
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "البحث"
@@ -313,7 +313,7 @@ Partial Class Form2
         Me.ComboBox1.Font = New System.Drawing.Font("Times New Roman", 10.0!)
         Me.ComboBox1.FormattingEnabled = True
         Me.ComboBox1.Items.AddRange(New Object() {"الاسم", "الموبيل", "كود"})
-        Me.ComboBox1.Location = New System.Drawing.Point(237, 17)
+        Me.ComboBox1.Location = New System.Drawing.Point(241, 17)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(92, 23)
         Me.ComboBox1.TabIndex = 6
@@ -322,7 +322,7 @@ Partial Class Form2
         '
         Me.TextBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox1.Font = New System.Drawing.Font("Times New Roman", 10.0!)
-        Me.TextBox1.Location = New System.Drawing.Point(11, 17)
+        Me.TextBox1.Location = New System.Drawing.Point(15, 17)
         Me.TextBox1.MaxLength = 60
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(220, 23)
@@ -341,7 +341,7 @@ Partial Class Form2
         Me.GroupBox3.Location = New System.Drawing.Point(3, 16)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.GroupBox3.Size = New System.Drawing.Size(335, 50)
+        Me.GroupBox3.Size = New System.Drawing.Size(339, 50)
         Me.GroupBox3.TabIndex = 8
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "اختر مجموعة"
@@ -368,7 +368,7 @@ Partial Class Form2
         Me.Button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer))
         Me.Button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.WhiteSmoke
         Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button1.Location = New System.Drawing.Point(84, 19)
+        Me.Button1.Location = New System.Drawing.Point(88, 19)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(75, 25)
         Me.Button1.TabIndex = 39
@@ -382,7 +382,7 @@ Partial Class Form2
         Me.ComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox2.Font = New System.Drawing.Font("Times New Roman", 11.0!)
         Me.ComboBox2.FormattingEnabled = True
-        Me.ComboBox2.Location = New System.Drawing.Point(165, 19)
+        Me.ComboBox2.Location = New System.Drawing.Point(169, 19)
         Me.ComboBox2.Name = "ComboBox2"
         Me.ComboBox2.Size = New System.Drawing.Size(164, 25)
         Me.ComboBox2.TabIndex = 36
@@ -397,7 +397,7 @@ Partial Class Form2
         Me.GroupBox2.Location = New System.Drawing.Point(3, 124)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.GroupBox2.Size = New System.Drawing.Size(335, 197)
+        Me.GroupBox2.Size = New System.Drawing.Size(339, 305)
         Me.GroupBox2.TabIndex = 7
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "عرض كل الطلبة"
@@ -412,6 +412,7 @@ Partial Class Form2
         'StatusStrip1
         '
         Me.StatusStrip1.BackColor = System.Drawing.Color.Transparent
+        Me.StatusStrip1.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.ToolStripStatusLabel3, Me.ToolStripStatusLabel2})
         Me.StatusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow
         Me.StatusStrip1.Location = New System.Drawing.Point(0, 450)
@@ -419,12 +420,14 @@ Partial Class Form2
         Me.StatusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.ManagerRenderMode
         Me.StatusStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.StatusStrip1.ShowItemToolTips = True
-        Me.StatusStrip1.Size = New System.Drawing.Size(800, 22)
+        Me.StatusStrip1.Size = New System.Drawing.Size(792, 22)
         Me.StatusStrip1.SizingGrip = False
         Me.StatusStrip1.TabIndex = 5
         '
         'ToolStripStatusLabel3
         '
+        Me.ToolStripStatusLabel3.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.ToolStripStatusLabel3.ForeColor = System.Drawing.Color.Green
         Me.ToolStripStatusLabel3.Name = "ToolStripStatusLabel3"
         Me.ToolStripStatusLabel3.Size = New System.Drawing.Size(37, 17)
         Me.ToolStripStatusLabel3.Text = "------"
@@ -441,7 +444,7 @@ Partial Class Form2
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.ClientSize = New System.Drawing.Size(800, 472)
+        Me.ClientSize = New System.Drawing.Size(792, 472)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.GroupBox4)
         Me.Controls.Add(Me.GroupBox1)
@@ -490,7 +493,6 @@ Partial Class Form2
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents ToolStripStatusLabel3 As ToolStripStatusLabel
     Friend WithEvents Button2 As System.Windows.Forms.Button
-    Friend WithEvents ToolStripButton2 As ToolStripSeparator
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
     Friend WithEvents ToolStripButton3 As ToolStripButton
     Friend WithEvents ToolStripSeparator2 As ToolStripSeparator

@@ -178,17 +178,17 @@ Public Class Form6
         Dim N As Integer
         Dim SqlStr2 As String =
             "DELETE * FROM GrSt WHERE GrID=?;"
-        Dim cmd As OleDbCommand
-        Using CN = New OleDbConnection(Constr1)
-            Dim CnTr As OleDbTransaction = Nothing
-            Try
+        Dim CMD As OleDbCommand = Nothing
+        Dim CnTr As OleDbTransaction = Nothing
+        Try
+            Using CN As New OleDbConnection(Constr1)
                 CN.Open()
                 CnTr = CN.BeginTransaction(IsolationLevel.ReadCommitted)
-                cmd = New OleDbCommand(SqlStr, CN, CnTr) With {.CommandType = CommandType.Text}
-                With cmd.Parameters
+                CMD = New OleDbCommand(SqlStr, CN, CnTr) With {.CommandType = CommandType.Text}
+                With CMD.Parameters
                     .AddWithValue("?", GrID)
                 End With
-                N = Convert.ToInt32(cmd.ExecuteScalar)
+                N = Convert.ToInt32(CMD.ExecuteScalar)
                 If N >= 1 Then
                     MsgBox("يجب أولا حذف المواعيد المحددة للمجموعه.",
                    MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
@@ -196,28 +196,30 @@ Public Class Form6
                     CN.Close()
                     Exit Sub
                 End If
-                cmd.Parameters.Clear()
-                cmd = New OleDbCommand(SqlStr2, CN, CnTr) With {.CommandType = CommandType.Text}
-                With cmd.Parameters
+                CMD.Parameters.Clear()
+                CMD = New OleDbCommand(SqlStr2, CN, CnTr) With {.CommandType = CommandType.Text}
+                With CMD.Parameters
                     .AddWithValue("?", GrID)
                 End With
-                N = cmd.ExecuteNonQuery
-                cmd.Parameters.Clear()
-                cmd = New OleDbCommand(SqlStr1, CN, CnTr) With {.CommandType = CommandType.Text}
-                With cmd.Parameters
+                N = CMD.ExecuteNonQuery
+                CMD.Parameters.Clear()
+                CMD = New OleDbCommand(SqlStr1, CN, CnTr) With {.CommandType = CommandType.Text}
+                With CMD.Parameters
                     .AddWithValue("?", GrID)
                 End With
-                N = cmd.ExecuteNonQuery
+                N = CMD.ExecuteNonQuery
                 CnTr.Commit()
+                CMD.Dispose()
                 MsgBox("تم حذف المجموعة بنجاح.",
                    MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Information)
                 ToolStripButton6_Click(sender, e)
-            Catch ex As OleDbException
-                MsgBox("خطأ فى الحذف : " & ex.Message, _
+            End Using
+        Catch ex As OleDbException
+            MsgBox("خطأ فى الحذف : " & ex.Message,
                    MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
-                CnTr.Rollback()
-            End Try
-        End Using
+            CnTr.Rollback()
+            CnTr.Dispose()
+        End Try
     End Sub
     Private Sub Form6_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         'Use KeyCode when you don't care about the modifiers, KeyData when you do.
