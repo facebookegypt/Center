@@ -153,8 +153,8 @@ Public Class Form5
             DGStdnts.EndEdit()
         End If
     End Sub
-    Sub Dgstdnts_CurrentCellDirtyStateChanged(ByVal sender As Object, ByVal e As EventArgs)
-        If IsNothing(Dt1) Then
+    Private Sub Dgstdnts_CurrentCellDirtyStateChanged(ByVal sender As Object, ByVal e As EventArgs)
+        If IsNothing(Dt1) OrElse Dt1.Columns.Count <= 0 Then
             Dt1 = New DataTable
             Dt1.Columns.Add(New DataColumn("StID", GetType(Integer)))
             Dt1.Columns.Add(New DataColumn("StNm", GetType(String)))

@@ -7,19 +7,26 @@ Public Class Form1
     Public Property CurrentAttndMonthNm As String
     Private Function GrDtToday() As Integer
         Dim SqlStr As String = "SELECT COUNT(GrDtID) FROM GrDt WHERE Month(GrDt.Mnm)=? AND GrDt.GrDt1=?;"
-        Using CN = New OleDbConnection With {.ConnectionString = Constr},
+        Dim N As Integer = Nothing
+        Try
+            Using CN = New OleDbConnection With {.ConnectionString = Constr},
                 CMD = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
-            CMD.Parameters.AddWithValue("?", Month(Now.Date))
-            CMD.Parameters.AddWithValue("?", Now.Date)
-            Try
                 CN.Open()
-            Catch ex As OleDbException
-                MsgBox("مشكلة فى التعرف علي قاعدة البيانات : " & vbCrLf & ex.Message,
+                With CMD.Parameters
+                    .AddWithValue("?", Month(Now.Date))
+                    .AddWithValue("?", Now.Date)
+                End With
+                N = Convert.ToInt32(CMD.ExecuteScalar)
+                CMD.Parameters.Clear()
+                CMD.Dispose()
+                Return N
+            End Using
+        Catch ex As OleDbException
+            Return 0
+            MsgBox("مشكلة فى التعرف علي قاعدة البيانات : " & vbCrLf & ex.Message,
                        MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Critical)
-                Class2.ShowDialog()
-            End Try
-            Return Convert.ToInt32(CMD.ExecuteScalar)
-        End Using
+            Class2.ShowDialog()
+        End Try
     End Function
     Private Sub Form1_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
         KeyPreview = True

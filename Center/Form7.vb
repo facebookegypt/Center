@@ -139,16 +139,6 @@ Public Class Form7
         DGStdnts.Refresh()
         DGStdnts.Update()
     End Sub
-    Private Sub DGStdnts_DataError(ByVal sender As Object, ByVal e As DataGridViewDataErrorEventArgs)
-        ' If the data source raises an exception when a cell value is 
-        ' commited, display an error message.
-        If DGStdnts.Columns(e.ColumnIndex).Name = "Pscore" Then
-            If e.Exception IsNot Nothing And e.Exception.Message = "Input string was not in a correct format." _
-                        AndAlso e.Context = DataGridViewDataErrorContexts.Commit Then
-                e.Cancel = True
-            End If
-        End If
-    End Sub
     Private Sub ConDGV(ByVal SqlStr As String)
         'SqlStr = <sql>SELECT * From Stdnts;</sql>.Value
         Dim Dt2 As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
@@ -209,9 +199,22 @@ Public Class Form7
         AddHandler DGStdnts.CellValidating, AddressOf DGStdnts_CellValidating
         AddHandler DGStdnts.CellValidated, AddressOf DGStdnts_CellValidated
         AddHandler DGStdnts.CellClick, AddressOf DGStdnts_CellClick
-        AddHandler DGStdnts.CurrentCellDirtyStateChanged, AddressOf DGStdnts_CurrentCellDirtyStateChanged
-        AddHandler DGStdnts.CellEndEdit, AddressOf DGStdnts_CallEndEdit
+        AddHandler DGStdnts.CellValueChanged, AddressOf Dgstdnts_CellValueChanged
+        'AddHandler DGStdnts.CellEndEdit, AddressOf DGStdnts_CallEndEdit
         AddHandler DGStdnts.DataError, AddressOf DGStdnts_DataError
+    End Sub
+    Private Sub DGStdnts_DataError(ByVal sender As Object, ByVal e As DataGridViewDataErrorEventArgs)
+        ' If the data source raises an exception when a cell value is 
+        ' commited, display an error message.
+        Dim headerText As String =
+            DGStdnts.Columns(e.ColumnIndex).HeaderText
+
+        ' Abort validation if cell is not in the CompanyName column.
+        If Not headerText.Contains("الدرجة") Then Return
+        If e.Exception IsNot Nothing And e.Exception.Message = "Input string was not in a correct format." _
+                        AndAlso e.Context = DataGridViewDataErrorContexts.Commit Then
+            e.Cancel = True
+        End If
     End Sub
     Private Sub DGStdnts_CellClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs)
         'Check to ensure that the row CheckBox is clicked.
@@ -224,55 +227,83 @@ Public Class Form7
             DGStdnts.EndEdit(DataGridViewDataErrorContexts.Commit)
         End If
     End Sub
-    Sub DGStdnts_CurrentCellDirtyStateChanged(ByVal sender As Object, ByVal e As EventArgs)
-        If DGStdnts.Columns(2).Name = "Pscore" Then
-            If DGStdnts.IsCurrentCellDirty Then
-                DGStdnts.CommitEdit(DataGridViewDataErrorContexts.Commit)
-            End If
-        End If
-    End Sub
-    Private Sub DGStdnts_CallEndEdit(sender As Object, e As DataGridViewCellEventArgs)
-        If BtnSave.Enabled = True Then RemoveHandler DGStdnts.CellEndEdit, AddressOf DGStdnts_CallEndEdit : Exit Sub
+    Public Sub Dgstdnts_CellValueChanged(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs)
+        If e.ColumnIndex = -1 Or e.RowIndex = -1 Then RemoveHandler DGStdnts.CellValueChanged, AddressOf Dgstdnts_CellValueChanged : Exit Sub
+        Dim headerText As String =
+            DGStdnts.Columns(e.ColumnIndex).HeaderText
+
+        ' Abort validation if cell is not in the CompanyName column.
+        If Not headerText.Contains("الدرجة") Then Return
+        If BtnSave.Enabled = True Then RemoveHandler DGStdnts.CellValueChanged, AddressOf Dgstdnts_CellValueChanged : Exit Sub
         If IsNothing(DGStdnts.CurrentCell) Then Exit Sub
+        If String.IsNullOrEmpty(DGStdnts.CurrentCell.FormattedValue) Then DGStdnts.CurrentCell.Value = 0
         If e.ColumnIndex = 2 And TypeOf DGStdnts.CurrentCell Is DataGridViewTextBoxCell Then
             'do code to UPDATE database
             'EDIT
             Dim N As Integer
             Dim SqlStr As String =
                 <SQL>UPDATE Rslts SET Mrk=?, Dtmdfd=? WHERE Rslts.StID=? AND Rslts.GrDtID=?;</SQL>.Value
-            Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
+            Try
+                Using CN As OleDbConnection = New OleDbConnection With {.ConnectionString = Constr1},
                     CMD As OleDbCommand = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
-                With CMD.Parameters
-                    .AddWithValue("?", Convert.ToDouble(DGStdnts.CurrentRow.Cells("Pscore").FormattedValue))
-                    .AddWithValue("?", Now.Date)
-                    .AddWithValue("?", StID1)
-                    .AddWithValue("?", GrDtID1)
-                End With
-                CN.Open()
-                N = CMD.ExecuteNonQuery
-            End Using
-            If N >= 1 Then
-                DGStdnts.CurrentRow.DefaultCellStyle.BackColor = Color.LightGreen
-            Else
-                DGStdnts.CurrentRow.DefaultCellStyle.BackColor = Color.Red
-            End If
+                    With CMD.Parameters
+                        .AddWithValue("?", Convert.ToDouble(DGStdnts.CurrentRow.Cells("Pscore").FormattedValue))
+                        .AddWithValue("?", Now.Date)
+                        .AddWithValue("?", StID1)
+                        .AddWithValue("?", GrDtID1)
+                    End With
+                    CN.Open()
+                    N = CMD.ExecuteNonQuery
+                    CMD.Parameters.Clear()
+                    CMD.Dispose()
+                End Using
+                If N >= 1 Then
+                    DGStdnts.CurrentRow.DefaultCellStyle.BackColor = Color.LightGreen
+                Else
+                    DGStdnts.CurrentRow.DefaultCellStyle.BackColor = Color.Red
+                End If
+                RemoveHandler DGStdnts.CellValueChanged, AddressOf Dgstdnts_CellValueChanged
+            Catch ex As OleDbException
+                MsgBox("مشكلة فى تسجبل الدرجة : " & vbCrLf & ex.Message,
+                       MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Critical)
+            End Try
         End If
     End Sub
+
     Private Sub DGStdnts_CellValidated(sender As Object, e As DataGridViewCellEventArgs)
+        Dim headerText As String =
+            DGStdnts.Columns(e.ColumnIndex).HeaderText
+
+        ' Abort validation if cell is not in the CompanyName column.
+        If Not headerText.Contains("الدرجة") Then Return
+        'If DGStdnts.Columns(e.ColumnIndex).Name = "Pscore" Then
         DGStdnts.Rows(e.RowIndex).ErrorText = Nothing
+        'Else
+        ' Exit Sub
+        ' End If
     End Sub
     Private Sub DGStdnts_CellValidating(sender As Object, e As DataGridViewCellValidatingEventArgs)
-        DGStdnts.Rows(e.RowIndex).ErrorText = String.Empty
+
         ' Don't try to validate the 'new row' until finished 
         ' editing since there Is Not any point in validating its initial value.
-        If DGStdnts.Columns(e.ColumnIndex).Name = "Pscore" Then
+        Dim headerText As String =
+            DGStdnts.Columns(e.ColumnIndex).HeaderText
+
+        ' Abort validation if cell is not in the CompanyName column.
+        If Not headerText.Contains("الدرجة") Then Return
+        'If DGStdnts.Columns(e.ColumnIndex).Name = "Pscore" Then
+        DGStdnts.Rows(e.RowIndex).ErrorText = String.Empty
             If e.FormattedValue.ToString.Length >= 1 Then
                 If Not IsNumeric(e.FormattedValue) OrElse Convert.ToDouble(e.FormattedValue) > FlMrk Then
                     e.Cancel = True
                     DGStdnts.Rows(e.RowIndex).ErrorText = "اقصي درجة " & FlMrk.ToString
+                    DGStdnts.ShowRowErrors = True
+                    Exit Sub
                 End If
             End If
-        End If
+        'Else
+        'Exit Sub
+        'End If
     End Sub
     Private Sub DGStdnts_RowPostPaint(sender As Object, e As DataGridViewRowPostPaintEventArgs)
         Dim grid = TryCast(sender, DataGridView)
@@ -476,11 +507,16 @@ Public Class Form7
             DGStdnts.AllowUserToDeleteRows = False
         End If
     End Sub
-    Private Sub Form7_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        TRV = Nothing
-        DGStdnts = Nothing
-    End Sub
     Private Sub Form7_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
-        Dispose()
+        RemoveHandler DGStdnts.RowPostPaint, AddressOf DGStdnts_RowPostPaint
+        RemoveHandler DGStdnts.CellValidating, AddressOf DGStdnts_CellValidating
+        RemoveHandler DGStdnts.CellValidated, AddressOf DGStdnts_CellValidated
+        RemoveHandler DGStdnts.CellClick, AddressOf DGStdnts_CellClick
+        ' RemoveHandler DGStdnts.CurrentCellDirtyStateChanged, AddressOf DGStdnts_CurrentCellDirtyStateChanged
+        'RemoveHandler DGStdnts.CellEndEdit, AddressOf DGStdnts_CallEndEdit
+        RemoveHandler DGStdnts.DataError, AddressOf DGStdnts_DataError
+        TRV.Dispose()
+        DGStdnts.Dispose()
+        Dispose(True)
     End Sub
 End Class

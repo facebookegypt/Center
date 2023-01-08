@@ -50,7 +50,7 @@ Partial Class Form3
         Me.GroupBox2.Size = New System.Drawing.Size(632, 214)
         Me.GroupBox2.TabIndex = 2
         Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Text = "نسخة محلية"
+        Me.GroupBox2.Text = "نسخة محليه  "
         Me.GroupBox2.UseCompatibleTextRendering = True
         '
         'StatusStrip1

@@ -19,8 +19,7 @@ Public Class Class1
     End Sub
     Public Function LstUpdt(ByVal Bckpfldr As String) As Date
         Try
-            Dim Iu As New Class1
-            Dim Done As Boolean = Iu.CompRepair(Bckpfldr)
+            Dim Done As Boolean = CompRepair(Bckpfldr)
             If Done Then
                 My.Settings.LstBckPDt = Now.Date
             End If
@@ -106,8 +105,10 @@ Public Class Class1
             My.Settings.LocalBackUpFolder = DefaultLocalFolder.FullName
             My.Settings.Save()
             DefaultLocalFolder = Nothing
+            OFD.Dispose()
         Else
             Return String.Empty
+            OFD.Dispose()
             Exit Function
         End If
         Return Rslt
